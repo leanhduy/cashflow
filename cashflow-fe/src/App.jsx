@@ -1,11 +1,11 @@
-import FinancialStatus from '@/components/FinancialStatus'
 import './App.css'
-import { mockFinancialStatusProps } from '@/__mocks__'
+import { mockIncomes } from '@/__mocks__'
+import Income from '@/components/Income'
 
 function App() {
   return (
     <>
-      <FinancialStatus {...mockFinancialStatusProps} />
+      <Income incomes={mockIncomes} />
     </>
   )
 }
