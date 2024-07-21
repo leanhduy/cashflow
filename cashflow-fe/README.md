@@ -31,3 +31,7 @@
 - **Hosting:** Vercel or Netlify
 - **CI/CD Pipeline:** Implementation of automated build and testing processes
 - **Version Control:** Git
+
+### Tips
+
+- VS Code Intellisense does not work: Add an empty jsconfig.json file `{}` at the root of the react app
