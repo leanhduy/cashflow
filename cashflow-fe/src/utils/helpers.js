@@ -1,3 +1,3 @@
-export const currencyFormatter = new Intl.NumberFormat('en-IN', {
+export const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumSignificantDigits: 3,
 })

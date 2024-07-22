@@ -1,11 +1,11 @@
 import './App.css'
-import { mockIncomes } from '@/__mocks__'
-import Income from '@/components/Income'
+import { mockAssets } from '@/__mocks__'
+import Assets from '@/components/Assets'
 
 function App() {
   return (
     <>
-      <Income incomes={mockIncomes} />
+      <Assets assets={mockAssets} />
     </>
   )
 }
