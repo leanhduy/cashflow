@@ -3,4 +3,5 @@ export {
   mockIncomes,
   mockAssets,
   mockLiabilities,
+  mockChildExpense,
 } from './mockProps'

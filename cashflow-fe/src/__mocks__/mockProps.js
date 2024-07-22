@@ -95,30 +95,40 @@ export const mockAssets = [
   },
 ]
 
+export const mockChildExpense = {
+  childNum: 1,
+  expensePerChild: 200,
+}
+
 export const mockLiabilities = [
   {
     id: 1,
     name: 'Home Mortgage',
     value: 50000,
+    type: 'home',
   },
   {
     id: 2,
     name: 'Car Loans',
-    value: 5000,
+    value: 3000,
+    type: 'car',
   },
   {
     id: 3,
     name: 'Credit Cards',
     value: 3000,
+    type: 'credit',
   },
   {
     id: 4,
     name: 'Retail Debt',
     value: 1000,
+    type: 'retail',
   },
   {
     id: 5,
     name: 'Loan',
     value: 12000,
+    type: 'bank',
   },
 ]

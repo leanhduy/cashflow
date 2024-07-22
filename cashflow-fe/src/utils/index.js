@@ -1,1 +1,1 @@
-export { currencyFormatter } from './helpers'
+export { currencyFormatter, getMonthlyLoanPayment } from './helpers'

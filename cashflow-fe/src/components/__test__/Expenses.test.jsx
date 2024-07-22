@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest'
 
-describe('Liabilities component', () => {
+describe('Expenses component', () => {
   it('placholder test', () => {})
 })
