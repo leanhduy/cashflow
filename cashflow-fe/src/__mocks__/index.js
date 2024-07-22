@@ -1,1 +1,1 @@
-export { mockFinancialStatusProps, mockIncomes } from './mockProps'
+export { mockFinancialStatusProps, mockIncomes, mockAssets } from './mockProps'

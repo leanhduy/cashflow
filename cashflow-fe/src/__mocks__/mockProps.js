@@ -42,3 +42,55 @@ export const mockIncomes = [
     type: 'dividends',
   },
 ]
+
+export const mockAssets = [
+  {
+    id: 1,
+    name: 'Shares of 2BIG',
+    quantity: 5,
+    value: 1200,
+    type: 'Stocks/Funds/CDs',
+  },
+  {
+    id: 2,
+    name: 'Shares of ON2U',
+    quantity: 10000,
+    value: 5,
+    type: '',
+  },
+  {
+    id: 3,
+    name: 'Startup',
+    quantity: 1,
+    value: 3000,
+    type: 'Real Estate/Business',
+  },
+  {
+    id: 4,
+    name: 'Gold Coin',
+    quantity: 1,
+    value: 3000,
+    type: 'Real Estate/Business',
+  },
+  {
+    id: 5,
+    name: '2/1 CONDO',
+    quantity: 1,
+    value: 60000,
+    type: 'Real Estate/Business',
+  },
+  {
+    id: 6,
+    name: '3/2 HOUSE',
+    quantity: 1,
+    value: 50000,
+    type: 'Real Estate/Business',
+  },
+  {
+    id: 7,
+    name: 'PLEX',
+    quantity: 1,
+    value: 200000,
+    type: 'Real Estate/Business',
+  },
+]
