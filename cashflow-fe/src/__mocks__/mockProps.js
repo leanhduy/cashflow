@@ -94,3 +94,31 @@ export const mockAssets = [
     type: 'Real Estate/Business',
   },
 ]
+
+export const mockLiabilities = [
+  {
+    id: 1,
+    name: 'Home Mortgage',
+    value: 50000,
+  },
+  {
+    id: 2,
+    name: 'Car Loans',
+    value: 5000,
+  },
+  {
+    id: 3,
+    name: 'Credit Cards',
+    value: 3000,
+  },
+  {
+    id: 4,
+    name: 'Retail Debt',
+    value: 1000,
+  },
+  {
+    id: 5,
+    name: 'Loan',
+    value: 12000,
+  },
+]
