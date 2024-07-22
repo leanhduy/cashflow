@@ -16,3 +16,44 @@ The primary purpose of this project is twofold:
 - The project will focus on creating a functional and user-friendly single-player version of the Cashflow game.
 - The initial release will not include multiplayer features, user authentication (sign in/sign up)
 - The game can only be play on one-go, there will be no save/load feature in the initial version.
+
+## Business requirements
+
+**Monthly loan payment (home & car loan)**
+
+$M = \frac{P*r*(1+r)^n}{(1+r)^{n}-1}$
+
+- `M`: Monthly loan payment
+- `P`: Loan principal
+- `r`: Monthly interest
+- `n`: Loan terms (in months)
+
+**Monthly loan payment (credit card & retail debt, bank loan)**
+$M = P * r$
+
+- `M`: Monthly loan payment
+- `P`: Loan principal
+- `r`: Monthly interest
+
+**Fixed values in game**
+
+- Home Loan
+
+  - Loan terms (in months): 240
+  - Monthly Interest Rate: 10.5%
+
+- Car Loan
+
+  - Loan terms (in months): 240
+  - Monthly Interest Rate: 0.8%
+
+- Credit Loans
+
+  - Monthly Interest Rate: 3%
+
+- Retail Debt
+
+  - Monthly Interest Rate: 5%
+
+- Bank Loan
+  - Monthly Interest Rate: 10%
