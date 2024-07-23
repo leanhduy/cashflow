@@ -1,1 +1,5 @@
-export { currencyFormatter, getMonthlyLoanPayment } from './helpers'
+export {
+  currencyFormatter,
+  getMonthlyLoanPayment,
+  BOARD_SLOTS,
+} from './helpers'
