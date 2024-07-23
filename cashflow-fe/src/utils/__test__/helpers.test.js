@@ -2,7 +2,7 @@ import { mockLiabilities } from '@/__mocks__'
 import { getMonthlyLoanPayment } from '@/utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-describe.only('Helper functions', () => {
+describe('Helper functions', () => {
   let liabilities
   beforeEach(() => {
     liabilities = mockLiabilities

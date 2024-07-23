@@ -2,6 +2,7 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumSignificantDigits: 3,
 })
 
+// > The fixed info for each type for loans in-game
 export const LOAN_DETAILS = {
   HOME: {
     loan_term: 240,
@@ -22,6 +23,11 @@ export const LOAN_DETAILS = {
   },
 }
 
+/**
+ * > Calculate the monthly payment from a liability item
+ * @param {*} liability The liability object
+ * @returns The monthly payment amount
+ */
 export const getMonthlyLoanPayment = (liability) => {
   if (liability.value === 0) {
     return 0

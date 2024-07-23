@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { colors } from '@/styles'
 import PropTypes from 'prop-types'
-import { currencyFormatter } from '@/utils/helpers'
+import { currencyFormatter, getMonthlyLoanPayment } from '@/utils'
 
 const Expenses = ({ liabilities, childNum, expensePerChild }) => {
   return (
@@ -16,12 +16,21 @@ const Expenses = ({ liabilities, childNum, expensePerChild }) => {
           {liabilities &&
             liabilities.map((i) => (
               <ListItem key={i.id}>
-                <ListItemLeft>{i.name}</ListItemLeft>
+                <ListItemLeft>{i.name} Payment</ListItemLeft>
                 <ListItemRight>
-                  ${currencyFormatter.format(i.value)}
+                  $
+                  {currencyFormatter.format(
+                    getMonthlyLoanPayment(i).toFixed(0)
+                  )}
                 </ListItemRight>
               </ListItem>
             ))}
+          <ListItem>
+            <ListItemLeft>Child Expenses ({childNum})</ListItemLeft>
+            <ListItemRight>
+              ${currencyFormatter.format(childNum * expensePerChild)}
+            </ListItemRight>
+          </ListItem>
         </StyledList>
       </CardBody>
     </CardContainer>
@@ -88,19 +97,22 @@ const ListItemHeader = styled.div({
 })
 
 const ListItem = styled.li({
-  borderBottom: `1px solid ${colors.purple.light}`,
+  // borderBottom: `1px solid ${colors.purple.light}`,
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
   padding: '.5rem 0',
+  columnGap: '1rem',
 })
 
 const ListItemLeft = styled.span({
+  borderBottom: `1px solid ${colors.purple.light}`,
   flex: '1 1 100px',
   textAlign: 'left',
 })
 const ListItemRight = styled.span({
+  borderBottom: `1px solid ${colors.purple.light}`,
   flex: '1 1 20px',
-  textAlign: 'right',
+  textAlign: 'center',
 })
 //#endregion styled components
