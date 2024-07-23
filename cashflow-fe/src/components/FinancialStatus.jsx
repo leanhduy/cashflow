@@ -70,7 +70,8 @@ const StyledContainer = styled(Container)({
 const Title = styled.h1({
   fontSize: '1.25rem',
   textAlign: 'center',
-  width: '50%',
+  width: '60%',
+  margin: 0,
 })
 
 const ProgressContainer = styled.div({
@@ -78,12 +79,13 @@ const ProgressContainer = styled.div({
   flexDirection: 'column',
   alignItems: 'flex-start',
   width: '80%',
+  marginTop: '.25rem',
 })
 
 const Progress = styled(LinearProgress)({
   border: `3px solid ${colors.purple.dark}`,
   '&.MuiLinearProgress-root': {
-    height: '2rem',
+    height: '1rem',
     backgroundColor: colors.silver.base,
   },
   '& .MuiLinearProgress-bar': {
@@ -92,20 +94,23 @@ const Progress = styled(LinearProgress)({
 })
 
 const ProgressTopTitle = styled.p({
+  fontSize: '.85rem',
   fontWeight: 700,
 })
 const ProgressBottomTitle = styled.p({
+  fontSize: '.85rem',
   fontWeight: 700,
 })
 
 const DashboardContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
-  width: '40%',
+  width: '50%',
 })
 
 const DashboardRow = styled.div({
   display: 'flex',
+  fontSize: '.9rem',
   flexDirection: 'row',
   justifyContent: 'space-between',
   margin: '.25rem 0',
@@ -115,9 +120,9 @@ const DashboardTopRow = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  fontSize: '1.5rem',
+  fontSize: '1.25rem',
   fontWeight: '700',
-  margin: '.5rem 0',
+  margin: '.25rem 0',
 })
 
 const StyledDivider = styled(Divider)({

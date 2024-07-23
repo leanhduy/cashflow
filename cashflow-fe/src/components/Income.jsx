@@ -13,8 +13,10 @@ const Income = ({ incomes }) => {
           {incomes &&
             incomes.map((i) => (
               <ListItem key={i.id}>
-                <p>{i.name}</p>
-                <p>${currencyFormatter.format(i.amount)}</p>
+                <ListItemLeft>{i.name}</ListItemLeft>
+                <ListItemRight>
+                  ${currencyFormatter.format(i.amount)}
+                </ListItemRight>
               </ListItem>
             ))}
         </StyledList>
@@ -39,26 +41,26 @@ const CardContainer = styled.div({
   maxWidth: '400px',
   margin: 0,
   padding: 0,
-  height: '350px',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
 })
 
-const CardHeader = styled.h2({
-  backgroundColor: colors.purple.dark,
+const CardHeader = styled.h3({
+  backgroundColor: colors.green.base,
   borderRadius: '10px 10px 0 0',
   color: colors.white,
   fontWeight: 700,
-  height: '2.5rem',
+  height: '1.5rem',
   margin: 0,
-  padding: '.5rem',
+  padding: '.25rem',
   textAlign: 'center',
 })
 
 const CardBody = styled.div({
-  margin: '1rem',
+  margin: '.25rem 1rem 0',
   paddingRight: '1rem',
-  height: '60%',
+  height: '70%',
 })
 
 const StyledList = styled.ul({
@@ -66,20 +68,37 @@ const StyledList = styled.ul({
   height: '100%',
   scrollbarWidth: 'none',
   paddingInlineStart: 0,
+  margin: 0,
 })
 
 const ListHeader = styled.div({
   textAlign: 'right',
-  fontSize: '1.15rem',
-  fontWeight: 700,
+  fontSize: '.875rem',
+  margin: 0,
+  fontWeight: 800,
+  padding: 0,
   borderBottom: `1px solid ${colors.purple.light}`,
 })
 
 const ListItem = styled.li({
-  borderBottom: `1px solid ${colors.purple.light}`,
   display: 'flex',
+  fontSize: '.875rem',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  padding: '.5rem 0',
+  padding: '.375rem 0',
+  columnGap: '10px',
+})
+
+const ListItemLeft = styled.span({
+  borderBottom: `1px solid ${colors.purple.light}`,
+  flex: '1 1 150px',
+  fontSize: '.875rem',
+  textAlign: 'left',
+})
+const ListItemRight = styled.span({
+  borderBottom: `1px solid ${colors.purple.light}`,
+  flex: '1 1 auto',
+  fontSize: '.875rem',
+  textAlign: 'right',
 })
 //#endregion styled components
