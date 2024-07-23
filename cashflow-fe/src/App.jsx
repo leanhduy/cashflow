@@ -1,11 +1,10 @@
 import './App.css'
-import Expenses from '@/components/Expenses'
-import { mockChildExpense, mockLiabilities } from '@/__mocks__'
+import { FinancialStatement } from '@/components'
 
 function App() {
   return (
     <>
-      <Expenses liabilities={mockLiabilities} {...mockChildExpense} />
+      <FinancialStatement />
     </>
   )
 }

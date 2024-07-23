@@ -1,5 +1,5 @@
 export {
-  mockFinancialStatusProps,
+  mockFinancialStatus,
   mockIncomes,
   mockAssets,
   mockLiabilities,
