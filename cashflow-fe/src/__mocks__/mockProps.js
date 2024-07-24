@@ -150,3 +150,15 @@ export const mockDownsizedDialog = {
   description: 'Pay a full set of your expenses and lose two turns and charity',
   expenses: 1500,
 }
+
+export const mockBabyDialogNew = {
+  title: 'NEW BABY!',
+  description: 'Congratulations! One child has been added to your dependents',
+  expenses: 110,
+}
+
+export const mockBabyDialogLimitReached = {
+  title: 'BABY LIMIT REACHED!',
+  description: 'You cannot have more than 3 child',
+  expenses: 0,
+}

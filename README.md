@@ -61,3 +61,4 @@ $M = P * r$
 ### Attributions
 
 - [Fired icons created by Eucalyp - Flaticon](https://www.flaticon.com/free-icons/fired)
+- [Child icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/child)
