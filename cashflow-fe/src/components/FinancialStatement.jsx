@@ -1,4 +1,3 @@
-// import React from 'react'
 import styled from '@emotion/styled'
 import { Container } from '@mui/material'
 import {
@@ -54,7 +53,6 @@ const StyledContainer = styled.div({
   flexDirection: 'column',
   alignItems: 'center',
   rowGap: '10px',
-  width: '50%',
   maxWidth: '640px',
   height: '97vh',
 })

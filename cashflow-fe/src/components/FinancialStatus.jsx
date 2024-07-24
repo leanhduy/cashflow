@@ -26,24 +26,24 @@ const FinancialStatus = ({ totalExpenses, totalIncome, cash }) => {
       </ProgressContainer>
       <DashboardContainer>
         <DashboardTopRow>
-          <p>CASH</p>
-          <p>${currencyFormatter.format(cash)}</p>
+          <span>CASH</span>
+          <span>${currencyFormatter.format(cash)}</span>
         </DashboardTopRow>
         <DashboardRow>
-          <p>Total Income:</p>
-          <p>${currencyFormatter.format(totalIncome)}</p>
+          <span>Total Income:</span>
+          <span>${currencyFormatter.format(totalIncome)}</span>
         </DashboardRow>
         <DashboardRow>
-          <p>Total Expenses:</p>
-          <p>$-{currencyFormatter.format(totalExpenses)}</p>
+          <span>Total Expenses:</span>
+          <span>$-{currencyFormatter.format(totalExpenses)}</span>
         </DashboardRow>
         <StyledDivider />
         <DashboardRow>
-          <p>PAYDAY</p>
-          <p>
+          <span>PAYDAY</span>
+          <span>
             ${totalIncome - totalExpenses < 0 ? '-' : ''}
             {currencyFormatter.format(totalIncome - totalExpenses)}
-          </p>
+          </span>
         </DashboardRow>
       </DashboardContainer>
     </StyledContainer>
@@ -68,6 +68,7 @@ const StyledContainer = styled(Container)({
 })
 
 const Title = styled.h1({
+  color: colors.red.base,
   fontSize: '1.25rem',
   textAlign: 'center',
   width: '60%',
@@ -104,25 +105,26 @@ const ProgressBottomTitle = styled.p({
 
 const DashboardContainer = styled.div({
   display: 'flex',
+  alignSelf: 'flex-end',
   flexDirection: 'column',
-  width: '50%',
+  width: '40%',
 })
 
 const DashboardRow = styled.div({
   display: 'flex',
   fontSize: '.9rem',
   flexDirection: 'row',
-  justifyContent: 'space-between',
   margin: '.25rem 0',
+  justifyContent: 'space-between',
 })
 
 const DashboardTopRow = styled.div({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
   fontSize: '1.25rem',
   fontWeight: '700',
   margin: '.25rem 0',
+  justifyContent: 'space-between',
 })
 
 const StyledDivider = styled(Divider)({

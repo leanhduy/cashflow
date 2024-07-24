@@ -73,3 +73,30 @@ export const getMonthlyLoanPayment = (liability) => {
   }
   return M
 }
+
+export const BOARD_SLOTS = [
+  { id: 1, name: 'Payday' },
+  { id: 2, name: 'Opportunity' },
+  { id: 3, name: 'Market' },
+  { id: 4, name: 'Opportunity' },
+  { id: 5, name: 'Doodads' },
+  { id: 6, name: 'Opportunity' },
+  { id: 7, name: 'Baby' },
+  { id: 8, name: 'Opportunity' },
+  { id: 9, name: 'Payday' },
+  { id: 10, name: 'Opportunity' },
+  { id: 11, name: 'Market' },
+  { id: 12, name: 'Opportunity' },
+  { id: 13, name: 'Doodads' },
+  { id: 14, name: 'Opportunity' },
+  { id: 15, name: 'Downsized' },
+  { id: 16, name: 'Opportunity' },
+  { id: 17, name: 'Payday' },
+  { id: 18, name: 'Opportunity' },
+  { id: 19, name: 'Market' },
+  { id: 20, name: 'Opportunity' },
+  { id: 21, name: 'Doodads' },
+  { id: 22, name: 'Opportunity' },
+  { id: 23, name: 'Charity' },
+  { id: 24, name: 'Opportunity' },
+]
