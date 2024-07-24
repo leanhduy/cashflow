@@ -12,4 +12,5 @@ export {
   mockOpportunityDialog,
   mockSmallDeal,
   mockBigDeal,
+  mockMarket,
 } from './mockProps'
