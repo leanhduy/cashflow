@@ -69,9 +69,9 @@ const StyledContainer = styled(Container)({
 
 const Title = styled.h1({
   color: colors.red.base,
-  fontSize: '1.25rem',
+  fontSize: '1.125rem',
   textAlign: 'center',
-  width: '60%',
+  width: '100%',
   margin: 0,
 })
 
@@ -79,7 +79,7 @@ const ProgressContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: '80%',
+  width: '100%',
   marginTop: '.25rem',
 })
 
@@ -105,9 +105,9 @@ const ProgressBottomTitle = styled.p({
 
 const DashboardContainer = styled.div({
   display: 'flex',
-  alignSelf: 'flex-end',
+  alignSelf: 'center',
   flexDirection: 'column',
-  width: '40%',
+  width: '60%',
 })
 
 const DashboardRow = styled.div({

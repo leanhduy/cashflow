@@ -44,7 +44,7 @@ export default Slot
 
 //#region styled components
 const StyleImg = styled.img({
-  width: '4.75rem',
-  height: '4.75rem',
+  width: '4rem',
+  height: '4rem',
 })
 //#endregion

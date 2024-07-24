@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import './App.css'
-import { Board, FinancialStatement } from '@/components'
+import { Board, FinancialStatement, Action } from '@/components'
 
 function App() {
   return (
@@ -10,7 +10,9 @@ function App() {
           <FinancialStatement />
         </LeftSection>
         <RightSection>
-          <RightTopSection></RightTopSection>
+          <RightTopSection>
+            <Action />
+          </RightTopSection>
           <RightBottomSection>
             <Board />
           </RightBottomSection>
@@ -23,34 +25,40 @@ function App() {
 export default App
 
 //#region styled components
-// > Uncomment when done implementing all sub-components (Board, Action)
 const Container = styled.div({
   display: 'flex',
   flexDirection: 'row',
+  width: '100vw',
+  height: '97vh',
 })
 
 const LeftSection = styled.div({
   margin: '.25rem auto',
+  height: '100%',
+  width: '45%',
 })
 
 const RightSection = styled.div({
   flex: '1 auto',
   display: 'flex',
   flexDirection: 'column',
+  height: '100%',
+  width: '55%',
 })
 
 const RightTopSection = styled.div({
-  border: '1px solid black', // > Remove after done implementing
   display: 'flex',
-  flexDirection: 'column',
-  height: '30%',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  margin: '1rem',
+  height: '40%',
 })
 
 const RightBottomSection = styled.div({
   display: 'flex',
-  flexDirection: 'column',
-  flex: '1 auto',
+  flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
+  height: '60%',
 })
 //#endregion styled components

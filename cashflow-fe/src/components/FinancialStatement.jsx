@@ -53,8 +53,8 @@ const StyledContainer = styled.div({
   flexDirection: 'column',
   alignItems: 'center',
   rowGap: '10px',
-  maxWidth: '640px',
-  height: '97vh',
+  width: '100%',
+  height: '100%',
 })
 const StyledRow = styled(Container)({
   display: 'flex',

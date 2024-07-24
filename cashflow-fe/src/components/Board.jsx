@@ -40,12 +40,11 @@ export default Board
 
 //#region styled components
 const BoardContainer = styled.div({
-  marginTop: '1.5rem',
   display: 'grid',
   gridTemplateColumns: 'repeat(7, 1fr)',
   gridTemplateRows: 'repeat(7, 1fr)',
-  width: '33.25rem',
-  height: '33.25rem',
+  width: '28rem',
+  height: '28rem',
   boxSizing: 'border-box',
 })
 
