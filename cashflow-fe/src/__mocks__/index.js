@@ -13,4 +13,5 @@ export {
   mockSmallDeal,
   mockBigDeal,
   mockMarket,
+  mockDoodad,
 } from './mockProps'
