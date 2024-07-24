@@ -144,3 +144,9 @@ export const mockRepayDialog = {
   description: 'Select a liability on your statement sheet to repay your debt.',
   liabilities: mockLiabilities,
 }
+
+export const mockDownsizedDialog = {
+  title: 'DOWNSIZED!',
+  description: 'Pay a full set of your expenses and lose two turns and charity',
+  expenses: 1500,
+}

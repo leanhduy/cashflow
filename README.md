@@ -57,3 +57,7 @@ $M = P * r$
 
 - Bank Loan
   - Monthly Interest Rate: 10%
+
+### Attributions
+
+- [Fired icons created by Eucalyp - Flaticon](https://www.flaticon.com/free-icons/fired)
