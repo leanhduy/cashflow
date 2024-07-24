@@ -5,49 +5,61 @@ import { colors } from '@/styles'
 import { useContext } from 'react'
 import { ActionContext } from '@/utils'
 
-const RepayDialog = ({ title, description, liabilities }) => {
+const OpportunityDialog = ({ title, description, info }) => {
   const { setActionType } = useContext(ActionContext)
   return (
     <>
-      <Title>{title}</Title>
+      <Header>
+        <Title>{title}</Title>
+        <ThumbnailImg src="./assets/opportunity-thumb.png" />
+      </Header>
       {description && <Description>{description}</Description>}
-      {liabilities && <Note>Liabilities here</Note>}
-      <SubActions></SubActions>
+      <Note>{info}</Note>
       <MainActions>
         <ActionButton
           variant="contained"
           disableRipple
           onClick={() => {
-            setActionType('start')
+            setActionType('opportunity-details')
           }}
-          style={{ alignSelf: 'flex-end', visibility: 'hidden' }}
         >
-          OK
+          SMALL
         </ActionButton>
         <ActionButton
           variant="contained"
           disableRipple
           onClick={() => {
-            setActionType('start')
+            setActionType('opportunity-details')
           }}
           style={{ alignSelf: 'flex-end' }}
         >
-          CANCEL
+          BIG
         </ActionButton>
       </MainActions>
     </>
   )
 }
 
-RepayDialog.propTypes = {
+OpportunityDialog.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  liabilities: PropTypes.array,
+  info: PropTypes.string,
 }
 
-export default RepayDialog
+export default OpportunityDialog
 
 //#region styled components
+const Header = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+})
+
+const ThumbnailImg = styled.img({
+  width: '96px',
+})
+
 const Title = styled.h2({
   color: colors.red.base,
   margin: 0,
@@ -55,6 +67,7 @@ const Title = styled.h2({
 
 const Description = styled.span({
   fontWeight: 500,
+  width: '100%',
   alignSelf: 'flex-start',
 })
 
@@ -78,24 +91,9 @@ const MainActions = styled.div({
   },
 })
 
-const SubActions = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  columnGap: '2rem',
-  margin: '1rem',
-  width: '100%',
-  '& button': {
-    fontSize: '16px',
-    width: '128px',
-  },
-  '& img': {
-    width: '24px',
-  },
-})
-
 const ActionButton = styled(Button)({
   fontWeight: 800,
+  width: '120px',
   '&:active': {
     opacity: 0.8,
     transform: 'scale(0.9)',

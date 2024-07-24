@@ -162,3 +162,34 @@ export const mockBabyDialogLimitReached = {
   description: 'You cannot have more than 3 child',
   expenses: 0,
 }
+
+export const mockOpportunityDialog = {
+  title: 'DEAL OPPORTUNITY',
+  description: 'Which deal type do you want?',
+  info: 'Small deals cost $5,000 or less. Big deals cost $6,000 or more.',
+}
+
+export const mockSmallDeal = {
+  id: 1,
+  title: 'MUTUAL FUND - GRO4US FUND',
+  description:
+    'Weak earnings by most companies lead to weak price of mutual fund.',
+  note: 'Trading Range: $10 to $30',
+  type: 'stock',
+  arg1: 10, // cost
+  arg2: 0, // cashflow
+  arg3: 10, // tradingMin
+  arg4: 30, // tradingMax
+}
+
+export const mockBigDeal = {
+  id: 1,
+  title: '8-plex for Sale',
+  description:
+    'Professional person urgently needs cash to save partnership. 8-plex sale to raise capital, good opportunity for right person.',
+  type: 'real-estate',
+  arg1: 160000, // cost
+  arg2: 1700, // cashflow
+  arg3: 32000, // downpay
+  arg4: 128000, // mortgage
+}
