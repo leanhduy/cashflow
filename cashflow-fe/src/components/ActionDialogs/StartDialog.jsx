@@ -21,6 +21,9 @@ const StartDialog = ({ playerName, description, note }) => {
           color="warning"
           startIcon={<img src="/assets/bank.png" />}
           disableRipple
+          onClick={() => {
+            setActionType('borrow')
+          }}
         >
           BORROW
         </ActionButton>

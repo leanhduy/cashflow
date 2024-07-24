@@ -77,22 +77,6 @@ const MainActions = styled.div({
   },
 })
 
-const SubActions = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  columnGap: '2rem',
-  margin: '1rem',
-  width: '100%',
-  '& button': {
-    fontSize: '16px',
-    width: '128px',
-  },
-  '& img': {
-    width: '24px',
-  },
-})
-
 const ActionButton = styled(Button)({
   fontWeight: 800,
   '&:active': {

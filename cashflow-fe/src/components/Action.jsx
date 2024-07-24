@@ -12,6 +12,7 @@ import {
   MarketDialog,
   DoodadDialog,
   CharityDialog,
+  BorrowDialog,
 } from '@/components'
 import {
   mockStartDialog,
@@ -25,7 +26,7 @@ import {
 } from '@/__mocks__'
 
 const Action = () => {
-  const { actionType, setActionType } = useContext(ActionContext)
+  const { actionType } = useContext(ActionContext)
   const [dialog, setDialog] = useState(null)
   useEffect(() => {
     switch (actionType) {
@@ -55,6 +56,9 @@ const Action = () => {
         break
       case 'charity':
         setDialog(<CharityDialog />)
+        break
+      case 'borrow':
+        setDialog(<BorrowDialog />)
         break
       default:
         setDialog(null)
