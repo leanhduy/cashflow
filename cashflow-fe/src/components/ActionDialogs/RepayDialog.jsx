@@ -11,8 +11,7 @@ const RepayDialog = ({ title, description, liabilities }) => {
     <>
       <Title>{title}</Title>
       {description && <Description>{description}</Description>}
-      {liabilities && <Note>Liabilities here</Note>}
-      <SubActions></SubActions>
+      <Note style={{ flex: 1 }} />
       <MainActions>
         <ActionButton
           variant="contained"

@@ -1,9 +1,15 @@
 import styled from '@emotion/styled'
 import { colors } from '@/styles'
 import PropTypes from 'prop-types'
-import { currencyFormatter } from '@/utils/helpers'
+import { currencyFormatter, ActionContext } from '@/utils'
+import PaymentIcon from '@mui/icons-material/Payment'
+import { useContext } from 'react'
 
 const Liabilities = ({ liabilities }) => {
+  const { actionType } = useContext(ActionContext)
+  const handleRepay = () => {
+    alert('Repay logic not implemented!')
+  }
   return (
     <CardContainer>
       <CardHeader>LIABILITIES</CardHeader>
@@ -11,6 +17,7 @@ const Liabilities = ({ liabilities }) => {
         <ListItemHeader>
           <ListItemLeft>Name</ListItemLeft>
           <ListItemRight>Amount</ListItemRight>
+          {actionType === 'repay' && <ListItemIcon />}
         </ListItemHeader>
         <StyledList>
           {liabilities &&
@@ -20,6 +27,11 @@ const Liabilities = ({ liabilities }) => {
                 <ListItemRight>
                   ${currencyFormatter.format(i.value)}
                 </ListItemRight>
+                {actionType === 'repay' && (
+                  <ListItemIcon>
+                    <PaymentIcon color="warning" onClick={handleRepay} />
+                  </ListItemIcon>
+                )}
               </ListItem>
             ))}
         </StyledList>
@@ -90,6 +102,7 @@ const ListItem = styled.li({
   justifyContent: 'space-between',
   padding: '.375rem 0',
   columnGap: '10px',
+  alignItems: 'center',
 })
 
 const ListItemLeft = styled.span({
@@ -103,5 +116,19 @@ const ListItemRight = styled.span({
   flex: '1 1 auto',
   fontSize: '.875rem',
   textAlign: 'right',
+})
+const ListItemIcon = styled.span({
+  flex: '1 1 24px',
+  fontSize: '.875rem',
+  textAlign: 'right',
+  alignSelf: 'center',
+  '& svg': {
+    '&:hover': {
+      opacity: 0.8,
+    },
+    '&:active': {
+      transform: 'scale(.8)',
+    },
+  },
 })
 //#endregion styled components
