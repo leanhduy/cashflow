@@ -3,15 +3,18 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { ActionContext } from '@/utils'
+import { ActionContext, currencyFormatter } from '@/utils'
 
-const RepayDialog = ({ title, description, liabilities }) => {
+const DownsizedDialog = ({ title, description, expenses }) => {
   const { setActionType } = useContext(ActionContext)
   return (
     <>
-      <Title>{title}</Title>
+      <Header>
+        <Title>{title}</Title>
+        <ThumbnailImg src="./assets/downsized-thumb.png" />
+      </Header>
       {description && <Description>{description}</Description>}
-      {liabilities && <Note>Liabilities here</Note>}
+      <Note>Pay ${currencyFormatter.format(expenses)}</Note>
       <SubActions></SubActions>
       <MainActions>
         <ActionButton
@@ -20,34 +23,28 @@ const RepayDialog = ({ title, description, liabilities }) => {
           onClick={() => {
             setActionType('start')
           }}
-          style={{ alignSelf: 'flex-end', visibility: 'hidden' }}
         >
-          OK
-        </ActionButton>
-        <ActionButton
-          variant="contained"
-          disableRipple
-          onClick={() => {
-            setActionType('start')
-          }}
-          style={{ alignSelf: 'flex-end' }}
-        >
-          CANCEL
+          PAY
         </ActionButton>
       </MainActions>
     </>
   )
 }
 
-RepayDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  liabilities: PropTypes.array,
-}
-
-export default RepayDialog
+export default DownsizedDialog
 
 //#region styled components
+const Header = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+})
+
+const ThumbnailImg = styled.img({
+  width: '96px',
+})
+
 const Title = styled.h2({
   color: colors.red.base,
   margin: 0,
@@ -101,5 +98,11 @@ const ActionButton = styled(Button)({
     transform: 'scale(0.9)',
   },
 })
+
+DownsizedDialog.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  expenses: PropTypes.number.isRequired,
+}
 
 //#endregion styled components

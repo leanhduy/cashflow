@@ -6,4 +6,5 @@ export {
   mockChildExpense,
   mockStartDialog,
   mockRepayDialog,
+  mockDownsizedDialog,
 } from './mockProps'

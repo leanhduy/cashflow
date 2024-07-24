@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import { ActionContext } from '@/utils'
-import { StartDialog, RepayDialog } from '@/components'
-import { mockStartDialog, mockRepayDialog } from '@/__mocks__'
+import { StartDialog, RepayDialog, DownsizedDialog } from '@/components'
+import {
+  mockStartDialog,
+  mockRepayDialog,
+  mockDownsizedDialog,
+} from '@/__mocks__'
 
 const ActionProvider = () => {
-  const [actionType, setActionType] = useState('start')
+  const [actionType, setActionType] = useState('downsized')
   const [dialog, setDialog] = useState(null)
   useEffect(() => {
     switch (actionType) {
@@ -13,6 +17,9 @@ const ActionProvider = () => {
         break
       case 'repay':
         setDialog(<RepayDialog {...mockRepayDialog} />)
+        break
+      case 'downsized':
+        setDialog(<DownsizedDialog {...mockDownsizedDialog} />)
         break
       default:
         setDialog(null)
