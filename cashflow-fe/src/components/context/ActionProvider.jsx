@@ -9,6 +9,7 @@ import {
   OpportunityDetailsDialog,
   MarketDialog,
   DoodadDialog,
+  CharityDialog,
 } from '@/components'
 import {
   mockStartDialog,
@@ -22,7 +23,7 @@ import {
 } from '@/__mocks__'
 
 const ActionProvider = () => {
-  const [actionType, setActionType] = useState('doodad')
+  const [actionType, setActionType] = useState('charity')
   const [dialog, setDialog] = useState(null)
   useEffect(() => {
     switch (actionType) {
@@ -49,6 +50,9 @@ const ActionProvider = () => {
         break
       case 'doodad':
         setDialog(<DoodadDialog doodad={mockDoodad} />)
+        break
+      case 'charity':
+        setDialog(<CharityDialog />)
         break
       default:
         setDialog(null)
