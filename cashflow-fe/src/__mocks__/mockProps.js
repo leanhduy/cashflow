@@ -132,3 +132,15 @@ export const mockLiabilities = [
     type: 'bank',
   },
 ]
+
+export const mockStartDialog = {
+  playerName: 'Player 1',
+  description: 'When you are ready, roll the dice and take your turn',
+  note: 'Before you start your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.',
+}
+
+export const mockRepayDialog = {
+  title: 'PAY OFF LOAN',
+  description: 'Select a liability on your statement sheet to repay your debt.',
+  liabilities: mockLiabilities,
+}

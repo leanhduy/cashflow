@@ -14,6 +14,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    watch: {
+      usePolling: true, // This can help in some cases where file changes are not detected
+    },
+  },
   test: {
     globals: true,
     environment: 'happy-dom',
