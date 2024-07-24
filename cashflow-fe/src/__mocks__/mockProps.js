@@ -202,3 +202,10 @@ export const mockMarket = {
   type: 'real-estate',
   price: 25000, // selling cost
 }
+
+export const mockDoodad = {
+  id: 1,
+  title: 'GO OUT TO DINNER',
+  description: 'Pay $80',
+  cost: -80, // selling cost
+}
