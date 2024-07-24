@@ -7,4 +7,6 @@ export {
   mockStartDialog,
   mockRepayDialog,
   mockDownsizedDialog,
+  mockBabyDialogNew,
+  mockBabyDialogLimitReached,
 } from './mockProps'
