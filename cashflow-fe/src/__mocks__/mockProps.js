@@ -193,3 +193,12 @@ export const mockBigDeal = {
   arg3: 32000, // downpay
   arg4: 128000, // mortgage
 }
+
+export const mockMarket = {
+  id: 1,
+  title: 'APARTMENT HOUSE BUYER',
+  description:
+    'You are offered $25,000 per unit for all units in apartment houses of any size. Buyer has their own financing. If you sell, pay off the related mortgage and give up the cash flow you currently receive on this property.',
+  type: 'real-estate',
+  price: 25000, // selling cost
+}

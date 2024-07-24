@@ -63,3 +63,4 @@ $M = P * r$
 - [Fired icons created by Eucalyp - Flaticon](https://www.flaticon.com/free-icons/fired)
 - [Child icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/child)
 - [Proposal icons created by itim2101 - Flaticon](https://www.flaticon.com/free-icons/proposal)
+- [Negotiation icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/negotiation)

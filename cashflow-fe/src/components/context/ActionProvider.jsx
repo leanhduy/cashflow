@@ -7,6 +7,7 @@ import {
   BabyDialog,
   OpportunityDialog,
   OpportunityDetailsDialog,
+  MarketDialog,
 } from '@/components'
 import {
   mockStartDialog,
@@ -14,12 +15,12 @@ import {
   mockDownsizedDialog,
   mockBabyDialogNew,
   mockOpportunityDialog,
-  mockSmallDeal,
   mockBigDeal,
+  mockMarket,
 } from '@/__mocks__'
 
 const ActionProvider = () => {
-  const [actionType, setActionType] = useState('opportunity')
+  const [actionType, setActionType] = useState('market')
   const [dialog, setDialog] = useState(null)
   useEffect(() => {
     switch (actionType) {
@@ -40,6 +41,9 @@ const ActionProvider = () => {
         break
       case 'opportunity-details':
         setDialog(<OpportunityDetailsDialog {...mockBigDeal} />)
+        break
+      case 'market':
+        setDialog(<MarketDialog market={mockMarket} />)
         break
       default:
         setDialog(null)
