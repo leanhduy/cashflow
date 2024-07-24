@@ -3,7 +3,7 @@ import { ActionContext } from '@/utils'
 import PropTypes from 'prop-types'
 
 const ActionProvider = ({ children }) => {
-  const [actionType, setActionType] = useState('charity')
+  const [actionType, setActionType] = useState('start')
 
   return (
     <ActionContext.Provider value={{ actionType, setActionType }}>

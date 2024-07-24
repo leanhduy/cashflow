@@ -66,3 +66,4 @@ $M = P * r$
 - [Negotiation icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/negotiation)
 - [Lost icons created by afif fudin - Flaticon](https://www.flaticon.com/free-icons/lost)
 - [Help icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/help)
+- [Loan icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/loan)
