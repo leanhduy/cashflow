@@ -17,3 +17,4 @@ export { default as OpportunityDetailsDialog } from './ActionDialogs/Opportunity
 export { default as BuyDialog } from './ActionDialogs/BuyDialog'
 export { default as MarketDialog } from './ActionDialogs/MarketDialog'
 export { default as DoodadDialog } from './ActionDialogs/DoodadDialog'
+export { default as CharityDialog } from './ActionDialogs/CharityDialog'
