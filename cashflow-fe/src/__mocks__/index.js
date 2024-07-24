@@ -9,4 +9,7 @@ export {
   mockDownsizedDialog,
   mockBabyDialogNew,
   mockBabyDialogLimitReached,
+  mockOpportunityDialog,
+  mockSmallDeal,
+  mockBigDeal,
 } from './mockProps'
