@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { useContext, useState } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 import { currencyFormatter } from '@/utils'
 
 const BuyDialog = ({
@@ -15,7 +15,7 @@ const BuyDialog = ({
   arg3,
   arg4,
 }) => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
 
   const [amount, setAmount] = useState(0)
 

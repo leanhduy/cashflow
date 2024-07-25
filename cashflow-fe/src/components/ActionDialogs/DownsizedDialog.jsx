@@ -3,10 +3,10 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { ActionContext, currencyFormatter } from '@/utils'
+import { GameContext, currencyFormatter } from '@/utils'
 
 const DownsizedDialog = ({ title, description, expenses }) => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
   return (
     <>
       <Header>

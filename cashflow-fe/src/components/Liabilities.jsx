@@ -1,12 +1,12 @@
 import styled from '@emotion/styled'
 import { colors } from '@/styles'
 import PropTypes from 'prop-types'
-import { currencyFormatter, ActionContext } from '@/utils'
+import { currencyFormatter, GameContext } from '@/utils'
 import PaymentIcon from '@mui/icons-material/Payment'
 import { useContext } from 'react'
 
 const Liabilities = ({ liabilities }) => {
-  const { actionType } = useContext(ActionContext)
+  const { actionType } = useContext(GameContext)
   const handleRepay = () => {
     alert('Repay logic not implemented!')
   }

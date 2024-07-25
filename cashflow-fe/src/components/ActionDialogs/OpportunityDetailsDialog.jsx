@@ -3,7 +3,7 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext, useState } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 import { currencyFormatter } from '@/utils'
 import { BuyDialog } from '@/components'
 
@@ -17,7 +17,7 @@ const OpportunityDetailsDialog = ({
   arg4,
   type,
 }) => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
   const [isBuying, setIsBuying] = useState(false)
   return (
     <>

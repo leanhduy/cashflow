@@ -1,10 +1,10 @@
 import styled from '@emotion/styled'
 import './App.css'
-import { Board, FinancialStatement, Action, ActionProvider } from '@/components'
+import { Board, FinancialStatement, Action, GameProvider } from '@/components'
 
 function App() {
   return (
-    <ActionProvider>
+    <GameProvider>
       <Container>
         <LeftSection>
           <FinancialStatement />
@@ -18,7 +18,7 @@ function App() {
           </RightBottomSection>
         </RightSection>
       </Container>
-    </ActionProvider>
+    </GameProvider>
   )
 }
 

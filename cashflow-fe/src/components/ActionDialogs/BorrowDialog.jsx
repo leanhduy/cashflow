@@ -1,13 +1,13 @@
 import styled from '@emotion/styled'
 import { Button, IconButton } from '@mui/material'
 import { useContext, useState } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 import { colors } from '@/styles'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
 const BorrowDialog = () => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
 
   const [amount, setAmount] = useState(0)
 

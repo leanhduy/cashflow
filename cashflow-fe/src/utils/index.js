@@ -2,5 +2,6 @@ export {
   currencyFormatter,
   getMonthlyLoanPayment,
   BOARD_SLOTS,
+  rollDice,
 } from './helpers'
-export { ActionContext } from './contexts'
+export { GameContext } from './contexts'

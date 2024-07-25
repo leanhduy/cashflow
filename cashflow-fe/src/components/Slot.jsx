@@ -1,11 +1,11 @@
 import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { useContext, useEffect, useState } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 
 const Slot = ({ id, name }) => {
   const [url, setUrl] = useState(null)
-  const { currentSlot } = useContext(ActionContext)
+  const { currentSlot } = useContext(GameContext)
 
   useEffect(() => {
     switch (name) {
@@ -57,7 +57,7 @@ const Slot = ({ id, name }) => {
         )
         break
     }
-  }, [])
+  }, [id, name, currentSlot])
 
   return <StyleImg src={url}></StyleImg>
 }
