@@ -20,7 +20,7 @@ const BorrowDialog = () => {
     <>
       <Header>
         <Title>TAKE OUT A LOAN!</Title>
-        <ThumbnailImg src="./assets/borrow-thumb.png" />
+        <ThumbnailImg src="./assets/images/borrow-thumb.png" />
       </Header>
       <Description>
         Loan must be in multiples of $1,000 at 10% interest per month.
