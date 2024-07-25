@@ -7,29 +7,29 @@ const Board = () => {
   return (
     <BoardContainer>
       <TopLane>
-        {BOARD_SLOTS.filter((slot) => slot.id < 7).map((slot) => (
-          <Slot key={slot.id} name={slot.name} />
+        {BOARD_SLOTS.filter((slot) => slot.id < 6).map((slot) => (
+          <Slot key={slot.id} id={slot.id} name={slot.name} />
         ))}
       </TopLane>
       <RightLane>
-        {BOARD_SLOTS.filter((slot) => slot.id >= 7 && slot.id < 13).map(
+        {BOARD_SLOTS.filter((slot) => slot.id >= 6 && slot.id < 12).map(
           (slot) => (
-            <Slot key={slot.id} name={slot.name} />
+            <Slot key={slot.id} id={slot.id} name={slot.name} />
           )
         )}
       </RightLane>
       <BottomLane>
-        {BOARD_SLOTS.filter((slot) => slot.id >= 13 && slot.id < 19)
+        {BOARD_SLOTS.filter((slot) => slot.id >= 12 && slot.id < 18)
           .reverse()
           .map((slot) => (
-            <Slot key={slot.id} name={slot.name} />
+            <Slot key={slot.id} id={slot.id} name={slot.name} />
           ))}
       </BottomLane>
       <LeftLane>
-        {BOARD_SLOTS.filter((slot) => slot.id >= 19)
+        {BOARD_SLOTS.filter((slot) => slot.id >= 18)
           .reverse()
           .map((slot) => (
-            <Slot key={slot.id} name={slot.name} />
+            <Slot key={slot.id} id={slot.id} name={slot.name} />
           ))}
       </LeftLane>
     </BoardContainer>
