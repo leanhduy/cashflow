@@ -110,3 +110,8 @@ export const BOARD_SLOTS = [
 export const rollDice = (diceNo = 1) => {
   return Math.floor(Math.random() * (6 * diceNo)) + 1
 }
+
+export const playRollDiceSFX = () => {
+  const sfx = new Audio('/assets/sounds/roll.mp3')
+  sfx.play()
+}

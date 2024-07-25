@@ -12,7 +12,7 @@ const DoodadDialog = ({ doodad }) => {
     <>
       <Header>
         <Title>{title}</Title>
-        <ThumbnailImg src="./assets/doodads-thumb.png" />
+        <ThumbnailImg src="./assets/images/doodads-thumb.png" />
       </Header>
       <Description>{description}</Description>
       <Note style={{ flex: 1 }} />

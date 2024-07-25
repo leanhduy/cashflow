@@ -12,48 +12,50 @@ const Slot = ({ id, name }) => {
       case 'Payday':
         setUrl(
           currentSlot === id
-            ? '/assets/payday-visited.png'
-            : '/assets/payday.png'
+            ? '/assets/images/payday-visited.png'
+            : '/assets/images/payday.png'
         )
         break
       case 'Opportunity':
         setUrl(
           currentSlot === id
-            ? '/assets/opportunity-visited.png'
-            : '/assets/opportunity.png'
+            ? '/assets/images/opportunity-visited.png'
+            : '/assets/images/opportunity.png'
         )
         break
       case 'Market':
         setUrl(
           currentSlot === id
-            ? '/assets/market-visited.png'
-            : '/assets/market.png'
+            ? '/assets/images/market-visited.png'
+            : '/assets/images/market.png'
         )
         break
       case 'Doodads':
         setUrl(
           currentSlot === id
-            ? '/assets/doodads-visited.png'
-            : '/assets/doodads.png'
+            ? '/assets/images/doodads-visited.png'
+            : '/assets/images/doodads.png'
         )
         break
       case 'Baby':
         setUrl(
-          currentSlot === id ? '/assets/baby-visited.png' : '/assets/baby.png'
+          currentSlot === id
+            ? '/assets/images/baby-visited.png'
+            : '/assets/images/baby.png'
         )
         break
       case 'Downsized':
         setUrl(
           currentSlot === id
-            ? '/assets/downsized-visited.png'
-            : '/assets/downsized.png'
+            ? '/assets/images/downsized-visited.png'
+            : '/assets/images/downsized.png'
         )
         break
       default:
         setUrl(
           currentSlot === id
-            ? '/assets/charity-visited.png'
-            : '/assets/charity.png'
+            ? '/assets/images/charity-visited.png'
+            : '/assets/images/charity.png'
         )
         break
     }

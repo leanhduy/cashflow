@@ -11,7 +11,7 @@ const OpportunityDialog = ({ title, description, info }) => {
     <>
       <Header>
         <Title>{title}</Title>
-        <ThumbnailImg src="./assets/opportunity-thumb.png" />
+        <ThumbnailImg src="./assets/images/opportunity-thumb.png" />
       </Header>
       {description && <Description>{description}</Description>}
       <Note>{info}</Note>

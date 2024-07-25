@@ -11,7 +11,7 @@ const DownsizedDialog = ({ title, description, expenses }) => {
     <>
       <Header>
         <Title>{title}</Title>
-        <ThumbnailImg src="./assets/downsized-thumb.png" />
+        <ThumbnailImg src="./assets/images/downsized-thumb.png" />
       </Header>
       {description && <Description>{description}</Description>}
       <Note>Pay ${currencyFormatter.format(expenses)}</Note>

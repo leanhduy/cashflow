@@ -14,7 +14,7 @@ const MarketDialog = ({ market }) => {
     <>
       <Header>
         <Title>{title}</Title>
-        <ThumbnailImg src="./assets/market-thumb.png" />
+        <ThumbnailImg src="./assets/images/market-thumb.png" />
       </Header>
       {description && <Description>{description}</Description>}
       <Note>

@@ -11,7 +11,7 @@ const CharityDialog = () => {
     <>
       <Header>
         <Title>GIVE TO CHARITY?</Title>
-        <ThumbnailImg src="./assets/charity-thumb.png" />
+        <ThumbnailImg src="./assets/images/charity-thumb.png" />
       </Header>
       <Description>
         Donate 10% of your total income to role 1 or 2 dice over the next 3

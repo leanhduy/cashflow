@@ -11,7 +11,7 @@ const BabyDialog = ({ title, description, expenses }) => {
     <>
       <Header>
         <Title>{title}</Title>
-        <ThumbnailImg src="./assets/baby-thumb.png" />
+        <ThumbnailImg src="./assets/images/baby-thumb.png" />
       </Header>
       {description && <Description>{description}</Description>}
       {expenses > 0 && (

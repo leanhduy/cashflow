@@ -3,13 +3,14 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { GameContext, rollDice } from '@/utils'
+import { GameContext, rollDice, playRollDiceSFX } from '@/utils'
 
 const StartDialog = ({ playerName, description, note }) => {
   const { setActionType, setCurrentSlot } = useContext(GameContext)
   const handleRoll = () => {
     let move = rollDice()
     setCurrentSlot((slot) => (slot + move) % 23)
+    playRollDiceSFX()
   }
   return (
     <>
@@ -23,7 +24,7 @@ const StartDialog = ({ playerName, description, note }) => {
         <ActionButton
           variant="contained"
           color="warning"
-          startIcon={<img src="/assets/bank.png" />}
+          startIcon={<img src="/assets/images/bank.png" />}
           disableRipple
           onClick={() => {
             setActionType('borrow')
@@ -34,7 +35,7 @@ const StartDialog = ({ playerName, description, note }) => {
         <ActionButton
           variant="contained"
           color="warning"
-          startIcon={<img src="/assets/repay.png" />}
+          startIcon={<img src="/assets/images/repay.png" />}
           disableRipple
           onClick={() => {
             setActionType('repay')
@@ -46,7 +47,7 @@ const StartDialog = ({ playerName, description, note }) => {
       <MainActions>
         <ActionButton
           variant="contained"
-          startIcon={<img src="/assets/dice.png" />}
+          startIcon={<img src="/assets/images/dice.png" />}
           disableRipple
           onClick={handleRoll}
         >
