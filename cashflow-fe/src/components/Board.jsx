@@ -5,34 +5,36 @@ import { Slot } from '@/components'
 
 const Board = () => {
   return (
-    <BoardContainer>
-      <TopLane>
-        {BOARD_SLOTS.filter((slot) => slot.id < 6).map((slot) => (
-          <Slot key={slot.id} id={slot.id} name={slot.name} />
-        ))}
-      </TopLane>
-      <RightLane>
-        {BOARD_SLOTS.filter((slot) => slot.id >= 6 && slot.id < 12).map(
-          (slot) => (
-            <Slot key={slot.id} id={slot.id} name={slot.name} />
-          )
-        )}
-      </RightLane>
-      <BottomLane>
-        {BOARD_SLOTS.filter((slot) => slot.id >= 12 && slot.id < 18)
-          .reverse()
-          .map((slot) => (
+    <>
+      <BoardContainer>
+        <TopLane>
+          {BOARD_SLOTS.filter((slot) => slot.id < 6).map((slot) => (
             <Slot key={slot.id} id={slot.id} name={slot.name} />
           ))}
-      </BottomLane>
-      <LeftLane>
-        {BOARD_SLOTS.filter((slot) => slot.id >= 18)
-          .reverse()
-          .map((slot) => (
-            <Slot key={slot.id} id={slot.id} name={slot.name} />
-          ))}
-      </LeftLane>
-    </BoardContainer>
+        </TopLane>
+        <RightLane>
+          {BOARD_SLOTS.filter((slot) => slot.id >= 6 && slot.id < 12).map(
+            (slot) => (
+              <Slot key={slot.id} id={slot.id} name={slot.name} />
+            )
+          )}
+        </RightLane>
+        <BottomLane>
+          {BOARD_SLOTS.filter((slot) => slot.id >= 12 && slot.id < 18)
+            .reverse()
+            .map((slot) => (
+              <Slot key={slot.id} id={slot.id} name={slot.name} />
+            ))}
+        </BottomLane>
+        <LeftLane>
+          {BOARD_SLOTS.filter((slot) => slot.id >= 18)
+            .reverse()
+            .map((slot) => (
+              <Slot key={slot.id} id={slot.id} name={slot.name} />
+            ))}
+        </LeftLane>
+      </BoardContainer>
+    </>
   )
 }
 

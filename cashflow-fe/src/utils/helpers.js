@@ -100,3 +100,13 @@ export const BOARD_SLOTS = [
   { id: 22, name: 'Charity' },
   { id: 23, name: 'Opportunity' },
 ]
+
+/**
+ * > Given a number of dice, return a total sum of all dice's value
+ * > Min value of a die is 1, Max value of a die is 6
+ * @param {*} diceNo an optional argument represents the number of dice. If this argument is not passed, default to 1
+ * @returns The total sum of all dice
+ */
+export const rollDice = (diceNo = 1) => {
+  return Math.floor(Math.random() * (6 * diceNo)) + 1
+}

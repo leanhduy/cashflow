@@ -3,10 +3,10 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext, useState } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 
 const MarketDialog = ({ market }) => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
   // > Need to update the `Assets` component to add sell button
   const [hasAssets, setHasAssets] = useState(false)
   const { id, title, description, type, price } = market

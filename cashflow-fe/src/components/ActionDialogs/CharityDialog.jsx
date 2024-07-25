@@ -2,10 +2,10 @@ import styled from '@emotion/styled'
 import { Button } from '@mui/material'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { ActionContext, currencyFormatter } from '@/utils'
+import { GameContext, currencyFormatter } from '@/utils'
 
 const CharityDialog = () => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
   const totalIncome = 2100 // > Replace this with the context that store player total income
   return (
     <>

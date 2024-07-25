@@ -3,10 +3,10 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 
 const RepayDialog = ({ title, description, liabilities }) => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType } = useContext(GameContext)
   return (
     <>
       <Title>{title}</Title>

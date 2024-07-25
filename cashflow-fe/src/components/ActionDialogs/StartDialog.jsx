@@ -3,10 +3,14 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext, rollDice } from '@/utils'
 
 const StartDialog = ({ playerName, description, note }) => {
-  const { setActionType } = useContext(ActionContext)
+  const { setActionType, setCurrentSlot } = useContext(GameContext)
+  const handleRoll = () => {
+    let move = rollDice()
+    setCurrentSlot((slot) => (slot + move) % 23)
+  }
   return (
     <>
       <Title>
@@ -44,6 +48,7 @@ const StartDialog = ({ playerName, description, note }) => {
           variant="contained"
           startIcon={<img src="/assets/dice.png" />}
           disableRipple
+          onClick={handleRoll}
         >
           ROLL
         </ActionButton>

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { colors } from '@/styles'
 import { useContext, useEffect, useState } from 'react'
-import { ActionContext } from '@/utils'
+import { GameContext } from '@/utils'
 import {
   StartDialog,
   RepayDialog,
@@ -26,7 +26,7 @@ import {
 } from '@/__mocks__'
 
 const Action = () => {
-  const { actionType } = useContext(ActionContext)
+  const { actionType } = useContext(GameContext)
   const [dialog, setDialog] = useState(null)
   useEffect(() => {
     switch (actionType) {
