@@ -6,9 +6,11 @@ import { useContext } from 'react'
 import { GameContext, rollDice, playRollDiceSFX } from '@/utils'
 
 const StartDialog = ({ playerName, description, note }) => {
-  const { setActionType, setCurrentSlot } = useContext(GameContext)
+  const { currentSlot, setActionType, setCurrentSlot, setPrevSlot } =
+    useContext(GameContext)
   const handleRoll = () => {
     let move = rollDice()
+    setPrevSlot(currentSlot)
     setCurrentSlot((slot) => (slot + move) % 23)
     playRollDiceSFX()
   }

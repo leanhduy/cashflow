@@ -1,7 +1,8 @@
 export const currencyFormatter = new Intl.NumberFormat('en-US', {
-  maximumSignificantDigits: 3,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+  useGrouping: true,
 })
-
 //#region Game Helper Methods
 /**
  * > Calculate the monthly payment from a liability item
@@ -32,24 +33,24 @@ export const getMonthlyLoanPayment = (liability) => {
     case 'home':
       r = LOAN_DETAILS.HOME.monthly_interest / 100
       n = LOAN_DETAILS.HOME.loan_term
-      M = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)
+      M = Math.floor((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1))
       break
     case 'car':
       r = LOAN_DETAILS.CAR.monthly_interest / 100
       n = LOAN_DETAILS.CAR.loan_term
-      M = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)
+      M = Math.floor((P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1))
       break
     case 'credit':
       r = LOAN_DETAILS.CREDIT.monthly_interest / 100
-      M = P * r
+      M = Math.floor(P * r)
       break
     case 'retail':
       r = LOAN_DETAILS.RETAIL.monthly_interest / 100
-      M = P * r
+      M = Math.floor(P * r)
       break
     case 'bank':
       r = LOAN_DETAILS.BANK.monthly_interest / 100
-      M = P * r
+      M = Math.floor(P * r)
       break
     default:
       return 0
@@ -122,7 +123,6 @@ export const generatePlayerData = () => {
     ],
     expensePerChild: p.expensePerChild,
   }
-  console.log(JSON.stringify(playerData.expenses))
   return playerData
 }
 
@@ -137,6 +137,50 @@ export const generatePlayerData = () => {
  */
 export const getPassiveIncome = (assets) => {
   return assets.reduce((total, asset) => total + asset.cashflow, 0)
+}
+
+/**
+ * > Get the montly income amount of the player
+ * @param {*} data The object contain financial data of a player
+ * @returns The monthly income of a player
+ */
+export const getTotalIncomeAmount = (data) => {
+  return data.incomes.reduce((total, income) => total + income.amount, 0)
+}
+
+/**
+ * > Get the montly income amount of the player
+ * @param {*} data The object contain financial data of a player
+ * @returns The monthly expenses of a player
+ */
+export const getTotalExpenseAmount = (data) => {
+  return (
+    data.expenses.reduce((total, expense) => total + expense.amount, 0) +
+    data.childNum * data.expensePerChild
+  )
+}
+
+export const getPayday = (lastPos, currentPos, playerData) => {
+  let totalIncome = getTotalIncomeAmount(playerData)
+  let totalExpense = getTotalExpenseAmount(playerData)
+
+  let paydaySlotsCount
+  // ? Edge case: lastPost > currentPost
+  if (lastPos > currentPos) {
+    paydaySlotsCount =
+      BOARD_SLOTS.filter(
+        (s) => s.id > lastPos && s.id <= 23 && s.name === 'Payday'
+      ).length +
+      BOARD_SLOTS.filter(
+        (s) => s.id >= 0 && s.id <= currentPos && s.name === 'Payday'
+      ).length
+  } else {
+    // ? Normal case: lastPost < currentPost
+    paydaySlotsCount = BOARD_SLOTS.filter(
+      (s) => s.id > lastPos && s.id <= currentPos && s.name === 'Payday'
+    ).length
+  }
+  return (totalIncome - totalExpense) * paydaySlotsCount
 }
 
 //#endregion Game Helper Methods
