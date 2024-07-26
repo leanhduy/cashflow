@@ -160,6 +160,13 @@ export const getTotalExpenseAmount = (data) => {
   )
 }
 
+/**
+ * > Get the amount of money when player passes `Payday` slot(s) on the board
+ * @param {*} lastPos slot id that player was previous on
+ * @param {*} currentPos slot id that player will land onto
+ * @param {*} playerData the object contains player's game data
+ * @returns The amount of money player will receive
+ */
 export const getPayday = (lastPos, currentPos, playerData) => {
   let totalIncome = getTotalIncomeAmount(playerData)
   let totalExpense = getTotalExpenseAmount(playerData)
@@ -183,9 +190,50 @@ export const getPayday = (lastPos, currentPos, playerData) => {
   return (totalIncome - totalExpense) * paydaySlotsCount
 }
 
+/**
+ * > Return the amount of loan player need to borrow from bank.
+ * @param {*} diff The difference between the player's cash and a certain amount of money.
+ * @returns The loan amount player needs to take (which is 1000x)
+ */
+export const getLoanAmount = (diff) => {
+  if (diff < 1000) {
+    return 1000
+  }
+  return Math.ceil(diff / 1000) * 1000
+}
+
+/**
+ * Draw a card based on the
+ * @param {*} type The type of card (doodads / opportunity / market)
+ * @param {*} isBigOpportunity boolean value indicates whether the card is a big opportunity. Only has effect when player lands on `opportunity` slot
+ * @returns a random card
+ */
+export const drawCard = (type, isBigOpportunity = false) => {
+  let card = null
+  switch (type) {
+    case 'doodads':
+      card = DOODADS[Math.floor(Math.random() * DOODADS.length)]
+      break
+    case 'opportunity':
+      if (isBigOpportunity) {
+        card = BIG_DEALS[Math.floor(Math.random() * BIG_DEALS.length)]
+      } else {
+        card = SMALL_DEALS[Math.floor(Math.random() * SMALL_DEALS.length)]
+      }
+      break
+    case 'market':
+      card = MARKETS[Math.floor(Math.random() * MARKETS.length)]
+      break
+    default:
+      break
+  }
+  return card
+}
+
 //#endregion Game Helper Methods
 
 //#region GAME DATA
+
 //#region LOAN DETAILS
 // > The fixed info for each type for loans in-game
 export const LOAN_DETAILS = {
@@ -211,30 +259,30 @@ export const LOAN_DETAILS = {
 
 //#region Board slots
 export const BOARD_SLOTS = [
-  { id: 0, name: 'Payday' },
-  { id: 1, name: 'Opportunity' },
-  { id: 2, name: 'Market' },
-  { id: 3, name: 'Opportunity' },
-  { id: 4, name: 'Doodads' },
-  { id: 5, name: 'Opportunity' },
-  { id: 6, name: 'Baby' },
-  { id: 7, name: 'Opportunity' },
-  { id: 8, name: 'Payday' },
-  { id: 9, name: 'Opportunity' },
-  { id: 10, name: 'Market' },
-  { id: 11, name: 'Opportunity' },
-  { id: 12, name: 'Doodads' },
-  { id: 13, name: 'Opportunity' },
-  { id: 14, name: 'Downsized' },
-  { id: 15, name: 'Opportunity' },
-  { id: 16, name: 'Payday' },
-  { id: 17, name: 'Opportunity' },
-  { id: 18, name: 'Market' },
-  { id: 19, name: 'Opportunity' },
-  { id: 20, name: 'Doodads' },
-  { id: 21, name: 'Opportunity' },
-  { id: 22, name: 'Charity' },
-  { id: 23, name: 'Opportunity' },
+  { id: 0, name: 'Payday', type: 'payday' },
+  { id: 1, name: 'Opportunity', type: 'opportunity' },
+  { id: 2, name: 'Market', type: 'market' },
+  { id: 3, name: 'Opportunity', type: 'opportunity' },
+  { id: 4, name: 'Doodads', type: 'doodads' },
+  { id: 5, name: 'Opportunity', type: 'opportunity' },
+  { id: 6, name: 'Baby', type: 'baby' },
+  { id: 7, name: 'Opportunity', type: 'opportunity' },
+  { id: 8, name: 'Payday', type: 'payday' },
+  { id: 9, name: 'Opportunity', type: 'opportunity' },
+  { id: 10, name: 'Market', type: 'market' },
+  { id: 11, name: 'Opportunity', type: 'opportunity' },
+  { id: 12, name: 'Doodads', type: 'doodads' },
+  { id: 13, name: 'Opportunity', type: 'opportunity' },
+  { id: 14, name: 'Downsized', type: 'downsized' },
+  { id: 15, name: 'Opportunity', type: 'opportunity' },
+  { id: 16, name: 'Payday', type: 'payday' },
+  { id: 17, name: 'Opportunity', type: 'opportunity' },
+  { id: 18, name: 'Market', type: 'market' },
+  { id: 19, name: 'Opportunity', type: 'opportunity' },
+  { id: 20, name: 'Doodads', type: 'doodads' },
+  { id: 21, name: 'Opportunity', type: 'opportunity' },
+  { id: 22, name: 'Charity', type: 'charity' },
+  { id: 23, name: 'Opportunity', type: 'opportunity' },
 ]
 //#endregion Board slots
 

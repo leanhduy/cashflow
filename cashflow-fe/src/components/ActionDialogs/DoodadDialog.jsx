@@ -1,46 +1,67 @@
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { GameContext } from '@/utils'
+import { GameContext, getLoanAmount } from '@/utils'
 
-const DoodadDialog = ({ doodad }) => {
-  const { setActionType } = useContext(GameContext)
-  const { title, description } = doodad
+const DoodadDialog = () => {
+  const { card, playerData, setActionType } = useContext(GameContext)
+  const doodads = card
+  /**
+   * > Handle Doodads logic
+   */
+  const handleDoodads = () => {
+    if (playerData.cash < doodads.cost) {
+      let loanAmount = getLoanAmount(doodads.cost - playerData.cash)
+      playerData.cash += loanAmount - doodads.cost
+      let idx = playerData.liabilities.indexOf((l) => l.name === 'Loans')
+      if (idx > -1) {
+        playerData.liabilities[idx].amount += loanAmount
+        playerData.expenses.find((e) => e.name === 'Loans Payment').amount +=
+          loanAmount * 0.1
+      } else {
+        playerData.liabilities.push({
+          id: playerData.liabilities.length + 1,
+          name: 'Loans',
+          amount: loanAmount,
+          type: 'bank',
+        })
+        playerData.expenses.push({
+          id: playerData.expenses.length + 1,
+          name: 'Loans Payment',
+          amount: loanAmount * 0.1,
+        })
+      }
+    } else {
+      playerData.cash -= doodads.cost
+    }
+    setActionType('start')
+  }
+
   return (
     <>
       <Header>
-        <Title>{title}</Title>
+        <Title>{doodads.title}</Title>
         <ThumbnailImg src="./assets/images/doodads-thumb.png" />
       </Header>
-      <Description>{description}</Description>
+      <Description>{doodads.description}</Description>
+      {doodads.info && <Note>{doodads.info}</Note>}
+      {playerData.cash < doodads.cost && (
+        <Note
+          style={{ color: colors.red.base }}
+        >{`(You don't have enough cash.You must take a loan of $${getLoanAmount(
+          doodads.cost - playerData.cash
+        )} to afford this.)`}</Note>
+      )}
       <Note style={{ flex: 1 }} />
       <MainActions>
-        <ActionButton
-          variant="contained"
-          disableRipple
-          onClick={() => {
-            setActionType('start')
-          }}
-        >
+        <ActionButton variant="contained" disableRipple onClick={handleDoodads}>
           PAY
         </ActionButton>
       </MainActions>
     </>
   )
 }
-
-//#region Prop types
-DoodadDialog.propTypes = {
-  doodad: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    cost: PropTypes.number,
-  }),
-}
-//#endregion Prop types
 
 export default DoodadDialog
 

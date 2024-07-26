@@ -9,5 +9,7 @@ export {
   getTotalIncomeAmount,
   getTotalExpenseAmount,
   getPayday,
+  getLoanAmount,
+  drawCard,
 } from './helpers'
 export { GameContext } from './contexts'

@@ -3,15 +3,27 @@ import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { GameContext, rollDice, playRollDiceSFX } from '@/utils'
+import {
+  GameContext,
+  rollDice,
+  playRollDiceSFX,
+  BOARD_SLOTS,
+  drawCard,
+} from '@/utils'
 
 const StartDialog = ({ playerName, description, note }) => {
-  const { currentSlot, setActionType, setCurrentSlot, setPrevSlot } =
+  const { currentSlot, setActionType, setCurrentSlot, setPrevSlot, setCard } =
     useContext(GameContext)
+
   const handleRoll = () => {
     let move = rollDice()
+    let slotId = (currentSlot + move) % 23
+    let card = drawCard(BOARD_SLOTS[slotId].type)
+
     setPrevSlot(currentSlot)
     setCurrentSlot((slot) => (slot + move) % 23)
+    setActionType(BOARD_SLOTS[slotId].type)
+    setCard(card)
     playRollDiceSFX()
   }
   return (
