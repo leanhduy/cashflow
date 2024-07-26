@@ -2,34 +2,17 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
   maximumSignificantDigits: 3,
 })
 
-// > The fixed info for each type for loans in-game
-export const LOAN_DETAILS = {
-  HOME: {
-    loan_term: 240,
-    monthly_interest: 11,
-  },
-  CAR: {
-    loan_term: 60,
-    monthly_interest: 0.8,
-  },
-  CREDIT: {
-    monthly_interest: 3,
-  },
-  RETAIL: {
-    monthly_interest: 5,
-  },
-  BANK: {
-    monthly_interest: 10,
-  },
-}
-
+//#region Game Helper Methods
 /**
  * > Calculate the monthly payment from a liability item
+ * > The structure of liability param
+ *    ? amount
+ *    ? type
  * @param {*} liability The liability object
  * @returns The monthly payment amount
  */
 export const getMonthlyLoanPayment = (liability) => {
-  if (liability.value === 0) {
+  if (liability.amount === 0) {
     return 0
   }
   /**
@@ -44,7 +27,7 @@ export const getMonthlyLoanPayment = (liability) => {
    * > M = P * r
    */
   let r, n, M
-  let P = liability.value
+  let P = liability.amount
   switch (liability.type) {
     case 'home':
       r = LOAN_DETAILS.HOME.monthly_interest / 100
@@ -71,9 +54,118 @@ export const getMonthlyLoanPayment = (liability) => {
     default:
       return 0
   }
-  return M
+  return parseInt(M.toFixed())
 }
 
+/**
+ * > Given a number of dice, return a total sum of all dice's value
+ * > Min value of a die is 1, Max value of a die is 6
+ * @param {*} diceNo an optional argument represents the number of dice. If this argument is not passed, default to 1
+ * @returns The total sum of all dice
+ */
+export const rollDice = (diceNo = 1) => {
+  return Math.floor(Math.random() * (6 * diceNo)) + 1
+}
+
+/**
+ * > Play the SFX for the roll action
+ */
+export const playRollDiceSFX = () => {
+  const sfx = new Audio('/assets/sounds/roll.mp3')
+  sfx.play()
+}
+
+/**
+ * > Generate the player data at the start of the game
+ * @returns
+ */
+export const generatePlayerData = () => {
+  const id = Math.floor(Math.random() * (PROFESSIONS.length - 1))
+  const p = PROFESSIONS[id] // > Assign a random profession to player
+  const playerData = {
+    profession: p.name,
+    salary: p.salary,
+    cash: p.cash,
+    childNum: 0,
+    incomes: [
+      { id: 1, name: `${p.name} Salary`, amount: p.salary, type: 'salary' },
+    ],
+    assets: [],
+    liabilities: [...p.liabilities],
+    expenses: [
+      { id: 1, name: 'Taxes', amount: p.salary * 0.18 },
+      {
+        id: 2,
+        name: 'Home Mortgage Payment',
+        amount: getMonthlyLoanPayment(p.liabilities[0]),
+      },
+      {
+        id: 3,
+        name: 'Car Loan Payment',
+        amount: getMonthlyLoanPayment(p.liabilities[1]),
+      },
+      {
+        id: 4,
+        name: 'Credit Card Payment',
+        amount: getMonthlyLoanPayment(p.liabilities[2]),
+      },
+      {
+        id: 5,
+        name: 'Retail Payment',
+        amount: getMonthlyLoanPayment(p.liabilities[3]),
+      },
+      {
+        id: 6,
+        name: 'Other Expenses',
+        amount: p.otherExpenses,
+      },
+    ],
+    expensePerChild: p.expensePerChild,
+  }
+  console.log(JSON.stringify(playerData.expenses))
+  return playerData
+}
+
+/**
+ * > Get the passive income amount for the given list of assets
+ * @param {*} assets A list of assets
+ * > An asset will have this structure
+ *    ? id:
+ *    ? name: Name of asset
+ *    ? type: Type of assets (stock/realestate/gold/business)
+ *    ? cashflow
+ */
+export const getPassiveIncome = (assets) => {
+  return assets.reduce((total, asset) => total + asset.cashflow, 0)
+}
+
+//#endregion Game Helper Methods
+
+//#region GAME DATA
+//#region LOAN DETAILS
+// > The fixed info for each type for loans in-game
+export const LOAN_DETAILS = {
+  HOME: {
+    loan_term: 240,
+    monthly_interest: 0.9,
+  },
+  CAR: {
+    loan_term: 60,
+    monthly_interest: 0.8,
+  },
+  CREDIT: {
+    monthly_interest: 3,
+  },
+  RETAIL: {
+    monthly_interest: 5,
+  },
+  BANK: {
+    monthly_interest: 10,
+  },
+}
+//#endregion LOAN DETAILS
+
+//#region Board slots
 export const BOARD_SLOTS = [
   { id: 0, name: 'Payday' },
   { id: 1, name: 'Opportunity' },
@@ -100,21 +192,7 @@ export const BOARD_SLOTS = [
   { id: 22, name: 'Charity' },
   { id: 23, name: 'Opportunity' },
 ]
-
-/**
- * > Given a number of dice, return a total sum of all dice's value
- * > Min value of a die is 1, Max value of a die is 6
- * @param {*} diceNo an optional argument represents the number of dice. If this argument is not passed, default to 1
- * @returns The total sum of all dice
- */
-export const rollDice = (diceNo = 1) => {
-  return Math.floor(Math.random() * (6 * diceNo)) + 1
-}
-
-export const playRollDiceSFX = () => {
-  const sfx = new Audio('/assets/sounds/roll.mp3')
-  sfx.play()
-}
+//#endregion Board slots
 
 //#region DOODADS
 export const DOODADS = [
@@ -1791,3 +1869,80 @@ export const MARKETS = [
   },
 ]
 //#endregion MARKETS
+
+//#region PROFESSIONS
+export const PROFESSIONS = [
+  {
+    id: 1,
+    name: 'Doctor',
+    salary: 13200,
+    cash: 400,
+    expensePerChild: 640,
+    otherExpenses: 2880,
+    liabilities: [
+      { id: 1, name: 'Home Mortgage', amount: 202000, type: 'home' }, // Home Mortgage
+      { id: 2, name: 'Car Loans', amount: 19000, type: 'car' }, // Car Loans
+      { id: 3, name: 'Credit Cards', amount: 9000, type: 'credit' }, // Credit Cards
+      { id: 4, name: 'Retail Debt', amount: 1000, type: 'retail' }, // Retail Debt
+    ],
+  },
+  {
+    id: 2,
+    name: 'Mechanic',
+    salary: 2000,
+    cash: 400,
+    expensePerChild: 110,
+    otherExpenses: 450,
+    liabilities: [
+      { id: 1, name: 'Home Mortgage', amount: 31000, type: 'home' }, // Home Mortgage
+      { id: 2, name: 'Car Loans', amount: 3000, type: 'car' }, // Car Loans
+      { id: 3, name: 'Credit Cards', amount: 2000, type: 'credit' }, // Credit Cards
+      { id: 4, name: 'Retail Debt', amount: 1000, type: 'retail' }, // Retail Debt
+    ],
+  },
+  {
+    id: 3,
+    name: 'Nurse',
+    salary: 3100,
+    cash: 480,
+    expensePerChild: 170,
+    otherExpenses: 710,
+    liabilities: [
+      { id: 1, name: 'Home Mortgage', amount: 47000, type: 'home' }, // Home Mortgage
+      { id: 2, name: 'Car Loans', amount: 5000, type: 'car' }, // Car Loans
+      { id: 3, name: 'Credit Cards', amount: 3000, type: 'credit' }, // Credit Cards
+      { id: 4, name: 'Retail Debt', amount: 1000, type: 'retail' }, // Retail Debt
+    ],
+  },
+  {
+    id: 4,
+    name: 'Engineer',
+    salary: 4900,
+    cash: 500,
+    expensePerChild: 250,
+    otherExpenses: 1090,
+    liabilities: [
+      { id: 1, name: 'Home Mortgage', amount: 75000, type: 'home' }, // Home Mortgage
+      { id: 2, name: 'Car Loans', amount: 7000, type: 'car' }, // Car Loans
+      { id: 3, name: 'Credit Cards', amount: 4000, type: 'credit' }, // Credit Cards
+      { id: 4, name: 'Retail Debt', amount: 1000, type: 'retail' }, // Retail Debt
+    ],
+  },
+  {
+    id: 5,
+    name: 'Business Manager',
+    salary: 4600,
+    cash: 400,
+    expensePerChild: 480,
+    otherExpenses: 1000,
+    liabilities: [
+      { id: 1, name: 'Home Mortgage', amount: 75000, type: 'home' }, // Home Mortgage
+      { id: 2, name: 'Car Loans', amount: 6000, type: 'car' }, // Car Loans
+      { id: 3, name: 'Credit Cards', amount: 3000, type: 'credit' }, // Credit Cards
+      { id: 4, name: 'Retail Debt', amount: 1000, type: 'retail' }, // Retail Debt
+    ],
+  },
+]
+//#endregion PROFESSIONS
+
+//#endregion GAME DATA

@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import styled from '@emotion/styled'
 import { Container } from '@mui/material'
 import {
@@ -7,34 +8,45 @@ import {
   Assets,
   Liabilities,
 } from '@/components'
-import {
-  mockFinancialStatus,
-  mockAssets,
-  mockIncomes,
-  mockLiabilities,
-  mockChildExpense,
-} from '@/__mocks__'
+import { GameContext } from '@/utils'
 
 const FinancialStatement = () => {
+  const { playerData } = useContext(GameContext)
+
   return (
     <StyledContainer>
       <StyledRow>
-        <FinancialStatus {...mockFinancialStatus} />
+        <FinancialStatus
+          cash={playerData.cash}
+          assets={playerData.assets}
+          totalIncome={playerData.incomes.reduce(
+            (total, income) => total + income.amount,
+            0
+          )}
+          totalExpenses={playerData.expenses.reduce(
+            (total, expense) => total + expense.amount,
+            0
+          )}
+        />
       </StyledRow>
       <StyledRow>
         <StyledColumn>
-          <Income incomes={mockIncomes} />
+          <Income incomes={playerData.incomes} />
         </StyledColumn>
         <StyledColumn>
-          <Expenses liabilities={mockLiabilities} {...mockChildExpense} />
+          <Expenses
+            expenses={playerData.expenses}
+            childNum={playerData.childNum}
+            expensePerChild={playerData.expensePerChild}
+          />
         </StyledColumn>
       </StyledRow>
       <StyledRow>
         <StyledColumn>
-          <Assets assets={mockAssets} />
+          <Assets assets={playerData.assets} />
         </StyledColumn>
         <StyledColumn>
-          <Liabilities liabilities={mockLiabilities} />
+          <Liabilities liabilities={playerData.liabilities} />
         </StyledColumn>
       </StyledRow>
     </StyledContainer>
