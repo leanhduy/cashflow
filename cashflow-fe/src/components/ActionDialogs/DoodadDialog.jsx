@@ -14,7 +14,7 @@ const DoodadDialog = () => {
     if (playerData.cash < doodads.cost) {
       let loanAmount = getLoanAmount(doodads.cost - playerData.cash)
       playerData.cash += loanAmount - doodads.cost
-      let idx = playerData.liabilities.indexOf((l) => l.name === 'Loans')
+      let idx = playerData.liabilities.findIndex((l) => l.name === 'Loans')
       if (idx > -1) {
         playerData.liabilities[idx].amount += loanAmount
         playerData.expenses.find((e) => e.name === 'Loans Payment').amount +=

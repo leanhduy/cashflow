@@ -1,45 +1,73 @@
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import PropTypes from 'prop-types'
 import { colors } from '@/styles'
-import { useContext } from 'react'
-import { GameContext, currencyFormatter } from '@/utils'
+import { useContext, useEffect } from 'react'
+import { GameContext, currencyFormatter, playSFX } from '@/utils'
 
-const BabyDialog = ({ title, description, expenses }) => {
-  const { setActionType } = useContext(GameContext)
+const BabyDialog = () => {
+  const { playerData, setPlayerData, setActionType } = useContext(GameContext)
+  const childNum = playerData.childNum
+
+  useEffect(() => {
+    if (playerData.childNum < 3) {
+      setTimeout(() => {
+        playSFX('/assets/sounds/baby.mp3')
+      }, 600)
+    }
+  }, [])
+
+  const handleBaby = () => {
+    const newPlayerData = playerData
+    if (childNum === 0) {
+      newPlayerData.childNum += 1
+      newPlayerData.expenses.push({
+        id: newPlayerData.expenses.length + 1,
+        name: `Child Expenses (${newPlayerData.childNum})`,
+        amount: newPlayerData.childNum * newPlayerData.expensePerChild,
+      })
+      newPlayerData.expen
+    } else if (childNum < 3) {
+      let idx = newPlayerData.expenses.findIndex(
+        (e) => e.name === `Child Expenses (${playerData.childNum})`
+      )
+      newPlayerData.childNum += 1
+      newPlayerData.expenses[
+        idx
+      ].name = `Child Expenses (${newPlayerData.childNum})`
+      newPlayerData.expenses[idx].amount =
+        newPlayerData.childNum * newPlayerData.expensePerChild
+    }
+    setPlayerData({ ...newPlayerData })
+    setActionType('start')
+  }
+
   return (
     <>
       <Header>
-        <Title>{title}</Title>
+        <Title>
+          {playerData.childNum < 3 ? 'NEW BABY!' : 'BABY LIMIT REACHED!'}
+        </Title>
         <ThumbnailImg src="./assets/images/baby-thumb.png" />
       </Header>
-      {description && <Description>{description}</Description>}
-      {expenses > 0 && (
-        <Note>
+      <Description>
+        {playerData.childNum < 3
+          ? 'Congratulations! One child has been added to your dependents'
+          : 'Each player cannot have more than 3 child.'}
+      </Description>
+      {childNum < 3 && (
+        <Note style={{ color: colors.red.base }}>
           Child Expenses will be increased by $
-          {currencyFormatter.format(expenses)}
+          {currencyFormatter.format(playerData.expensePerChild)}
         </Note>
       )}
-      <SubActions></SubActions>
+      <Note style={{ flex: 1 }} />
       <MainActions>
-        <ActionButton
-          variant="contained"
-          disableRipple
-          onClick={() => {
-            setActionType('start')
-          }}
-        >
+        <ActionButton variant="contained" disableRipple onClick={handleBaby}>
           OK
         </ActionButton>
       </MainActions>
     </>
   )
-}
-
-BabyDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  expenses: PropTypes.number,
 }
 
 export default BabyDialog
@@ -83,22 +111,6 @@ const MainActions = styled.div({
   },
   '& img': {
     width: '36px',
-  },
-})
-
-const SubActions = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  columnGap: '2rem',
-  margin: '1rem',
-  width: '100%',
-  '& button': {
-    fontSize: '16px',
-    width: '128px',
-  },
-  '& img': {
-    width: '24px',
   },
 })
 

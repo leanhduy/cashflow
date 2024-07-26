@@ -1,17 +1,10 @@
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import {
-  GameContext,
-  rollDice,
-  playRollDiceSFX,
-  BOARD_SLOTS,
-  drawCard,
-} from '@/utils'
+import { GameContext, rollDice, playSFX, BOARD_SLOTS, drawCard } from '@/utils'
 
-const StartDialog = ({ playerName, description, note }) => {
+const StartDialog = () => {
   const { currentSlot, setActionType, setCurrentSlot, setPrevSlot, setCard } =
     useContext(GameContext)
 
@@ -24,16 +17,18 @@ const StartDialog = ({ playerName, description, note }) => {
     setCurrentSlot((slot) => (slot + move) % 23)
     setActionType(BOARD_SLOTS[slotId].type)
     setCard(card)
-    playRollDiceSFX()
+    playSFX('/assets/sounds/roll.mp3')
   }
   return (
     <>
-      <Title>
-        {playerName}
-        {`'s turn.`}
-      </Title>
-      {description && <Description>{description}</Description>}
-      {note && <Note>{note}</Note>}
+      <Title>{`Player 1's turn.`}</Title>
+      <Description>
+        When you are ready, roll the dice and take your turn
+      </Description>
+      <Note>
+        Before you start your turn, review your financial statement. You may
+        also use this time to repay liabilities or borrow money.
+      </Note>
       <SubActions>
         <ActionButton
           variant="contained"
@@ -70,12 +65,6 @@ const StartDialog = ({ playerName, description, note }) => {
       </MainActions>
     </>
   )
-}
-
-StartDialog.propTypes = {
-  playerName: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  note: PropTypes.string.isRequired,
 }
 
 export default StartDialog

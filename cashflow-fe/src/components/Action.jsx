@@ -15,10 +15,8 @@ import {
   BorrowDialog,
 } from '@/components'
 import {
-  mockStartDialog,
   mockRepayDialog,
   mockDownsizedDialog,
-  mockBabyDialogNew,
   mockOpportunityDialog,
   mockBigDeal,
   mockMarket,
@@ -30,7 +28,8 @@ const Action = () => {
   useEffect(() => {
     switch (actionType) {
       case 'start':
-        setDialog(<StartDialog {...mockStartDialog} />)
+      case 'payday':
+        setDialog(<StartDialog />)
         break
       case 'repay':
         setDialog(<RepayDialog {...mockRepayDialog} />)
@@ -39,7 +38,7 @@ const Action = () => {
         setDialog(<DownsizedDialog {...mockDownsizedDialog} />)
         break
       case 'baby':
-        setDialog(<BabyDialog {...mockBabyDialogNew} />)
+        setDialog(<BabyDialog />)
         break
       case 'opportunity':
         setDialog(<OpportunityDialog {...mockOpportunityDialog} />)
@@ -77,7 +76,7 @@ const Container = styled.div({
   boxShadow: 'rgba(12,12,12, 0.8) 4px 4px 4px',
   display: 'flex',
   flexDirection: 'column',
-  maxHeight: '450px',
+  height: '300px',
   padding: '1.25rem 2rem',
   rowGap: '.5rem',
   width: '80%',

@@ -71,8 +71,8 @@ export const rollDice = (diceNo = 1) => {
 /**
  * > Play the SFX for the roll action
  */
-export const playRollDiceSFX = () => {
-  const sfx = new Audio('/assets/sounds/roll.mp3')
+export const playSFX = (url) => {
+  const sfx = new Audio(url)
   sfx.play()
 }
 
