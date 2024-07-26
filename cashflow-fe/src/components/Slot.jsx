@@ -7,8 +7,8 @@ const Slot = ({ id, name }) => {
   const [url, setUrl] = useState(null)
   const { currentSlot } = useContext(GameContext)
 
-  useEffect(() => {
-    switch (name) {
+  const updateSlotUI = (slotName) => {
+    switch (slotName) {
       case 'Payday':
         setUrl(
           currentSlot === id
@@ -59,6 +59,9 @@ const Slot = ({ id, name }) => {
         )
         break
     }
+  }
+  useEffect(() => {
+    updateSlotUI(name)
   }, [id, name, currentSlot])
 
   return <StyleImg src={url}></StyleImg>

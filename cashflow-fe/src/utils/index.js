@@ -6,5 +6,8 @@ export {
   playRollDiceSFX,
   generatePlayerData,
   getPassiveIncome,
+  getTotalIncomeAmount,
+  getTotalExpenseAmount,
+  getPayday,
 } from './helpers'
 export { GameContext } from './contexts'
