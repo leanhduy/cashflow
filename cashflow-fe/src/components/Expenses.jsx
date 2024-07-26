@@ -3,7 +3,7 @@ import { colors } from '@/styles'
 import PropTypes from 'prop-types'
 import { currencyFormatter } from '@/utils'
 
-const Expenses = ({ expenses, childNum, expensePerChild }) => {
+const Expenses = ({ expenses }) => {
   return (
     <CardContainer>
       <CardHeader>EXPENSES</CardHeader>
@@ -16,20 +16,12 @@ const Expenses = ({ expenses, childNum, expensePerChild }) => {
           {expenses &&
             expenses.map((i) => (
               <ListItem key={i.id}>
-                <ListItemLeft>{i.name} Payment</ListItemLeft>
+                <ListItemLeft>{i.name}</ListItemLeft>
                 <ListItemRight>
                   ${currencyFormatter.format(i.amount)}
                 </ListItemRight>
               </ListItem>
             ))}
-          {childNum > 0 && (
-            <ListItem>
-              <ListItemLeft>Child Expenses ({childNum})</ListItemLeft>
-              <ListItemRight>
-                ${currencyFormatter.format(childNum * expensePerChild)}
-              </ListItemRight>
-            </ListItem>
-          )}
         </StyledList>
       </CardBody>
     </CardContainer>

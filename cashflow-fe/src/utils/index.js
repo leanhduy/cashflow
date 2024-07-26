@@ -3,7 +3,7 @@ export {
   getMonthlyLoanPayment,
   BOARD_SLOTS,
   rollDice,
-  playRollDiceSFX,
+  playSFX,
   generatePlayerData,
   getPassiveIncome,
   getTotalIncomeAmount,
