@@ -1,9 +1,9 @@
 import styled from '@emotion/styled'
 import { colors } from '@/styles'
 import PropTypes from 'prop-types'
-import { currencyFormatter, getMonthlyLoanPayment } from '@/utils'
+import { currencyFormatter } from '@/utils'
 
-const Expenses = ({ liabilities, childNum, expensePerChild }) => {
+const Expenses = ({ expenses, childNum, expensePerChild }) => {
   return (
     <CardContainer>
       <CardHeader>EXPENSES</CardHeader>
@@ -13,24 +13,23 @@ const Expenses = ({ liabilities, childNum, expensePerChild }) => {
           <ListItemRight>Amount</ListItemRight>
         </ListItemHeader>
         <StyledList>
-          {liabilities &&
-            liabilities.map((i) => (
+          {expenses &&
+            expenses.map((i) => (
               <ListItem key={i.id}>
                 <ListItemLeft>{i.name} Payment</ListItemLeft>
                 <ListItemRight>
-                  $
-                  {currencyFormatter.format(
-                    getMonthlyLoanPayment(i).toFixed(0)
-                  )}
+                  ${currencyFormatter.format(i.amount)}
                 </ListItemRight>
               </ListItem>
             ))}
-          <ListItem>
-            <ListItemLeft>Child Expenses ({childNum})</ListItemLeft>
-            <ListItemRight>
-              ${currencyFormatter.format(childNum * expensePerChild)}
-            </ListItemRight>
-          </ListItem>
+          {childNum > 0 && (
+            <ListItem>
+              <ListItemLeft>Child Expenses ({childNum})</ListItemLeft>
+              <ListItemRight>
+                ${currencyFormatter.format(childNum * expensePerChild)}
+              </ListItemRight>
+            </ListItem>
+          )}
         </StyledList>
       </CardBody>
     </CardContainer>
@@ -39,7 +38,7 @@ const Expenses = ({ liabilities, childNum, expensePerChild }) => {
 
 //#region prop types
 Expenses.propTypes = {
-  liabilities: PropTypes.array,
+  expenses: PropTypes.array,
   childNum: PropTypes.number.isRequired,
   expensePerChild: PropTypes.number.isRequired,
 }

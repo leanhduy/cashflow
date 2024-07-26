@@ -25,7 +25,7 @@ const Liabilities = ({ liabilities }) => {
               <ListItem key={i.id}>
                 <ListItemLeft>{i.name}</ListItemLeft>
                 <ListItemRight>
-                  ${currencyFormatter.format(i.value)}
+                  ${currencyFormatter.format(i.amount)}
                 </ListItemRight>
                 {actionType === 'repay' && (
                   <ListItemIcon>

@@ -2,10 +2,10 @@
 import styled from '@emotion/styled'
 import { Box, Container, Divider, LinearProgress } from '@mui/material'
 import { colors } from '../styles'
-import { currencyFormatter } from '@/utils'
+import { currencyFormatter, getPassiveIncome } from '@/utils'
 import PropTypes from 'prop-types'
 
-const FinancialStatus = ({ totalExpenses, totalIncome, cash }) => {
+const FinancialStatus = ({ totalExpenses, totalIncome, assets, cash }) => {
   return (
     <StyledContainer>
       <Title>INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</Title>
@@ -16,11 +16,11 @@ const FinancialStatus = ({ totalExpenses, totalIncome, cash }) => {
         <Box sx={{ width: '100%' }}>
           <Progress
             variant="determinate"
-            value={((totalIncome - totalExpenses) / totalIncome) * 100}
+            value={(getPassiveIncome(assets) / totalIncome) * 100}
           />
           <ProgressBottomTitle>
             PASSIVE INCOME: $
-            {currencyFormatter.format(totalIncome - totalExpenses)}
+            {currencyFormatter.format(getPassiveIncome(assets))}
           </ProgressBottomTitle>
         </Box>
       </ProgressContainer>
@@ -40,10 +40,7 @@ const FinancialStatus = ({ totalExpenses, totalIncome, cash }) => {
         <StyledDivider />
         <DashboardRow>
           <span>PAYDAY</span>
-          <span>
-            ${totalIncome - totalExpenses < 0 ? '-' : ''}
-            {currencyFormatter.format(totalIncome - totalExpenses)}
-          </span>
+          <span>${currencyFormatter.format(totalIncome - totalExpenses)}</span>
         </DashboardRow>
       </DashboardContainer>
     </StyledContainer>
@@ -56,12 +53,14 @@ export default FinancialStatus
 FinancialStatus.propTypes = {
   totalExpenses: PropTypes.number.isRequired,
   totalIncome: PropTypes.number.isRequired,
+  assets: PropTypes.array.isRequired,
   cash: PropTypes.number.isRequired,
 }
 //#endregion prop types
 
 //#region styled Components
 const StyledContainer = styled(Container)({
+  marginTop: '1rem',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -72,15 +71,15 @@ const Title = styled.h1({
   fontSize: '1.125rem',
   textAlign: 'center',
   width: '100%',
-  margin: 0,
+  marginBottom: '.5rem',
 })
 
 const ProgressContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: '100%',
-  marginTop: '.25rem',
+  width: '70%',
+  marginBottom: '.5rem',
 })
 
 const Progress = styled(LinearProgress)({
