@@ -3,10 +3,11 @@ import {
   getTotalIncomeAmount,
   getTotalExpenseAmount,
   getPayday,
+  getLoanAmount,
 } from '@/utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-describe.only('Helper functions', () => {
+describe('Helper functions', () => {
   let playerData
   beforeEach(() => {
     playerData = {
@@ -131,6 +132,18 @@ describe.only('Helper functions', () => {
         getTotalIncomeAmount(playerData) - getTotalExpenseAmount(playerData)
       let amount = getPayday(23, 17, playerData)
       expect(amount).to.equal(payday * 3)
+    })
+  })
+
+  describe('getLoanAmount', () => {
+    it('should return 1000 with  difference less than 1000', () => {
+      expect(getLoanAmount(1)).to.equal(1000)
+      expect(getLoanAmount(99)).to.equal(1000)
+    })
+    it('should return correct multiple of 1000x for given difference', () => {
+      expect(getLoanAmount(1001)).to.equal(2000)
+      expect(getLoanAmount(9999)).to.equal(10000)
+      expect(getLoanAmount(19999979)).to.equal(20000000)
     })
   })
 })

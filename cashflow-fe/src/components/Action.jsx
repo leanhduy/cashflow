@@ -22,7 +22,6 @@ import {
   mockOpportunityDialog,
   mockBigDeal,
   mockMarket,
-  mockDoodad,
 } from '@/__mocks__'
 
 const Action = () => {
@@ -51,8 +50,8 @@ const Action = () => {
       case 'market':
         setDialog(<MarketDialog market={mockMarket} />)
         break
-      case 'doodad':
-        setDialog(<DoodadDialog doodad={mockDoodad} />)
+      case 'doodads':
+        setDialog(<DoodadDialog />)
         break
       case 'charity':
         setDialog(<CharityDialog />)
