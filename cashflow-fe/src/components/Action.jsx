@@ -16,7 +16,6 @@ import {
 } from '@/components'
 import {
   mockRepayDialog,
-  mockDownsizedDialog,
   mockOpportunityDialog,
   mockBigDeal,
   mockMarket,
@@ -35,7 +34,7 @@ const Action = () => {
         setDialog(<RepayDialog {...mockRepayDialog} />)
         break
       case 'downsized':
-        setDialog(<DownsizedDialog {...mockDownsizedDialog} />)
+        setDialog(<DownsizedDialog />)
         break
       case 'baby':
         setDialog(<BabyDialog />)
