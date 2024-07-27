@@ -16,18 +16,7 @@ const FinancialStatement = () => {
   return (
     <StyledContainer>
       <StyledRow>
-        <FinancialStatus
-          cash={playerData.cash}
-          assets={playerData.assets}
-          totalIncome={playerData.incomes.reduce(
-            (total, income) => total + income.amount,
-            0
-          )}
-          totalExpenses={playerData.expenses.reduce(
-            (total, expense) => total + expense.amount,
-            0
-          )}
-        />
+        <FinancialStatus />
       </StyledRow>
       <StyledRow>
         <StyledColumn>

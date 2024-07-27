@@ -2,45 +2,67 @@
 import styled from '@emotion/styled'
 import { Box, Container, Divider, LinearProgress } from '@mui/material'
 import { colors } from '../styles'
-import { currencyFormatter, getPassiveIncome } from '@/utils'
-import PropTypes from 'prop-types'
+import {
+  currencyFormatter,
+  getPassiveIncome,
+  GameContext,
+  getTotalExpenseAmount,
+  getTotalIncomeAmount,
+} from '@/utils'
+import { useContext } from 'react'
 
-const FinancialStatus = ({ totalExpenses, totalIncome, assets, cash }) => {
+const FinancialStatus = () => {
+  const { playerData } = useContext(GameContext)
   return (
     <StyledContainer>
       <Title>INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</Title>
       <ProgressContainer>
         <ProgressTopTitle>
-          TOTAL EXPENSES: ${currencyFormatter.format(totalExpenses)}
+          TOTAL EXPENSES: $
+          {currencyFormatter.format(getTotalExpenseAmount(playerData))}
         </ProgressTopTitle>
         <Box sx={{ width: '100%' }}>
           <Progress
             variant="determinate"
-            value={(getPassiveIncome(assets) / totalIncome) * 100}
+            value={
+              (getPassiveIncome(playerData.assets) /
+                getTotalIncomeAmount(playerData)) *
+              100
+            }
           />
           <ProgressBottomTitle>
             PASSIVE INCOME: $
-            {currencyFormatter.format(getPassiveIncome(assets))}
+            {currencyFormatter.format(getPassiveIncome(playerData.assets))}
           </ProgressBottomTitle>
         </Box>
       </ProgressContainer>
       <DashboardContainer>
         <DashboardTopRow>
           <span>CASH</span>
-          <span>${currencyFormatter.format(cash)}</span>
+          <span>${currencyFormatter.format(playerData.cash)}</span>
         </DashboardTopRow>
         <DashboardRow>
           <span>Total Income:</span>
-          <span>${currencyFormatter.format(totalIncome)}</span>
+          <span>
+            ${currencyFormatter.format(getTotalIncomeAmount(playerData))}
+          </span>
         </DashboardRow>
         <DashboardRow>
           <span>Total Expenses:</span>
-          <span>$-{currencyFormatter.format(totalExpenses)}</span>
+          <span>
+            $-{currencyFormatter.format(getTotalExpenseAmount(playerData))}
+          </span>
         </DashboardRow>
         <StyledDivider />
         <DashboardRow>
           <span>PAYDAY</span>
-          <span>${currencyFormatter.format(totalIncome - totalExpenses)}</span>
+          <span>
+            $
+            {currencyFormatter.format(
+              getTotalIncomeAmount(playerData) -
+                getTotalExpenseAmount(playerData)
+            )}
+          </span>
         </DashboardRow>
       </DashboardContainer>
     </StyledContainer>
@@ -48,15 +70,6 @@ const FinancialStatus = ({ totalExpenses, totalIncome, assets, cash }) => {
 }
 
 export default FinancialStatus
-
-//#region prop types
-FinancialStatus.propTypes = {
-  totalExpenses: PropTypes.number.isRequired,
-  totalIncome: PropTypes.number.isRequired,
-  assets: PropTypes.array.isRequired,
-  cash: PropTypes.number.isRequired,
-}
-//#endregion prop types
 
 //#region styled Components
 const StyledContainer = styled(Container)({

@@ -122,6 +122,8 @@ export const generatePlayerData = () => {
       },
     ],
     expensePerChild: p.expensePerChild,
+    diceNum: 1,
+    charityTurnLeft: 0,
   }
   return playerData
 }

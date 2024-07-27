@@ -1,28 +1,93 @@
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import PropTypes from 'prop-types'
 import { colors } from '@/styles'
-import { useContext } from 'react'
-import { GameContext, currencyFormatter } from '@/utils'
+import { useContext, useEffect } from 'react'
+import {
+  GameContext,
+  currencyFormatter,
+  getTotalExpenseAmount,
+  getLoanAmount,
+  playSFX,
+} from '@/utils'
 
-const DownsizedDialog = ({ title, description, expenses }) => {
-  const { setActionType } = useContext(GameContext)
+/**
+ *
+ * @param {*} param0
+ * @returns
+ */
+const DownsizedDialog = () => {
+  const { playerData, setPlayerData, setActionType } = useContext(GameContext)
+
+  /**
+   * > Handle logic when player lands on `Downsized!` slot
+   * * 1. Check the player’s cash amount after deduction
+   * *    - If negative: force user to take a loan, add the loan to the liabilities & expenses of the user
+   * *    - If positive: player’s cash is positive, do nothing
+   * * 2. Deduce the player’s cash amount to a full amount of total expenses.
+   * * 3. Remove the charity privilege (if you donated when landing on Charity before this turn)
+   * * 4. Move to the Start Dialog
+   */
+  const handleDownsized = () => {
+    let newPlayerData = playerData
+    let totalExpenses = getTotalExpenseAmount(newPlayerData)
+    if (newPlayerData.cash < totalExpenses) {
+      let loanAmount = getLoanAmount(totalExpenses - newPlayerData.cash)
+      newPlayerData.cash += loanAmount
+      let idx = newPlayerData.liabilities.findIndex((l) => l.name === 'Loans')
+      if (idx > -1) {
+        newPlayerData.liabilities[idx].amount += loanAmount
+        newPlayerData.expenses.find((e) => e.name === 'Loans Payment').amount +=
+          loanAmount * 0.1
+      } else {
+        newPlayerData.liabilities.push({
+          id: newPlayerData.liabilities.length + 1,
+          name: 'Loans',
+          amount: loanAmount,
+          type: 'bank',
+        })
+        newPlayerData.expenses.push({
+          id: playerData.expenses.length + 1,
+          name: 'Loans Payment',
+          amount: loanAmount * 0.1,
+        })
+      }
+    }
+    newPlayerData.cash -= totalExpenses
+    newPlayerData.diceNum = 1
+    newPlayerData.charityTurnLeft = 0
+    setPlayerData(newPlayerData)
+    setActionType('start')
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      playSFX('/assets/sounds/downsized.mp3')
+    }, 600)
+  }, [])
+
   return (
     <>
       <Header>
-        <Title>{title}</Title>
+        <Title>DOWNSIZED!</Title>
         <ThumbnailImg src="./assets/images/downsized-thumb.png" />
       </Header>
-      {description && <Description>{description}</Description>}
-      <Note>Pay ${currencyFormatter.format(expenses)}</Note>
-      <SubActions></SubActions>
+      <Description>Pay a full set of your expenses and charity</Description>
+      <Note>
+        Pay ${currencyFormatter.format(getTotalExpenseAmount(playerData))}
+      </Note>
+      {playerData.cash - getTotalExpenseAmount(playerData) < 0 && (
+        <Note
+          style={{ color: colors.red.base }}
+        >{`(You don't have enough cash.You must take a loan of $${getLoanAmount(
+          getTotalExpenseAmount(playerData) - playerData.cash
+        )} to afford this.)`}</Note>
+      )}
+      <Note style={{ flex: 1 }} />
       <MainActions>
         <ActionButton
           variant="contained"
           disableRipple
-          onClick={() => {
-            setActionType('start')
-          }}
+          onClick={handleDownsized}
         >
           PAY
         </ActionButton>
@@ -75,22 +140,6 @@ const MainActions = styled.div({
   },
 })
 
-const SubActions = styled.div({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'center',
-  columnGap: '2rem',
-  margin: '1rem',
-  width: '100%',
-  '& button': {
-    fontSize: '16px',
-    width: '128px',
-  },
-  '& img': {
-    width: '24px',
-  },
-})
-
 const ActionButton = styled(Button)({
   fontWeight: 800,
   '&:active': {
@@ -98,11 +147,5 @@ const ActionButton = styled(Button)({
     transform: 'scale(0.9)',
   },
 })
-
-DownsizedDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  expenses: PropTypes.number.isRequired,
-}
 
 //#endregion styled components

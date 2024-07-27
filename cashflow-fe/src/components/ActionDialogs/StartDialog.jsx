@@ -5,13 +5,43 @@ import { useContext } from 'react'
 import { GameContext, rollDice, playSFX, BOARD_SLOTS, drawCard } from '@/utils'
 
 const StartDialog = () => {
-  const { currentSlot, setActionType, setCurrentSlot, setPrevSlot, setCard } =
-    useContext(GameContext)
+  const {
+    playerData,
+    setPlayerData,
+    currentSlot,
+    setActionType,
+    setCurrentSlot,
+    setPrevSlot,
+    setCard,
+  } = useContext(GameContext)
 
+  /**
+   * > Handle the logic of rolling dice
+   * * 1. If player is under the effect of charity (can roll multiple dice):
+   * *  - Reduce the number of charityTurn to 1
+   * *  - If remaining number of charityTurnLeft is 1, reset the number of dice to 1
+   * * 2. Set the prevSlot to the current slotId
+   * * 3. Set the currentSlot to the next slotId the player will land on
+   * * 4. Set the action type to the type of target slot
+   * * 5. Draw a random card and store it in game data context
+   */
   const handleRoll = () => {
-    let move = rollDice()
+    let move = rollDice(playerData.diceNum)
     let slotId = (currentSlot + move) % 23
     let card = drawCard(BOARD_SLOTS[slotId].type)
+
+    if (playerData.charityTurnLeft === 1) {
+      setPlayerData((prev) => ({
+        ...prev,
+        diceNum: 1,
+      }))
+    }
+    if (playerData.charityTurnLeft > 0) {
+      setPlayerData((prev) => ({
+        ...prev,
+        charityTurnLeft: playerData.charityTurnLeft - 1,
+      }))
+    }
 
     setPrevSlot(currentSlot)
     setCurrentSlot((slot) => (slot + move) % 23)
