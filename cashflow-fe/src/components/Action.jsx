@@ -13,6 +13,7 @@ import {
   DoodadDialog,
   CharityDialog,
   BorrowDialog,
+  OpportunityStockSplitDetails,
 } from '@/components'
 import { mockRepayDialog, mockMarket } from '@/__mocks__'
 
@@ -39,6 +40,9 @@ const Action = () => {
         break
       case 'opportunity-stock':
         setDialog(<OpportunityStockDetails />)
+        break
+      case 'opportunity-stock-split':
+        setDialog(<OpportunityStockSplitDetails />)
         break
       case 'market':
         setDialog(<MarketDialog market={mockMarket} />)
