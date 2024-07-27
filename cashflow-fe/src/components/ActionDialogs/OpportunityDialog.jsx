@@ -9,14 +9,29 @@ const OpportunityDialog = () => {
 
   const handleSmallDeal = () => {
     let card = drawCard('opportunity', false)
+    updateAction(card.type)
     setCard(card)
-    setActionType('opportunity-stock')
   }
 
   const handleBigDeal = () => {
     let card = drawCard('opportunity', true)
     setCard(card)
-    setActionType('opportunity-stock')
+    updateAction(card.type)
+    setCard(card)
+  }
+
+  const updateAction = (cardType) => {
+    switch (cardType) {
+      case 'stock':
+        setActionType('opportunity-stock')
+        break
+      case 'stock-split':
+        setActionType('opportunity-stock-split')
+        break
+      default:
+        setActionType('start')
+        break
+    }
   }
 
   return (

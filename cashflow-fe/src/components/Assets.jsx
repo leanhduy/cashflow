@@ -17,10 +17,10 @@ const Assets = ({ assets }) => {
             assets.map((i) => (
               <ListItem key={i.id}>
                 <ListItemLeft>
-                  {i.quantity > 1 ? i.quantity : ''} {i.name}
+                  {i.quantity >= 1 ? i.quantity : ''} {i.name}
                 </ListItemLeft>
                 <ListItemRight>
-                  ${currencyFormatter.format(i.amount)}
+                  ${currencyFormatter.format(i.cost)}
                 </ListItemRight>
               </ListItem>
             ))}

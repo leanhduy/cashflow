@@ -74,24 +74,26 @@ const OpportunityStockDetails = () => {
     <>
       <Title>{card.title}</Title>
       <Description>{card.description}</Description>
-      <Details>
-        <DetailsColumn>
-          <Note>Cost: ${currencyFormatter.format(card.arg1)}</Note>
-          <Note>Cashflow: ${currencyFormatter.format(card.arg4)}</Note>
-        </DetailsColumn>
-        <DetailsColumn>
-          {card.type === 'stock' && (
-            <Note>
-              Trading Range: ${currencyFormatter.format(card.arg2)} to $
-              {currencyFormatter.format(card.arg3)}
-            </Note>
-          )}
-          {card.type === 'stock' && <Note>Shares owned: 0</Note>}
-          {card.type === 'estate' && (
-            <Note>Downpay: ${currencyFormatter.format(card.arg2)}</Note>
-          )}
-        </DetailsColumn>
-      </Details>
+      {card.type === 'stock' && (
+        <Details>
+          <DetailsColumn>
+            <Note>Cost: ${currencyFormatter.format(card.arg1)}</Note>
+            <Note>Cashflow: ${currencyFormatter.format(card.arg4)}</Note>
+          </DetailsColumn>
+          <DetailsColumn>
+            {card.type === 'stock' && (
+              <Note>
+                Trading Range: ${currencyFormatter.format(card.arg2)} to $
+                {currencyFormatter.format(card.arg3)}
+              </Note>
+            )}
+            {card.type === 'stock' && <Note>Shares owned: 0</Note>}
+            {card.type === 'estate' && (
+              <Note>Downpay: ${currencyFormatter.format(card.arg2)}</Note>
+            )}
+          </DetailsColumn>
+        </Details>
+      )}
       <span style={{ flex: 1 }} />
       <BuyForm onSubmit={handleBuy}>
         <InputContainer>
