@@ -10,7 +10,6 @@ const GameProvider = ({ children }) => {
   const [playerData, setPlayerData] = useState(generatePlayerData)
   const [card, setCard] = useState(null)
 
-  // Update player's in-game data
   useEffect(() => {
     if (prevSlot > 0) {
       let newCash =
