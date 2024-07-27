@@ -20,7 +20,7 @@ const Assets = ({ assets }) => {
                   {i.quantity > 1 ? i.quantity : ''} {i.name}
                 </ListItemLeft>
                 <ListItemRight>
-                  ${currencyFormatter.format(i.quantity * i.value)}
+                  ${currencyFormatter.format(i.amount)}
                 </ListItemRight>
               </ListItem>
             ))}

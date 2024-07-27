@@ -1,36 +1,47 @@
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import PropTypes from 'prop-types'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { GameContext } from '@/utils'
+import { GameContext, drawCard } from '@/utils'
 
-const OpportunityDialog = ({ title, description, info }) => {
-  const { setActionType } = useContext(GameContext)
+const OpportunityDialog = () => {
+  const { setCard, setActionType } = useContext(GameContext)
+
+  const handleSmallDeal = () => {
+    let card = drawCard('opportunity', false)
+    setCard(card)
+    setActionType('opportunity-stock')
+  }
+
+  const handleBigDeal = () => {
+    let card = drawCard('opportunity', true)
+    setCard(card)
+    setActionType('opportunity-stock')
+  }
+
   return (
     <>
       <Header>
-        <Title>{title}</Title>
+        <Title>DEAL OPPORTUNITY</Title>
         <ThumbnailImg src="./assets/images/opportunity-thumb.png" />
       </Header>
-      {description && <Description>{description}</Description>}
-      <Note>{info}</Note>
+      <Description>Which deal type do you want?</Description>
+      <Note>
+        Small deals cost $5,000 or less. Big deals cost $6,000 or more.
+      </Note>
+      <Note style={{ flex: 1 }} />
       <MainActions>
         <ActionButton
           variant="contained"
           disableRipple
-          onClick={() => {
-            setActionType('opportunity-details')
-          }}
+          onClick={handleSmallDeal}
         >
           SMALL
         </ActionButton>
         <ActionButton
           variant="contained"
           disableRipple
-          onClick={() => {
-            setActionType('opportunity-details')
-          }}
+          onClick={handleBigDeal}
           style={{ alignSelf: 'flex-end' }}
         >
           BIG
@@ -38,12 +49,6 @@ const OpportunityDialog = ({ title, description, info }) => {
       </MainActions>
     </>
   )
-}
-
-OpportunityDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  info: PropTypes.string,
 }
 
 export default OpportunityDialog
@@ -74,14 +79,12 @@ const Description = styled.span({
 const Note = styled.span({
   fontWeight: 700,
   alignSelf: 'flex-start',
-  flex: 1,
 })
 
 const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  margin: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',
@@ -99,5 +102,4 @@ const ActionButton = styled(Button)({
     transform: 'scale(0.9)',
   },
 })
-
 //#endregion styled components

@@ -2,38 +2,21 @@ import styled from '@emotion/styled'
 import { Button } from '@mui/material'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { GameContext, getLoanAmount } from '@/utils'
+import { GameContext, getLoanAmount, takeLoan } from '@/utils'
 
 const DoodadDialog = () => {
-  const { card, playerData, setActionType } = useContext(GameContext)
+  const { card, playerData, setPlayerData, setActionType } =
+    useContext(GameContext)
   const doodads = card
   /**
    * > Handle Doodads logic
    */
   const handleDoodads = () => {
     if (playerData.cash < doodads.cost) {
-      let loanAmount = getLoanAmount(doodads.cost - playerData.cash)
-      playerData.cash += loanAmount - doodads.cost
-      let idx = playerData.liabilities.findIndex((l) => l.name === 'Loans')
-      if (idx > -1) {
-        playerData.liabilities[idx].amount += loanAmount
-        playerData.expenses.find((e) => e.name === 'Loans Payment').amount +=
-          loanAmount * 0.1
-      } else {
-        playerData.liabilities.push({
-          id: playerData.liabilities.length + 1,
-          name: 'Loans',
-          amount: loanAmount,
-          type: 'bank',
-        })
-        playerData.expenses.push({
-          id: playerData.expenses.length + 1,
-          name: 'Loans Payment',
-          amount: loanAmount * 0.1,
-        })
-      }
+      let newPlayerData = takeLoan(playerData, doodads.cost)
+      setPlayerData(newPlayerData)
     } else {
-      playerData.cash -= doodads.cost
+      setPlayerData((data) => ({ ...data, cash: data.cash - doodads.cost }))
     }
     setActionType('start')
   }
@@ -90,14 +73,12 @@ const Description = styled.span({
 const Note = styled.span({
   fontWeight: 700,
   alignSelf: 'flex-start',
-  flex: 1,
 })
 
 const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-start',
-  margin: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

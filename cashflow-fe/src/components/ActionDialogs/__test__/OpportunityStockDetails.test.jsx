@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest'
 
-describe('OpportunityDetailsDialog', () => {
+describe('OpportunityStockDetails', () => {
   it('Test placeholder', () => {})
 })

@@ -36,6 +36,7 @@ const CharityDialog = () => {
           Math.floor(getTotalIncomeAmount(playerData) * 0.1)
         )}
       </Note>
+      <Note style={{ flex: 1 }} />
       <MainActions>
         <ActionButton variant="contained" disableRipple onClick={handleCharity}>
           DONATE
@@ -88,7 +89,6 @@ const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  margin: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

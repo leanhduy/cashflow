@@ -25,14 +25,14 @@ const FinancialStatus = () => {
           <Progress
             variant="determinate"
             value={
-              (getPassiveIncome(playerData.assets) /
+              (getPassiveIncome(playerData.incomes) /
                 getTotalIncomeAmount(playerData)) *
               100
             }
           />
           <ProgressBottomTitle>
             PASSIVE INCOME: $
-            {currencyFormatter.format(getPassiveIncome(playerData.assets))}
+            {currencyFormatter.format(getPassiveIncome(playerData.incomes))}
           </ProgressBottomTitle>
         </Box>
       </ProgressContainer>
