@@ -65,7 +65,10 @@ export const getMonthlyLoanPayment = (liability) => {
  * @returns The total sum of all dice
  */
 export const rollDice = (diceNo = 1) => {
-  return Math.floor(Math.random() * (6 * diceNo)) + 1
+  const min = diceNo
+  const max = diceNo * 6 + 1
+  const moves = Math.floor(Math.random() * (max - min) + min)
+  return moves
 }
 
 /**

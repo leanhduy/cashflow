@@ -2,11 +2,25 @@ import styled from '@emotion/styled'
 import { Button } from '@mui/material'
 import { colors } from '@/styles'
 import { useContext } from 'react'
-import { GameContext, currencyFormatter } from '@/utils'
+import { GameContext, currencyFormatter, getTotalIncomeAmount } from '@/utils'
 
 const CharityDialog = () => {
-  const { setActionType } = useContext(GameContext)
-  const totalIncome = 2100 // > Replace this with the context that store player total income
+  const { playerData, setPlayerData, setActionType } = useContext(GameContext)
+
+  const handleCharity = () => {
+    setPlayerData((data) => ({
+      ...data,
+      charityTurnLeft: 3,
+      diceNum: 2,
+      cash: data.cash - Math.floor(getTotalIncomeAmount(data) * 0.1),
+    }))
+    setActionType('start')
+  }
+
+  const handlePass = () => {
+    setActionType('start')
+  }
+
   return (
     <>
       <Header>
@@ -14,30 +28,22 @@ const CharityDialog = () => {
         <ThumbnailImg src="./assets/images/charity-thumb.png" />
       </Header>
       <Description>
-        Donate 10% of your total income to role 1 or 2 dice over the next 3
-        turns.
+        Donate 10% of your total income to roll 2 dice over the next 3 turns.
       </Description>
       <Note>
         Donate $
-        {currencyFormatter.format(parseInt((totalIncome * 0.1).toFixed()))}
+        {currencyFormatter.format(
+          Math.floor(getTotalIncomeAmount(playerData) * 0.1)
+        )}
       </Note>
       <MainActions>
-        <ActionButton
-          variant="contained"
-          disableRipple
-          onClick={() => {
-            // > PLACEHOLDER: Logic to update the financial statement HERE
-            setActionType('start')
-          }}
-        >
+        <ActionButton variant="contained" disableRipple onClick={handleCharity}>
           DONATE
         </ActionButton>
         <ActionButton
           variant="contained"
           disableRipple
-          onClick={() => {
-            setActionType('start')
-          }}
+          onClick={handlePass}
           style={{ alignSelf: 'flex-end' }}
         >
           PASS

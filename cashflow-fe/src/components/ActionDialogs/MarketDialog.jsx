@@ -94,6 +94,7 @@ const MainActions = styled.div({
 
 const ActionButton = styled(Button)({
   fontWeight: 800,
+  width: '120px',
   '&:active': {
     opacity: 0.8,
     transform: 'scale(0.9)',
