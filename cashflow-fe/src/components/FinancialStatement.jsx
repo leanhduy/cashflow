@@ -32,7 +32,7 @@ const FinancialStatement = () => {
       </StyledRow>
       <StyledRow>
         <StyledColumn>
-          <Assets assets={playerData.assets} />
+          <Assets assets={playerData.assets}/>
         </StyledColumn>
         <StyledColumn>
           <Liabilities liabilities={playerData.liabilities} />

@@ -8,6 +8,7 @@ import {
   getTotalExpenseAmount,
   getLoanAmount,
   playSFX,
+  takeLoan,
 } from '@/utils'
 
 /**
@@ -30,29 +31,12 @@ const DownsizedDialog = () => {
   const handleDownsized = () => {
     let newPlayerData = playerData
     let totalExpenses = getTotalExpenseAmount(newPlayerData)
+    // > Take loan if does not have enough cash
     if (newPlayerData.cash < totalExpenses) {
-      let loanAmount = getLoanAmount(totalExpenses - newPlayerData.cash)
-      newPlayerData.cash += loanAmount
-      let idx = newPlayerData.liabilities.findIndex((l) => l.name === 'Loans')
-      if (idx > -1) {
-        newPlayerData.liabilities[idx].amount += loanAmount
-        newPlayerData.expenses.find((e) => e.name === 'Loans Payment').amount +=
-          loanAmount * 0.1
-      } else {
-        newPlayerData.liabilities.push({
-          id: newPlayerData.liabilities.length + 1,
-          name: 'Loans',
-          amount: loanAmount,
-          type: 'bank',
-        })
-        newPlayerData.expenses.push({
-          id: playerData.expenses.length + 1,
-          name: 'Loans Payment',
-          amount: loanAmount * 0.1,
-        })
-      }
+      newPlayerData = takeLoan(newPlayerData, totalExpenses)
+    } else {
+      newPlayerData.cash -= totalExpenses
     }
-    newPlayerData.cash -= totalExpenses
     newPlayerData.diceNum = 1
     newPlayerData.charityTurnLeft = 0
     setPlayerData(newPlayerData)
@@ -123,14 +107,12 @@ const Description = styled.span({
 const Note = styled.span({
   fontWeight: 700,
   alignSelf: 'flex-start',
-  flex: 1,
 })
 
 const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  margin: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

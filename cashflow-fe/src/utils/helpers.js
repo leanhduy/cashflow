@@ -1,3 +1,5 @@
+import { createTheme } from '@mui/material'
+
 export const currencyFormatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
@@ -138,10 +140,15 @@ export const generatePlayerData = () => {
  *    ? id:
  *    ? name: Name of asset
  *    ? type: Type of assets (stock/realestate/gold/business)
- *    ? cashflow
+ *    ? amount
  */
-export const getPassiveIncome = (assets) => {
-  return assets.reduce((total, asset) => total + asset.cashflow, 0)
+export const getPassiveIncome = (incomes) => {
+  if (incomes.length === 0) {
+    return 0
+  }
+  return incomes
+    .filter((income) => income.type !== 'salary')
+    .reduce((total, income) => total + income.amount, 0)
 }
 
 /**
@@ -233,6 +240,36 @@ export const drawCard = (type, isBigOpportunity = false) => {
       break
   }
   return card
+}
+
+/**
+ * > Take a loan for the player and return the new player data
+ * @param {*} playerData the object contains current player's data
+ * @param {*} cost the cost of the assets need to be bought
+ * @returns the new player data after taking loan
+ */
+export const takeLoan = (playerData, cost) => {
+  let loanAmount = getLoanAmount(cost - playerData.cash)
+  playerData.cash += loanAmount - cost
+  let idx = playerData.liabilities.findIndex((l) => l.name === 'Loans')
+  if (idx > -1) {
+    playerData.liabilities[idx].amount += loanAmount
+    playerData.expenses.find((e) => e.name === 'Loans Payment').amount +=
+      loanAmount * 0.1
+  } else {
+    playerData.liabilities.push({
+      id: playerData.liabilities.length + 1,
+      name: 'Loans',
+      amount: loanAmount,
+      type: 'bank',
+    })
+    playerData.expenses.push({
+      id: playerData.expenses.length + 1,
+      name: 'Loans Payment',
+      amount: loanAmount * 0.1,
+    })
+  }
+  return playerData
 }
 
 //#endregion Game Helper Methods
@@ -344,7 +381,7 @@ export const DOODADS = [
   {
     id: 8,
     title: 'Buy New Fishing Rod',
-    description: '$100',
+    description: 'Pay $100',
     info: '',
     cost: 100,
   },
@@ -600,6 +637,7 @@ export const SMALL_DEALS = [
     title: 'Mutual Fund - GRO4US Fund',
     description: 'Lower interest rates drive market and fund to strong showing',
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 10,
     arg3: 30,
@@ -611,6 +649,7 @@ export const SMALL_DEALS = [
     description:
       'Brilliant young fund manager. Everyone believes he has the Midas touch.',
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 20,
     arg2: 10,
     arg3: 30,
@@ -622,6 +661,7 @@ export const SMALL_DEALS = [
     description:
       'Weak earnings by most companies lead to weak price of mutual fund.',
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 10,
     arg2: 10,
     arg3: 30,
@@ -632,6 +672,7 @@ export const SMALL_DEALS = [
     title: 'Mutual Fund - GRO4US Fund',
     description: `Powerhouse market drives strong fund's price up to record high.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 40,
     arg2: 10,
     arg3: 30,
@@ -642,6 +683,7 @@ export const SMALL_DEALS = [
     title: 'Mutual Fund - GRO4US Fund',
     description: `General market strength leads well managed fund's price to a strong level.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 10,
     arg3: 30,
@@ -652,6 +694,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Booming market leads to record share price of this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 40,
     arg2: 5,
     arg3: 30,
@@ -662,6 +705,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `High inflation leads to poor share price for this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 5,
     arg2: 5,
     arg3: 30,
@@ -672,7 +716,8 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Company reorganizes! Massive losses due to over-expansion and recession. Stockholders lose 1/2 of their ownership rights.`,
     info: 'Reverse split 1 for 2',
-    arg1: 0,
+    type: 'stock-auto',
+    arg1: true, // true if reverse-split, false if split
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -682,6 +727,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Record interest rates lead to substandard share price for this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 5,
     arg2: 5,
     arg3: 30,
@@ -692,6 +738,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Strong market leads to strong share price for this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 5,
     arg3: 30,
@@ -702,7 +749,8 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Business is up dramaticallly and the company is doing so well their shares have just split!.`,
     info: 'Split 2 for 1',
-    arg1: 0,
+    type: 'stock-auto',
+    arg1: false,
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -712,6 +760,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Trade war panic leads to record low share price for this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 1,
     arg2: 5,
     arg3: 30,
@@ -722,6 +771,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Weak market leads to sagging share price for this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 10,
     arg2: 5,
     arg3: 30,
@@ -732,6 +782,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Fast growing seller of home electronics headed by 32 year old Harvard grad.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 20,
     arg2: 5,
     arg3: 30,
@@ -742,6 +793,7 @@ export const SMALL_DEALS = [
     title: 'Stock - MYT4U Electronics Co.',
     description: `Low interest rates lead to substantial share price for this home electronics seller.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 5,
     arg3: 30,
@@ -753,7 +805,8 @@ export const SMALL_DEALS = [
     description:
       'Tenant fails to pay rent for 2 months and then skips town leaving damage to your rental property. Insurance covers most damage and costs, but you still are out of pocket $500.',
     info: 'Pay $500 if you own any rental property. (Bank will lend you the money on usual terms.)',
-    arg1: 0,
+    type: 'estate-auto',
+    arg1: 500,
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -763,6 +816,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Market strenth leads to high share price for this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 40,
     arg2: 5,
     arg3: 40,
@@ -773,6 +827,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Low inflation leads to high share price for this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 20,
     arg2: 5,
     arg3: 40,
@@ -780,10 +835,11 @@ export const SMALL_DEALS = [
   },
   {
     id: 19,
-    ttitle: 'Stock - OK4U Drug Co.',
+    title: 'Stock - OK4U Drug Co.',
     description: `Company flounders! Massive losses due to tainted drug scandal. All stockholders lose 1/2 of their ownership rights.`,
     info: 'Reverse split 1 for 2',
-    arg1: 0,
+    type: 'stock-auto',
+    arg1: true,
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -793,6 +849,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Booming market raises share price of this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 50,
     arg2: 5,
     arg3: 40,
@@ -803,6 +860,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Interest rates cripple share price of this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 5,
     arg2: 5,
     arg3: 40,
@@ -813,6 +871,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `High interest rates cause poor share price of this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: '',
     arg1: 10,
     arg2: 5,
     arg3: 40,
@@ -823,6 +882,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Inflation worries cause poor share price of this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 10,
     arg2: 5,
     arg3: 40,
@@ -833,6 +893,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Market panic causes crash in the shares of this long time maker of medicines.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 1,
     arg2: 5,
     arg3: 40,
@@ -843,6 +904,7 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Long time maker of medicines; especially drugs for people over 70.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 5,
     arg3: 40,
@@ -853,7 +915,8 @@ export const SMALL_DEALS = [
     title: 'Stock - OK4U Drug Co.',
     description: `Things are going so well for the company that their shares have just split!. Everyone who owns OK4U shares double the number of shares they own.`,
     info: 'Split 2 for 1',
-    arg1: 0,
+    type: 'stock-auto',
+    arg1: false,
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -861,8 +924,9 @@ export const SMALL_DEALS = [
   {
     id: 27,
     title: 'Stock - ON2U Entertainment Co.',
-    description: `Box office hit by dchildren's division causes record share price.`,
+    description: `Box office hit by children's division causes record share price.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 40,
     arg2: 10,
     arg3: 30,
@@ -873,6 +937,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Strong demand for company's library of old movies on video leads to good share price`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 10,
     arg3: 30,
@@ -883,6 +948,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Box office hit by children's division causes record share price.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 40,
     arg2: 10,
     arg3: 30,
@@ -893,6 +959,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Strong demand for company's library of old movies on video leads to good share price.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 10,
     arg3: 30,
@@ -903,6 +970,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `New director of movie acquisitions brings revived prospects for share price.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 20,
     arg2: 10,
     arg3: 30,
@@ -913,6 +981,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Movie buyer fired after third mega-flot! Shares sink. Chairman's bonus cancelled`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 5,
     arg2: 10,
     arg3: 30,
@@ -923,6 +992,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Box office smash hit in adult division causes share price.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 30,
     arg2: 10,
     arg3: 30,
@@ -933,6 +1003,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Recent merger strengthened market share of this leading company with good outlook.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 20,
     arg2: 10,
     arg3: 30,
@@ -943,6 +1014,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Newest theme park loses record amount. Share price hits all-time low.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 10,
     arg2: 10,
     arg3: 30,
@@ -953,6 +1025,7 @@ export const SMALL_DEALS = [
     title: 'Stock - ON2U Entertainment Co.',
     description: `Box office flow by musical extravaganza in core division causes poor share price.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 10,
     arg2: 10,
     arg3: 30,
@@ -963,6 +1036,7 @@ export const SMALL_DEALS = [
     title: 'Preferred Stock - 2BIG Power',
     description: `High yield, preferred shares of major domestic electric power company. Dividend and price fixed at "fair" level by state utility commission.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
     arg1: 1200,
     arg2: 1200,
     arg3: 1200,
@@ -973,6 +1047,7 @@ export const SMALL_DEALS = [
     title: 'You find a Great Deal!',
     description: `Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'estate',
     arg1: 35000, // cost
     arg2: 2000, // downpay
     arg3: 33000, // mortgage
@@ -983,6 +1058,7 @@ export const SMALL_DEALS = [
     title: 'You find a Great Deal!',
     description: `Company bought transferred manager's 3/2 house. No current tenant, has been on market 6 months, just reduced.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'estate',
     arg1: 45000,
     arg2: 2000,
     arg3: 43000,
@@ -994,6 +1070,7 @@ export const SMALL_DEALS = [
     description:
       'Nice 2/1 condo available due to marriage of owner. Bad area. Needs work.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 5000,
     arg3: 45000,
@@ -1004,6 +1081,7 @@ export const SMALL_DEALS = [
     title: 'Condo For Sale - 2BE/1BA',
     description: `Parents sellings 2/1 condo used by their child in college town. Lots of demand for rentals in this area.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 40000,
     arg2: 4000,
     arg3: 36000,
@@ -1015,6 +1093,7 @@ export const SMALL_DEALS = [
     description:
       'Older 2/1 condo offered by young couple who want to move up to a 3/2 house due to growing family. Available soon',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 55000,
     arg2: 5000,
     arg3: 50000,
@@ -1025,6 +1104,7 @@ export const SMALL_DEALS = [
     title: 'Condo For Sale - 2BE/1BA',
     description: `Excellent 2/1 condo with many extras. For sale due to business success of owner. She's moving up, so can you.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 60000,
     arg2: 5000,
     arg3: 55000,
@@ -1035,6 +1115,7 @@ export const SMALL_DEALS = [
     title: 'Condo For Sale - 2BE/1BA',
     description: `Bank foreclosure! 2/1 condo in desirable neighborhood close to jobs and stores. Make offer, favorable financing by bank.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 40000,
     arg2: 5000,
     arg3: 35000,
@@ -1045,6 +1126,7 @@ export const SMALL_DEALS = [
     title: 'House For Sale - 3BE/2BA',
     description: `Not lived in for 6 months, this bank-foreclosed house just reduced. Loan includes estimated repair costs.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 0,
     arg3: 50000,
@@ -1055,6 +1137,7 @@ export const SMALL_DEALS = [
     title: 'House For Sale - 3BE/2BA',
     description: `Low down payment to pick up this 3/2 house, owner unexpectedly moving out of town. Right person will do well.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 3000,
     arg3: 47000,
@@ -1065,6 +1148,7 @@ export const SMALL_DEALS = [
     title: 'House For Sale - 3BE/2BA',
     description: `3/2 house in older area offered by Highway Department. Market has crashed. No bids at last week's auction.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 0,
     arg3: 50000,
@@ -1075,6 +1159,7 @@ export const SMALL_DEALS = [
     title: 'House For Sale - 3BE/2BA',
     description: `Nice 3/2 rental house suddenly available due to estate closing. Well maintained older property with existing tenant.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 65000,
     arg2: 5000,
     arg3: 60000,
@@ -1085,6 +1170,7 @@ export const SMALL_DEALS = [
     title: 'House For Sale - 3BE/2BA',
     description: `Nice 3/2 house available in depresed market due to layoffs. Would make good investment property for right buyer.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 4000,
     arg3: 46000,
@@ -1095,9 +1181,10 @@ export const SMALL_DEALS = [
     title: '10 Acres Raw Land',
     description: `Wonderful park-like setting with stream on 10 acres in undeveloped area. No roads, no utilities, no noise.`,
     info: 'Use this yourself or sell to another player.',
-    arg1: 5000,
+    type: 'gold/land',
+    arg1: 5000, // price
     arg2: 0,
-    arg3: 5000,
+    arg3: 0,
     arg4: 0,
   },
   {
@@ -1105,9 +1192,10 @@ export const SMALL_DEALS = [
     title: 'Rare Gold Coin',
     description: `You spot an unusual 1500's Royal Spanish New World (Havana Mint Only) "pieces of eight" gold coin in good condition at a swap meet. One only, seller asks $500`,
     info: 'Use this yourself or sell to another player.',
+    type: 'gold/land',
     arg1: 500,
     arg2: 0,
-    arg3: 500,
+    arg3: 0,
     arg4: 0,
   },
 ]
@@ -1130,6 +1218,7 @@ export const BIG_DEALS = [
     description:
       'Reinvesting owner offers 8-plex for sale at reasonable price. Financing already in place. All it needs is your down payment',
     info: 'Use this yourself or sell to another player. 51% ROI, may sell for $200,000 to $280,000.',
+    type: 'estate',
     arg1: 220000,
     arg2: 40000,
     arg3: 180000,
@@ -1141,6 +1230,7 @@ export const BIG_DEALS = [
     description:
       'Professional person urgently needs cash to save partnership. 8-plex sale to raise capital, good opportunity for right person.',
     info: 'Use this yourself or sell to another player',
+    type: 'estate',
     arg1: 160000,
     arg2: 32000,
     arg3: 128000,
@@ -1152,6 +1242,7 @@ export const BIG_DEALS = [
     description:
       'Retiring investor/owner offers his 8-plex at current appraisal value. Professional lawn service and management. Full records.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 240000,
     arg2: 40000,
     arg3: 200000,
@@ -1163,6 +1254,7 @@ export const BIG_DEALS = [
     description:
       'Owner legal troubles lead to forced sale of this 8-plex. No qualifying on this loan, as mortgage holder is cooperating.',
     info: 'Use this yourself or sell to another player',
+    type: 'estate',
     arg1: 200000,
     arg2: 40000,
     arg3: 160000,
@@ -1174,6 +1266,7 @@ export const BIG_DEALS = [
     description:
       '4-plex available - forced sale. Out-of-state, financially distressed owned years behind on taxes. Some records available.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 80000,
     arg2: 16000,
     arg3: 64000,
@@ -1185,6 +1278,7 @@ export const BIG_DEALS = [
     description:
       'Project 4-plex for sale in rehabilitating neighborhood. Owner being forced out by income tax liens',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 80000,
     arg2: 20000,
     arg3: 60000,
@@ -1196,6 +1290,7 @@ export const BIG_DEALS = [
     description:
       'Older 4-plex next to new highway for sale. Owner/oocupant moving to quieter area. Priced for quick sale.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 90000,
     arg2: 15000,
     arg3: 75000,
@@ -1207,6 +1302,7 @@ export const BIG_DEALS = [
     description:
       '4-plex for sale by owner, moving to another state. Full records, fully rented, low occupant turnover in good neightborhood.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 140000,
     arg2: 32000,
     arg3: 108000,
@@ -1218,6 +1314,7 @@ export const BIG_DEALS = [
     description:
       'Nice, well maintain 4-plex in good neighborhood. Stable tenants, positive cash flow, few problems. Full records.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 125000,
     arg2: 15000,
     arg3: 110000,
@@ -1229,6 +1326,7 @@ export const BIG_DEALS = [
     description:
       '4-plex in recovering neighborhood. Fully rented, repairs kept up. Needs your down payment and patience.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 100000,
     arg2: 20000,
     arg3: 80000,
@@ -1240,6 +1338,7 @@ export const BIG_DEALS = [
     description:
       'Divorce leads to sale of this 3/2 house in an area full of owner occupied homes. Has been on the market 5 months.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 70000,
     arg2: 20000,
     arg3: 50000,
@@ -1251,6 +1350,7 @@ export const BIG_DEALS = [
     description:
       'Good investment potential in this 3/2 house if you can be patient. Positive cash flow even though rents are weak.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 65000,
     arg2: 8000,
     arg3: 57000,
@@ -1262,6 +1362,7 @@ export const BIG_DEALS = [
     description:
       '3/2 house on golf course offers potential capital gain pus current cash flow. Good rentals and nice financing.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 75000,
     arg2: 7000,
     arg3: 68000,
@@ -1273,6 +1374,7 @@ export const BIG_DEALS = [
     description:
       'Businessman liquidating this 3/2 house, needs cash to save his business. Currently occupied by happy tenant.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 65000,
     arg2: 7000,
     arg3: 58000,
@@ -1284,6 +1386,7 @@ export const BIG_DEALS = [
     description:
       'Split level 3/2 house on out of way golf course offered by heirs of owner. Golf membership included.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 115000,
     arg2: 10000,
     arg3: 105000,
@@ -1295,6 +1398,7 @@ export const BIG_DEALS = [
     description:
       'Nice 3/2 house with in ground pool and full applicances available in upper middle class area. Good schools.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 125000,
     arg2: 20000,
     arg3: 105000,
@@ -1306,6 +1410,7 @@ export const BIG_DEALS = [
     description:
       'Downsized manager must sell this 3/2 house, cannot afford payments on new salary. Area in transition.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 70000,
     arg2: 9000,
     arg3: 61000,
@@ -1317,6 +1422,7 @@ export const BIG_DEALS = [
     description:
       'Transferred skilled tradesman kept this 3/2 house in excellent condition, so it commands top dollar rentals in older neightborhood.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 67000,
     arg2: 12000,
     arg3: 55000,
@@ -1328,6 +1434,7 @@ export const BIG_DEALS = [
     description:
       'Successful 4 bay coin operated auto wash near busy intersection. Seller is moving to retirement community out of state.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 125000,
     arg2: 25000,
     arg3: 100000,
@@ -1339,6 +1446,7 @@ export const BIG_DEALS = [
     description:
       '30 video/pinball machines at long term contract locations for sale by overextended owner. Owner is desperate.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 100000,
     arg2: 20000,
     arg3: 80000,
@@ -1350,6 +1458,7 @@ export const BIG_DEALS = [
     description:
       'Successful coin telephone business available due to death of owner. heirs live out of state. All locations on long term contract.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 200000,
     arg2: 40000,
     arg3: 160000,
@@ -1361,6 +1470,7 @@ export const BIG_DEALS = [
     description:
       'Personal bankruptcy sale of busy, successful laundromat on busy highway. Absentee owner, contract cleaning.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 150000,
     arg2: 30000,
     arg3: 120000,
@@ -1372,6 +1482,7 @@ export const BIG_DEALS = [
     description:
       '20 acres of vacant land, currently zoned residential. Possiblity of good appreciation if rezoned commercial.',
     info: 'Use this yourself or sell to another player.',
+    type: 'gold/land',
     arg1: 20000,
     arg2: 20000,
     arg3: 0,
@@ -1383,7 +1494,8 @@ export const BIG_DEALS = [
     description:
       'Tenant refuses to pay rent after losing job. When you get him evicted you discover significant damages to your property. Insurance covers most damages and costs, but you are out of pocket $1,000.',
     info: 'Pay $1,000 if you own any rental real estate. (Bank loan available on usual terms.)',
-    arg1: 0,
+    type: 'estate-auto',
+    arg1: 1000,
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -1394,6 +1506,7 @@ export const BIG_DEALS = [
     description:
       'Non-franchise sandwich shop doubling the number of locations Owner needs additional equity capital to get operating loan.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 30000,
     arg2: 30000,
     arg3: 0,
@@ -1404,6 +1517,7 @@ export const BIG_DEALS = [
     title: 'Limited Partner Wanted',
     description: `Auto Dealer wants to expand into leasing 2 and 3 years old cars. Needs capital as car maker's finance company is not interested.`,
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 30000,
     arg2: 30000,
     arg3: 0,
@@ -1415,6 +1529,7 @@ export const BIG_DEALS = [
     description:
       'Successful doctor expanding office and clinic. Needs partner to fund equity portion of construction costs.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 25000,
     arg2: 25000,
     arg3: 0,
@@ -1426,6 +1541,7 @@ export const BIG_DEALS = [
     description:
       'Successful pizza chain expanding into production of frozen pizzas for grocery stores. Owner needs capital for equipment.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 20000,
     arg2: 20000,
     arg3: 0,
@@ -1437,6 +1553,7 @@ export const BIG_DEALS = [
     description:
       'Healthy-pizza company franchise. Trend in nutritious fast-food booming. Next to college. High traffic.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 500000,
     arg2: 100000,
     arg3: 400000,
@@ -1448,6 +1565,7 @@ export const BIG_DEALS = [
     description:
       'Duplex owner must sell to pay hospital bills. Two tenants in place, all records, good investment opportunity.',
     info: 'Use this yourself or sell to another player',
+    type: '',
     arg1: 60000,
     arg2: 12000,
     arg3: 48000,
@@ -1459,6 +1577,7 @@ export const BIG_DEALS = [
     description:
       'Tenants in place at this investment duplex! Owner has income tax problems, needs to sell quickly.',
     info: 'Use this yourself or sell to another player',
+    type: 'estate',
     arg1: 45000,
     arg2: 8000,
     arg3: 37000,
@@ -1470,6 +1589,7 @@ export const BIG_DEALS = [
     description:
       'This duplex is the best in the neighborhood! Proud owner retiring to another state to be near her grandchildren.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 70000,
     arg2: 7000,
     arg3: 63000,
@@ -1481,6 +1601,7 @@ export const BIG_DEALS = [
     description:
       'Well maintained duplex in the desirable area available due to transfer of owner. Excellent investment opportunity for right buyer.',
     info: 'Use this yourself or sell to another player.',
+    type: '',
     arg1: 60000,
     arg2: 6000,
     arg3: 54000,
@@ -1492,6 +1613,7 @@ export const BIG_DEALS = [
     description:
       'Owner moving out of this duplex due to growing family. Tenant remains, well maintained, excellent landscaping.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 8000,
     arg3: 42000,
@@ -1503,6 +1625,7 @@ export const BIG_DEALS = [
     description:
       'Owner retiring, wants out NOW. Great clientele in resort community. 5BR/3BA',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 150000,
     arg2: 30000,
     arg3: 120000,
@@ -1514,6 +1637,7 @@ export const BIG_DEALS = [
     description:
       '2 buildings totaling 24 units for sale. Owner managed with on-site assistant. Retirement prompts sale.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 575000,
     arg2: 75000,
     arg3: 500000,
@@ -1525,6 +1649,7 @@ export const BIG_DEALS = [
     description:
       '12 units apartment house offered by out-of-state heirs of handyman/owner. Long waiting list for apartments in this building.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 350000,
     arg2: 50000,
     arg3: 300000,
@@ -1536,6 +1661,7 @@ export const BIG_DEALS = [
     description:
       '24 unit older building near community college available from retiring owner/builder. Fully rented, nice cash flow.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 550000,
     arg2: 50000,
     arg3: 500000,
@@ -1547,6 +1673,7 @@ export const BIG_DEALS = [
     description:
       'Family car wash for sale. Family feuding. Wants out ASAP. Prime location in highgrowth area.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 350000,
     arg2: 50000,
     arg3: 300000,
@@ -1558,6 +1685,7 @@ export const BIG_DEALS = [
     description:
       '60 units complex available from pension fund that foreclosed on builder/owner. On-site management in place.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 1200000,
     arg2: 200000,
     arg3: 1000000,
@@ -1569,7 +1697,8 @@ export const BIG_DEALS = [
     description:
       'Water everywhere at your 8-plex! Broken sewer line needs repair immediately!',
     info: 'If you own an 8-plex, pay $2,000 for new line. (Bank loan available on usual terms)',
-    arg1: 0,
+    type: 'estate-auto',
+    arg1: 2000,
     arg2: 0,
     arg3: 0,
     arg4: 0,
@@ -1580,6 +1709,7 @@ export const BIG_DEALS = [
     description:
       'Bank has taken back mall from bankrupt owner. Mall is currently 50% occupied. Just listed today.',
     info: 'Use this yourself or sell to another player.',
+    type: 'estate',
     arg1: 50000,
     arg2: 50000,
     arg3: 0,
@@ -2043,3 +2173,23 @@ export const PROFESSIONS = [
 //#endregion PROFESSIONS
 
 //#endregion GAME DATA
+
+//#region Custom MUI theme
+export const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Nunito',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+})
+//#endregion Custom MUI theme

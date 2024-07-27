@@ -93,7 +93,6 @@ const Description = styled.span({
 const Note = styled.span({
   fontWeight: 700,
   alignSelf: 'flex-start',
-  flex: 1,
 })
 
 const BorrowForm = styled.form({
@@ -115,14 +114,14 @@ const InputActions = styled.div({
 })
 
 const InputButton = styled(IconButton)({
-  height: '24px',
-  width: '24px',
+  height: '18px',
+  width: '18px',
 })
 
 const StyledInput = styled.input({
-  fontSize: '1.5rem',
+  fontSize: '1.3rem',
   width: '30%',
-  height: '100%',
+  height: '70%',
 })
 
 const MainActions = styled.div({

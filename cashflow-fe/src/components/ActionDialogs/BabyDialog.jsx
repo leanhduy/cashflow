@@ -104,7 +104,6 @@ const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-start',
-  margin: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

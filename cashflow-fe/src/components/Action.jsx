@@ -8,18 +8,13 @@ import {
   DownsizedDialog,
   BabyDialog,
   OpportunityDialog,
-  OpportunityDetailsDialog,
+  OpportunityStockDetails,
   MarketDialog,
   DoodadDialog,
   CharityDialog,
   BorrowDialog,
 } from '@/components'
-import {
-  mockRepayDialog,
-  mockOpportunityDialog,
-  mockBigDeal,
-  mockMarket,
-} from '@/__mocks__'
+import { mockRepayDialog, mockMarket } from '@/__mocks__'
 
 const Action = () => {
   const { actionType } = useContext(GameContext)
@@ -40,10 +35,10 @@ const Action = () => {
         setDialog(<BabyDialog />)
         break
       case 'opportunity':
-        setDialog(<OpportunityDialog {...mockOpportunityDialog} />)
+        setDialog(<OpportunityDialog />)
         break
-      case 'opportunity-details':
-        setDialog(<OpportunityDetailsDialog {...mockBigDeal} />)
+      case 'opportunity-stock':
+        setDialog(<OpportunityStockDetails />)
         break
       case 'market':
         setDialog(<MarketDialog market={mockMarket} />)
@@ -75,9 +70,10 @@ const Container = styled.div({
   boxShadow: 'rgba(12,12,12, 0.8) 4px 4px 4px',
   display: 'flex',
   flexDirection: 'column',
-  height: '300px',
+  height: '275px',
   padding: '1.25rem 2rem',
   rowGap: '.5rem',
   width: '80%',
+  overflowY: 'auto',
 })
 //#endregion styled components
