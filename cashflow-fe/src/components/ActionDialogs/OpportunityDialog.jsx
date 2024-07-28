@@ -28,6 +28,9 @@ const OpportunityDialog = () => {
       case 'stock-split':
         setActionType('opportunity-stock-split')
         break
+      case 'estate':
+        setActionType('opportunity-estate')
+        break
       default:
         setActionType('start')
         break
@@ -77,7 +80,7 @@ const Header = styled.div({
 })
 
 const ThumbnailImg = styled.img({
-  width: '96px',
+  width: '80px',
 })
 
 const Title = styled.h2({

@@ -91,7 +91,7 @@ const Header = styled.div({
 })
 
 const ThumbnailImg = styled.img({
-  width: '96px',
+  width: '80px',
 })
 
 const Title = styled.h2({

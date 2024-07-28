@@ -67,3 +67,4 @@ $M = P * r$
 - [Lost icons created by afif fudin - Flaticon](https://www.flaticon.com/free-icons/lost)
 - [Help icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/help)
 - [Loan icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/loan)
+- [Residential icons created by Dewi Sari - Flaticon](https://www.flaticon.com/free-icons/residential)
