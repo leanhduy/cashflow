@@ -29,6 +29,8 @@ const OpportunityDialog = () => {
         setActionType('opportunity-stock-split')
         break
       case 'estate':
+      case 'gold':
+      case 'land':
         setActionType('opportunity-estate')
         break
       case 'estate-auto':
