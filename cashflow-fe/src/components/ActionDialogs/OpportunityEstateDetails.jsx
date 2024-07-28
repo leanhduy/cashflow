@@ -69,15 +69,17 @@ const OpportunityEstateDetails = () => {
             </Header>
             <Description>{card.description}</Description>
             <Note>{card.info}</Note>
-            {card.type === 'estate' && (
-              <Details>
-                <DetailsColumn>
-                  <Note>Cost: ${currencyFormatter.format(card.arg1)}</Note>
+            <Details>
+              <DetailsColumn>
+                <Note>Cost: ${currencyFormatter.format(card.arg1)}</Note>
+                {card.type === 'estate' && (
                   <Note>Cashflow: ${currencyFormatter.format(card.arg4)}</Note>
+                )}
+                {card.type === 'estate' && (
                   <Note>Downpay: ${currencyFormatter.format(card.arg2)}</Note>
-                </DetailsColumn>
-              </Details>
-            )}
+                )}
+              </DetailsColumn>
+            </Details>
             {card.arg2 > playerData.cash && (
               <ImportantNote>{`(You don't have enough cash. Must take a loan of $${currencyFormatter.format(
                 getLoanAmount(card.arg2 - playerData.cash)
@@ -85,7 +87,15 @@ const OpportunityEstateDetails = () => {
             )}
           </Left>
           <Right>
-            <ThumbnailImg src="./assets/images/estate.png" />
+            <ThumbnailImg
+              src={
+                card.type === 'estate'
+                  ? './assets/images/estate.png'
+                  : card.type === 'gold'
+                  ? './assets/images/coin.png'
+                  : './assets/images/land.png'
+              }
+            />
           </Right>
         </Top>
         <Bottom>
