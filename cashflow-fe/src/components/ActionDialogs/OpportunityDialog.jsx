@@ -31,6 +31,9 @@ const OpportunityDialog = () => {
       case 'estate':
         setActionType('opportunity-estate')
         break
+      case 'estate-auto':
+        setActionType('opportunity-estate-auto')
+        break
       default:
         setActionType('start')
         break
