@@ -7,6 +7,7 @@ import {
   currencyFormatter,
   getLoanAmount,
   takeLoan,
+  checkWinningCondition,
 } from '@/utils'
 
 const OpportunityEstateDetails = () => {
@@ -39,7 +40,7 @@ const OpportunityEstateDetails = () => {
     }
     newPlayerData.assets.push(newAsset)
 
-    // > Add new item to the player's Liabilities (Will add in the future after repay is implemented)
+    // > TODO: Add new item to the player's Liabilities (Will add in the future after repay is implemented)
     // let newLiability = {
     //   id:
     //     newPlayerData.liabilities.length === 0
@@ -62,6 +63,7 @@ const OpportunityEstateDetails = () => {
         amount: card.arg4,
       }
       newPlayerData.incomes.push(newIncome)
+      checkWinningCondition(newPlayerData)
     }
     // > Update the context player context data
     setPlayerData(newPlayerData)

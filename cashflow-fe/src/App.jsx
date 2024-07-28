@@ -1,24 +1,22 @@
 import styled from '@emotion/styled'
 import './App.css'
-import { Board, FinancialStatement, Action, GameProvider } from '@/components'
+import { Board, FinancialStatement, Action } from '@/components'
 
 function App() {
   return (
-    <GameProvider>
-      <Container>
-        <LeftSection>
-          <FinancialStatement />
-        </LeftSection>
-        <RightSection>
-          <RightTopSection>
-            <Action />
-          </RightTopSection>
-          <RightBottomSection>
-            <Board />
-          </RightBottomSection>
-        </RightSection>
-      </Container>
-    </GameProvider>
+    <Container>
+      <LeftSection>
+        <FinancialStatement />
+      </LeftSection>
+      <RightSection>
+        <RightTopSection>
+          <Action />
+        </RightTopSection>
+        <RightBottomSection>
+          <Board />
+        </RightBottomSection>
+      </RightSection>
+    </Container>
   )
 }
 

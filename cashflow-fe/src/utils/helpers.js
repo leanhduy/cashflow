@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material'
+import Swal from 'sweetalert2'
 
 export const currencyFormatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 0,
@@ -273,6 +274,24 @@ export const takeLoan = (playerData, cost) => {
     })
   }
   return playerData
+}
+
+export const checkWinningCondition = (data) => {
+  let passiveIncome = getPassiveIncome(data.incomes)
+  let totalExpense = getTotalExpenseAmount(data)
+  if (passiveIncome > totalExpense) {
+    Swal.fire({
+      title: 'Congratulations!',
+      text: 'Your passive income now exceeds your total expenses. You are out of the Rat Race and ready to pursue your dreams!',
+      imageUrl: 'https://cdn-icons-png.flaticon.com/128/9281/9281540.png',
+      imageWidth: 96,
+      imageHeight: 96,
+      imageAlt: 'Custom image',
+      confirmButtonText: 'Start a new game',
+    }).then(() => {
+      window.location.reload() // > Start new game by refresh the browser
+    })
+  }
 }
 
 //#endregion Game Helper Methods

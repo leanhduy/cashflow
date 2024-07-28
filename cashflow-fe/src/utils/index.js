@@ -13,5 +13,6 @@ export {
   drawCard,
   theme,
   takeLoan,
+  checkWinningCondition,
 } from './helpers'
 export { GameContext } from './contexts'

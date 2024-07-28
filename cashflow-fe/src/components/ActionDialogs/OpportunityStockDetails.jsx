@@ -7,6 +7,7 @@ import {
   currencyFormatter,
   getLoanAmount,
   takeLoan,
+  checkWinningCondition,
 } from '@/utils'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -53,6 +54,7 @@ const OpportunityStockDetails = () => {
           amount: card.arg4,
         }
         newPlayerData.incomes.push(newIncome)
+        checkWinningCondition(newPlayerData)
       }
       // > Update the context player context data
       setPlayerData(newPlayerData)

@@ -27,7 +27,12 @@ const FinancialStatus = () => {
             value={
               (getPassiveIncome(playerData.incomes) /
                 getTotalExpenseAmount(playerData)) *
+                100 >
               100
+                ? 100
+                : (getPassiveIncome(playerData.incomes) /
+                    getTotalExpenseAmount(playerData)) *
+                  100
             }
           />
           <ProgressBottomTitle>
