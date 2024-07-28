@@ -36,6 +36,7 @@ const OpportunityStockDetails = () => {
           playerData.assets.length === 0 ? 1 : playerData.assets.at(-1).id + 1,
         name: card.title,
         type: 'stock',
+        subtype: null,
         amount: card.arg1 * quantity,
         cost: card.arg1,
         quantity: quantity,

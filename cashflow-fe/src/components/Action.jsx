@@ -17,7 +17,7 @@ import {
   OpportunityEstateDetails,
   OpportunityEstateAutoDetails,
 } from '@/components'
-import { mockRepayDialog, mockMarket } from '@/__mocks__'
+import { mockRepayDialog } from '@/__mocks__'
 
 const Action = () => {
   const { actionType } = useContext(GameContext)
@@ -53,7 +53,7 @@ const Action = () => {
         setDialog(<OpportunityEstateAutoDetails />)
         break
       case 'market':
-        setDialog(<MarketDialog market={mockMarket} />)
+        setDialog(<MarketDialog />)
         break
       case 'doodads':
         setDialog(<DoodadDialog />)
