@@ -634,14 +634,15 @@ export const DOODADS = [
 // ! Removed after done with development
 export const SMALL_DEALS = [
   {
-    id: 7,
-    title: 'Stock - MYT4U Electronics Co.',
-    description: `High inflation leads to poor share price for this home electronics seller.`,
-    info: 'Only you can buy at this price. Others may sell at this price.',
-    type: 'stock',
-    arg1: 5,
-    arg2: 5,
-    arg3: 30,
+    id: 16,
+    title: 'Tenant Damages your Property',
+    description:
+      'Tenant fails to pay rent for 2 months and then skips town leaving damage to your rental property. Insurance covers most damage and costs, but you still are out of pocket $500.',
+    info: 'Pay $500 if you own any rental property. (Bank will lend you the money on usual terms.)',
+    type: 'estate-auto',
+    arg1: 500,
+    arg2: 0,
+    arg3: 0,
     arg4: 0,
   },
   {
@@ -655,6 +656,28 @@ export const SMALL_DEALS = [
     arg3: 33000, // mortgage
     arg4: 220, // cash flow
   },
+  // {
+  //   id: 50,
+  //   title: '10 Acres Raw Land',
+  //   description: `Wonderful park-like setting with stream on 10 acres in undeveloped area. No roads, no utilities, no noise.`,
+  //   info: 'Use this yourself or sell to another player.',
+  //   type: 'gold/land',
+  //   arg1: 5000, // price
+  //   arg2: 0,
+  //   arg3: 0,
+  //   arg4: 0,
+  // },
+  // {
+  //   id: 51,
+  //   title: 'Rare Gold Coin',
+  //   description: `You spot an unusual 1500's Royal Spanish New World (Havana Mint Only) "pieces of eight" gold coin in good condition at a swap meet. One only, seller asks $500`,
+  //   info: 'Use this yourself or sell to another player.',
+  //   type: 'gold/land',
+  //   arg1: 500,
+  //   arg2: 0,
+  //   arg3: 0,
+  //   arg4: 0,
+  // },
 ]
 
 // ! Change back to SMALL_DEALS after testing

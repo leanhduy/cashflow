@@ -68,3 +68,4 @@ $M = P * r$
 - [Help icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/help)
 - [Loan icons created by Smashicons - Flaticon](https://www.flaticon.com/free-icons/loan)
 - [Residential icons created by Dewi Sari - Flaticon](https://www.flaticon.com/free-icons/residential)
+- [Earthquake icons created by GOWI - Flaticon](https://www.flaticon.com/free-icons/earthquake)

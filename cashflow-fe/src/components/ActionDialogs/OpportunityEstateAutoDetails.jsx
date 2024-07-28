@@ -9,54 +9,31 @@ import {
   takeLoan,
 } from '@/utils'
 
-const OpportunityEstateDetails = () => {
+const OpportunityEstateAutoDetails = () => {
   const { card, playerData, setPlayerData, setActionType } =
     useContext(GameContext)
 
   //#region Event handlers
-  const handleBuy = () => {
-    let newPlayerData = playerData
-    // > Take a loan if cash is insufficient (cash < downpay). Otherwise just deduce the player's cash
-    if (newPlayerData.cash < card.arg2) {
-      newPlayerData = takeLoan(newPlayerData, card.arg2)
-    } else {
-      newPlayerData.card -= card.arg2
-    }
-    // > Add new item to the assets
-    let newAsset = {
-      id:
-        newPlayerData.assets.length === 0
-          ? 1
-          : newPlayerData.assets.at(-1).id + 1,
-      name: card.title,
-      type: 'estate',
-      cost: card.arg1,
-      downpay: card.arg2,
-      mortgage: card.arg3,
-      cashflow: card.arg4,
-    }
-    newPlayerData.assets.push(newAsset)
-    // > Add to player's income, if stock has positive cashflow
-    if (card.arg4 > 0) {
-      let newIncome = {
-        id:
-          newPlayerData.assets.length === 0
-            ? 1
-            : newPlayerData.assets.at(-1).id + 1,
-        name: card.title,
-        amount: card.arg4,
+  const handleOK = () => {
+    // > Pay if own any real estate
+    if (
+      playerData.assets.filter((asset) => asset.type === 'estate').length > 0
+    ) {
+      let newPlayerData = playerData
+
+      // > Take loan if cash is insufficient
+      if (card.arg1 > newPlayerData.cash) {
+        newPlayerData = takeLoan(newPlayerData, card.arg1)
+      } else {
+        newPlayerData.cash -= card.arg1
       }
-      newPlayerData.incomes.push(newIncome)
+
+      // > Update the context player context data
+      setPlayerData(newPlayerData)
     }
-    // > Update the context player context data
-    setPlayerData(newPlayerData)
-
     setActionType('start')
   }
 
-  const handleCancel = () => {
-    setActionType('start')
-  }
   //#endregion Event handlers
 
   return (
@@ -78,23 +55,20 @@ const OpportunityEstateDetails = () => {
                 </DetailsColumn>
               </Details>
             )}
-            {card.arg2 > playerData.cash && (
+            {card.arg1 > playerData.cash && (
               <ImportantNote>{`(You don't have enough cash. Must take a loan of $${currencyFormatter.format(
-                getLoanAmount(card.arg2 - playerData.cash)
+                getLoanAmount(card.arg1 - playerData.cash)
               )})`}</ImportantNote>
             )}
           </Left>
           <Right>
-            <ThumbnailImg src="./assets/images/estate.png" />
+            <ThumbnailImg src="./assets/images/damage.png" />
           </Right>
         </Top>
         <Bottom>
           <MainActions>
-            <ActionButton variant="contained" onClick={handleBuy}>
-              BUY
-            </ActionButton>
-            <ActionButton variant="contained" onClick={handleCancel}>
-              CANCEL
+            <ActionButton variant="contained" onClick={handleOK}>
+              OK
             </ActionButton>
           </MainActions>
         </Bottom>
@@ -103,7 +77,7 @@ const OpportunityEstateDetails = () => {
   )
 }
 
-export default OpportunityEstateDetails
+export default OpportunityEstateAutoDetails
 
 //#region styled components
 const Container = styled.div({
