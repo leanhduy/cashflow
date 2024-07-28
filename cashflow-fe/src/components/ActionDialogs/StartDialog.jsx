@@ -51,7 +51,9 @@ const StartDialog = () => {
   }
   return (
     <>
-      <Title>{`Player 1's turn.`}</Title>
+      <Header>
+        <Title>{`Player's turn.`}</Title>
+      </Header>
       <Description>
         When you are ready, roll the dice and take your turn
       </Description>
@@ -83,6 +85,7 @@ const StartDialog = () => {
           REPAY
         </ActionButton>
       </SubActions>
+      <Note style={{ flex: 1 }} />
       <MainActions>
         <ActionButton
           variant="contained"
@@ -100,6 +103,13 @@ const StartDialog = () => {
 export default StartDialog
 
 //#region styled components
+const Header = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+})
+
 const Title = styled.h2({
   color: colors.red.base,
   margin: 0,
@@ -120,7 +130,7 @@ const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'flex-start',
-  margin: '1rem',
+  columnGap: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

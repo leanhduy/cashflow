@@ -21,7 +21,7 @@ const OpportunityEstateDetails = () => {
     if (newPlayerData.cash < card.arg2) {
       newPlayerData = takeLoan(newPlayerData, card.arg2)
     } else {
-      newPlayerData.card -= card.arg2
+      newPlayerData.cash -= card.arg2
     }
     // > Add new item to the player's Assets
     let newAsset = {
@@ -201,7 +201,8 @@ const ImportantNote = styled(Note)({
 const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
+  columnGap: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

@@ -17,6 +17,7 @@ function App() {
         </RightBottomSection>
       </RightSection>
     </Container>
+    // </GameProvider>
   )
 }
 
@@ -42,13 +43,14 @@ const RightSection = styled.div({
   flexDirection: 'column',
   height: '100%',
   width: '55%',
+  rowGap: '1rem',
 })
 
 const RightTopSection = styled.div({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
-  margin: '1rem',
+  margin: '.5rem 2rem',
   height: '40%',
 })
 

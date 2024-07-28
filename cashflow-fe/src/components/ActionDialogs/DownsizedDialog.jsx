@@ -112,7 +112,8 @@ const Note = styled.span({
 const MainActions = styled.div({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: 'flex-start',
+  columnGap: '1rem',
   width: '100%',
   '& button': {
     fontSize: '20px',

@@ -134,7 +134,7 @@ export const mockLiabilities = [
 ]
 
 export const mockStartDialog = {
-  playerName: 'Player 1',
+  playerName: 'Player',
   description: 'When you are ready, roll the dice and take your turn',
   note: 'Before you start your turn, review your financial statement. You may also use this time to repay liabilities or borrow money.',
 }

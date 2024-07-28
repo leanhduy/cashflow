@@ -13,6 +13,7 @@ import { useContext } from 'react'
 
 const FinancialStatus = () => {
   const { playerData } = useContext(GameContext)
+
   return (
     <StyledContainer>
       <Title>INCREASE PASSIVE INCOME TO ESCAPE THE RAT RACE</Title>
