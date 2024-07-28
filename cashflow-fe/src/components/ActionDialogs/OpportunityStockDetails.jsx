@@ -68,73 +68,132 @@ const OpportunityStockDetails = () => {
     setQuantity(isNaN(num) || num < 0 ? 0 : num)
   }
 
+  const handleSell = () => {
+    let newPlayerData = playerData
+    let shares = newPlayerData.assets
+      .filter((a) => a.type === 'stock' && a.name === card.title)
+      .reduce((total, a) => total + a.quantity, 0)
+    let cash = card.arg1 * shares
+    // > Add shares to the player cash
+    newPlayerData.cash += cash
+    // > Remove stocks from player's assets
+    newPlayerData.assets = [
+      ...newPlayerData.assets.filter((a) => a.name !== card.title),
+    ]
+    // > Update the player data context
+    setPlayerData(newPlayerData)
+    setActionType('start')
+  }
+
   //#endregion Event handlers
 
   return (
     <>
-      <Title>{card.title}</Title>
-      <Description>{card.description}</Description>
-      {card.type === 'stock' && (
-        <Details>
-          <DetailsColumn>
-            <Note>Cost: ${currencyFormatter.format(card.arg1)}</Note>
-            <Note>Cashflow: ${currencyFormatter.format(card.arg4)}</Note>
-          </DetailsColumn>
-          <DetailsColumn>
-            {card.type === 'stock' && (
-              <Note>
-                Trading Range: ${currencyFormatter.format(card.arg2)} to $
-                {currencyFormatter.format(card.arg3)}
-              </Note>
-            )}
-            {card.type === 'stock' && <Note>Shares owned: 0</Note>}
-            {card.type === 'estate' && (
-              <Note>Downpay: ${currencyFormatter.format(card.arg2)}</Note>
-            )}
-          </DetailsColumn>
-        </Details>
-      )}
-      <span style={{ flex: 1 }} />
-      <BuyForm onSubmit={handleBuy}>
-        <InputContainer>
-          <StyledInput
-            type="text"
-            value={quantity}
-            onChange={handleInputChange}
-            placeholder="Input number of stock..."
-          />
-          <InputActions>
-            <InputButton aria-label="increase" size="small">
-              <ArrowDropUpIcon />
-            </InputButton>
-            <InputButton aria-label="decrease" size="small">
-              <ArrowDropDownIcon />
-            </InputButton>
-          </InputActions>
-          <SideNote>
-            {`shares for $${quantity * card.arg1}`}
-            {quantity * card.arg1 > playerData.cash &&
-              `. (Loan: $${getLoanAmount(
-                quantity * card.arg1 - playerData.cash
-              )})`}
-          </SideNote>
-        </InputContainer>
-        <span style={{ flex: 1 }} />
+      <Top>
+        <Left>
+          <Header>
+            <Title>{card.title}</Title>
+          </Header>
+          <Description>{card.description}</Description>
+          <Note>{card.info}</Note>
+          {card.type === 'stock' && (
+            <Details>
+              <DetailsColumn>
+                <Note>Cost: ${currencyFormatter.format(card.arg1)}</Note>
+                <Note>Cashflow: ${currencyFormatter.format(card.arg4)}</Note>
+              </DetailsColumn>
+              <DetailsColumn>
+                {card.type === 'stock' && (
+                  <Note>
+                    Trading Range: ${currencyFormatter.format(card.arg2)} to $
+                    {currencyFormatter.format(card.arg3)}
+                  </Note>
+                )}
+                {card.type === 'stock' && (
+                  <Note>
+                    Shares owned:{' '}
+                    {playerData.assets
+                      .filter(
+                        (a) => a.type === 'stock' && a.name === card.title
+                      )
+                      .reduce((total, asset) => total + asset.quantity, 0)}
+                  </Note>
+                )}
+                {card.type === 'estate' && (
+                  <Note>Downpay: ${currencyFormatter.format(card.arg2)}</Note>
+                )}
+              </DetailsColumn>
+            </Details>
+          )}
+          {card.arg2 > playerData.cash && (
+            <ImportantNote>{`(You don't have enough cash. Must take a loan of $${currencyFormatter.format(
+              getLoanAmount(card.arg2 - playerData.cash)
+            )})`}</ImportantNote>
+          )}
+        </Left>
+        <Right>
+          <ThumbnailImg src="/assets/images/stocks.png" />
+        </Right>
+      </Top>
+      <Bottom>
+        <BuyForm onSubmit={handleBuy}>
+          <InputContainer>
+            <StyledInput
+              type="text"
+              value={quantity}
+              onChange={handleInputChange}
+              placeholder="Input number of stock..."
+            />
+            <InputActions>
+              <InputButton aria-label="increase" size="small">
+                <ArrowDropUpIcon />
+              </InputButton>
+              <InputButton aria-label="decrease" size="small">
+                <ArrowDropDownIcon />
+              </InputButton>
+            </InputActions>
+            <SideNote>
+              {`shares for $${quantity * card.arg1}`}
+              {quantity * card.arg1 > playerData.cash &&
+                `. (Loan: $${getLoanAmount(
+                  quantity * card.arg1 - playerData.cash
+                )})`}
+            </SideNote>
+          </InputContainer>
+          <span style={{ flex: 1 }} />
 
-        <MainActions>
-          <ActionButton type="submit" variant="contained" disableRipple>
-            BUY
-          </ActionButton>
-          <ActionButton
-            variant="contained"
-            disableRipple
-            onClick={handlePass}
-            style={{ alignSelf: 'flex-end' }}
-          >
-            PASS
-          </ActionButton>
-        </MainActions>
-      </BuyForm>
+          <MainActions>
+            <ActionButton
+              type="submit"
+              variant="contained"
+              disableRipple
+              disabled={quantity === 0}
+            >
+              BUY
+            </ActionButton>
+            {card.type === 'stock' &&
+              playerData.assets.filter(
+                (a) => a.type === 'stock' && a.name === card.title
+              ).length > 0 && (
+                <ActionButton
+                  variant="contained"
+                  disableRipple
+                  onClick={handleSell}
+                >
+                  SELL
+                </ActionButton>
+              )}
+            <ActionButton
+              variant="contained"
+              disableRipple
+              onClick={handlePass}
+              style={{ alignSelf: 'flex-end' }}
+            >
+              PASS
+            </ActionButton>
+          </MainActions>
+        </BuyForm>
+      </Bottom>
     </>
   )
 }
@@ -142,6 +201,49 @@ const OpportunityStockDetails = () => {
 export default OpportunityStockDetails
 
 //#region styled components
+// const Container = styled.div({
+//   display: 'flex',
+//   flexDirection: 'column',
+//   height: '100%',
+//   fontSize: '.9rem',
+// })
+
+const Top = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  flex: 1,
+  columnGap: '1rem',
+})
+
+const Bottom = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+})
+
+const Left = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  rowGap: '.125rem',
+})
+
+const Right = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+})
+
+const Header = styled.div({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  width: '100%',
+})
+
+const ThumbnailImg = styled.img({
+  width: '80px',
+})
+
 const Title = styled.h2({
   color: colors.red.base,
   margin: 0,
@@ -157,6 +259,11 @@ const Note = styled.span({
   fontWeight: 700,
   alignSelf: 'flex-start',
   padding: 0,
+})
+
+const ImportantNote = styled(Note)({
+  fontWeight: 500,
+  color: colors.red.base,
 })
 
 const SideNote = styled(Note)({

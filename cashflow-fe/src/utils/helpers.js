@@ -631,57 +631,7 @@ export const DOODADS = [
  *   ? arg3: mortgage
  *   ? arg4: cash flow
  */
-// ! Removed after done with development
 export const SMALL_DEALS = [
-  {
-    id: 16,
-    title: 'Tenant Damages your Property',
-    description:
-      'Tenant fails to pay rent for 2 months and then skips town leaving damage to your rental property. Insurance covers most damage and costs, but you still are out of pocket $500.',
-    info: 'Pay $500 if you own any rental property. (Bank will lend you the money on usual terms.)',
-    type: 'estate-auto',
-    arg1: 500,
-    arg2: 0,
-    arg3: 0,
-    arg4: 0,
-  },
-  {
-    id: 38,
-    title: '3BE/2BA House',
-    description: `Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.`,
-    info: 'Only you can buy at this price. Others may sell at this price.',
-    type: 'estate',
-    arg1: 35000, // cost
-    arg2: 2000, // downpay
-    arg3: 33000, // mortgage
-    arg4: 220, // cash flow
-  },
-  {
-    id: 50,
-    title: '10 Acres Raw Land',
-    description: `Wonderful park-like setting with stream on 10 acres in undeveloped area. No roads, no utilities, no noise.`,
-    info: 'Use this yourself or sell to another player.',
-    type: 'land',
-    arg1: 5000, // cost
-    arg2: 5000, // downpay
-    arg3: 0,
-    arg4: 0,
-  },
-  {
-    id: 51,
-    title: 'Rare Gold Coin',
-    description: `You spot an unusual 1500's Royal Spanish New World (Havana Mint Only) "pieces of eight" gold coin in good condition at a swap meet. One only, seller asks $500`,
-    info: 'Use this yourself or sell to another player.',
-    type: 'gold',
-    arg1: 500, // cost
-    arg2: 500, // downpay
-    arg3: 0,
-    arg4: 0,
-  },
-]
-
-// ! Change back to SMALL_DEALS after testing
-export const SMALL_DEALS1 = [
   {
     id: 1,
     title: 'Mutual Fund - GRO4US Fund',
@@ -1231,9 +1181,9 @@ export const SMALL_DEALS1 = [
     title: '10 Acres Raw Land',
     description: `Wonderful park-like setting with stream on 10 acres in undeveloped area. No roads, no utilities, no noise.`,
     info: 'Use this yourself or sell to another player.',
-    type: 'gold/land',
-    arg1: 5000, // price
-    arg2: 0,
+    type: 'land',
+    arg1: 5000, // cost
+    arg2: 5000, // downpay
     arg3: 0,
     arg4: 0,
   },
@@ -1242,9 +1192,9 @@ export const SMALL_DEALS1 = [
     title: 'Rare Gold Coin',
     description: `You spot an unusual 1500's Royal Spanish New World (Havana Mint Only) "pieces of eight" gold coin in good condition at a swap meet. One only, seller asks $500`,
     info: 'Use this yourself or sell to another player.',
-    type: 'gold/land',
-    arg1: 500,
-    arg2: 0,
+    type: 'gold',
+    arg1: 500, // cost
+    arg2: 500, // downpay
     arg3: 0,
     arg4: 0,
   },
@@ -1261,23 +1211,6 @@ export const SMALL_DEALS1 = [
  *   ? arg3: mortgage
  *   ? arg4: cashflow
  */
-// ! Removed after done with development
-// export const BIG_DEALS = [
-//   {
-//     id: 1,
-//     title: '8-plex for sale',
-//     description:
-//       'Reinvesting owner offers 8-plex for sale at reasonable price. Financing already in place. All it needs is your down payment',
-//     info: 'Use this yourself or sell to another player. 51% ROI, may sell for $200,000 to $280,000.',
-//     type: 'estate',
-//     arg1: 220000,
-//     arg2: 40000,
-//     arg3: 180000,
-//     arg4: 1700,
-//   },
-// ]
-
-// ! Return to BIG_DEALS after done testing
 export const BIG_DEALS = [
   {
     id: 1,
@@ -1549,9 +1482,9 @@ export const BIG_DEALS = [
     description:
       '20 acres of vacant land, currently zoned residential. Possiblity of good appreciation if rezoned commercial.',
     info: 'Use this yourself or sell to another player.',
-    type: 'gold/land',
-    arg1: 20000,
-    arg2: 20000,
+    type: 'land',
+    arg1: 20000, // cost
+    arg2: 20000, // downpay
     arg3: 0,
     arg4: 0,
   },

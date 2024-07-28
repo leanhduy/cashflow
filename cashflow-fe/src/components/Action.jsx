@@ -76,7 +76,7 @@ export default Action
 
 //#region styled components
 const Container = styled.div({
-  alignItems: 'center',
+  alignItems: 'space-between',
   border: `2px solid ${colors.grey.base}`,
   borderRadius: '10px',
   boxShadow: 'rgba(12,12,12, 0.8) 4px 4px 4px',
@@ -85,7 +85,7 @@ const Container = styled.div({
   height: '275px',
   padding: '1.25rem 2rem',
   rowGap: '.5rem',
-  width: '80%',
+  width: '100%',
   overflowY: 'auto',
 })
 //#endregion styled components
