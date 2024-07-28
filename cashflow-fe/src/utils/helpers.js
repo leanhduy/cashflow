@@ -631,56 +631,34 @@ export const DOODADS = [
  *   ? arg3: mortgage
  *   ? arg4: cash flow
  */
-// > COMMENT OUT after testing. Remove after deployment
-// export const SMALL_DEALS = [
-//   {
-//     id: 7,
-//     title: 'Stock - MYT4U Electronics Co.',
-//     description: `High inflation leads to poor share price for this home electronics seller.`,
-//     info: 'Only you can buy at this price. Others may sell at this price.',
-//     type: 'stock',
-//     arg1: 5,
-//     arg2: 5,
-//     arg3: 30,
-//     arg4: 0,
-//   },
-//   {
-//     id: 10,
-//     title: 'Stock - MYT4U Electronics Co.',
-//     description: `Strong market leads to strong share price for this home electronics seller.`,
-//     info: 'Only you can buy at this price. Others may sell at this price.',
-//     type: 'stock',
-//     arg1: 30,
-//     arg2: 5,
-//     arg3: 30,
-//     arg4: 0,
-//   },
-//   {
-//     id: 8,
-//     title: 'Stock - MYT4U Electronics Co.',
-//     description: `Company reorganizes! Massive losses due to over-expansion and recession. Stockholders lose 1/2 of their ownership rights.`,
-//     info: 'Reverse split 1 for 2',
-//     type: 'stock-split',
-//     arg1: true, // true if reverse-split, false if split
-//     arg2: 0,
-//     arg3: 0,
-//     arg4: 0,
-//   },
-//   {
-//     id: 11,
-//     title: 'Stock - MYT4U Electronics Co.',
-//     description: `Business is up dramaticallly and the company is doing so well their shares have just split!.`,
-//     info: 'Split 2 for 1',
-//     type: 'stock-split',
-//     arg1: false,
-//     arg2: 0,
-//     arg3: 0,
-//     arg4: 0,
-//   },
-// ]
-
-// > Change back to SMALL_DEALS after testing
+// ! Removed after done with development
 export const SMALL_DEALS = [
+  {
+    id: 7,
+    title: 'Stock - MYT4U Electronics Co.',
+    description: `High inflation leads to poor share price for this home electronics seller.`,
+    info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'stock',
+    arg1: 5,
+    arg2: 5,
+    arg3: 30,
+    arg4: 0,
+  },
+  {
+    id: 38,
+    title: '3BE/2BA House',
+    description: `Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.`,
+    info: 'Only you can buy at this price. Others may sell at this price.',
+    type: 'estate',
+    arg1: 35000, // cost
+    arg2: 2000, // downpay
+    arg3: 33000, // mortgage
+    arg4: 220, // cash flow
+  },
+]
+
+// ! Change back to SMALL_DEALS after testing
+export const SMALL_DEALS1 = [
   {
     id: 1,
     title: 'Mutual Fund - GRO4US Fund',
@@ -1093,7 +1071,7 @@ export const SMALL_DEALS = [
   },
   {
     id: 38,
-    title: 'You find a Great Deal!',
+    title: '3BE/2BA House',
     description: `Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
     type: 'estate',
@@ -1104,7 +1082,7 @@ export const SMALL_DEALS = [
   },
   {
     id: 39,
-    title: 'You find a Great Deal!',
+    title: '3BE/2BA House',
     description: `Company bought transferred manager's 3/2 house. No current tenant, has been on market 6 months, just reduced.`,
     info: 'Only you can buy at this price. Others may sell at this price.',
     type: 'estate',
@@ -1260,6 +1238,23 @@ export const SMALL_DEALS = [
  *   ? arg3: mortgage
  *   ? arg4: cashflow
  */
+// ! Removed after done with development
+// export const BIG_DEALS = [
+//   {
+//     id: 1,
+//     title: '8-plex for sale',
+//     description:
+//       'Reinvesting owner offers 8-plex for sale at reasonable price. Financing already in place. All it needs is your down payment',
+//     info: 'Use this yourself or sell to another player. 51% ROI, may sell for $200,000 to $280,000.',
+//     type: 'estate',
+//     arg1: 220000,
+//     arg2: 40000,
+//     arg3: 180000,
+//     arg4: 1700,
+//   },
+// ]
+
+// ! Return to BIG_DEALS after done testing
 export const BIG_DEALS = [
   {
     id: 1,
