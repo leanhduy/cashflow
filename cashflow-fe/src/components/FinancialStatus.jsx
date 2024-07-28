@@ -26,7 +26,7 @@ const FinancialStatus = () => {
             variant="determinate"
             value={
               (getPassiveIncome(playerData.incomes) /
-                getTotalIncomeAmount(playerData)) *
+                getTotalExpenseAmount(playerData)) *
               100
             }
           />

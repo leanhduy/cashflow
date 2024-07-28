@@ -22,20 +22,35 @@ const OpportunityEstateDetails = () => {
     } else {
       newPlayerData.card -= card.arg2
     }
-    // > Add new item to the assets
+    // > Add new item to the player's Assets
     let newAsset = {
       id:
         newPlayerData.assets.length === 0
           ? 1
           : newPlayerData.assets.at(-1).id + 1,
       name: card.title,
-      type: 'estate',
+      type: card.type,
+      subtype: card.subtype,
       cost: card.arg1,
       downpay: card.arg2,
       mortgage: card.arg3,
       cashflow: card.arg4,
+      unit: card.arg5,
     }
     newPlayerData.assets.push(newAsset)
+
+    // > Add new item to the player's Liabilities (Will add in the future after repay is implemented)
+    // let newLiability = {
+    //   id:
+    //     newPlayerData.liabilities.length === 0
+    //       ? 1
+    //       : newPlayerData.liabilities.at(-1).id + 1,
+    //   name: card.title,
+    //   type: 'estate',
+    //   subtype: card.subtype,
+    //   amount: card.arg3,
+    // }
+
     // > Add to player's income, if stock has positive cashflow
     if (card.arg4 > 0) {
       let newIncome = {

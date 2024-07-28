@@ -1,9 +1,37 @@
 import styled from '@emotion/styled'
 import { colors } from '@/styles'
 import PropTypes from 'prop-types'
-import { currencyFormatter } from '@/utils/helpers'
+import { currencyFormatter, GameContext } from '@/utils'
+import { useContext } from 'react'
+import PaymentIcon from '@mui/icons-material/Payment'
 
 const Assets = ({ assets }) => {
+  const {
+    card,
+    isSellingAssets,
+    playerData,
+    setPlayerData,
+    setIsSellingAssets,
+    setActionType,
+  } = useContext(GameContext)
+
+  const handleSell = (asset) => {
+    let newPlayerData = playerData
+    // > Calculate the amount of cash received
+    const cash =
+      asset.unit * card.arg1 - asset.mortgage > 0
+        ? asset.unit * card.arg1 - asset.mortgage
+        : 0
+    // > Remove item from the Assets section
+    newPlayerData.assets = [
+      ...newPlayerData.assets.filter((a) => a.id !== asset.id),
+    ]
+    newPlayerData.cash += cash
+    setIsSellingAssets(false)
+    setPlayerData(newPlayerData)
+    setActionType('start')
+  }
+
   return (
     <CardContainer>
       <CardHeader>ASSETS</CardHeader>
@@ -11,6 +39,7 @@ const Assets = ({ assets }) => {
         <ListItemHeader>
           <ListItemLeft>Name</ListItemLeft>
           <ListItemRight>Cost</ListItemRight>
+          <ListItemIcon />
         </ListItemHeader>
         <StyledList>
           {assets &&
@@ -22,6 +51,18 @@ const Assets = ({ assets }) => {
                 <ListItemRight>
                   ${currencyFormatter.format(i.cost)}
                 </ListItemRight>
+                <ListItemIcon>
+                  {isSellingAssets &&
+                    i.type === card.type &&
+                    i.subtype === card.subtype && (
+                      <PaymentIcon
+                        color="warning"
+                        onClick={() => {
+                          handleSell(i)
+                        }}
+                      />
+                    )}
+                </ListItemIcon>
               </ListItem>
             ))}
         </StyledList>
@@ -105,5 +146,23 @@ const ListItemRight = styled.span({
   flex: '1 1 20px',
   fontSize: '.875rem',
   textAlign: 'right',
+})
+
+const ListItemIcon = styled.span({
+  flex: '1 1 24px',
+  fontSize: '.875rem',
+  textAlign: 'left',
+  alignSelf: 'flex-start',
+  '&:hover': {
+    cursor: 'pointer',
+  },
+  '& svg': {
+    '&:hover': {
+      opacity: 0.8,
+    },
+    '&:active': {
+      transform: 'scale(.8)',
+    },
+  },
 })
 //#endregion styled components

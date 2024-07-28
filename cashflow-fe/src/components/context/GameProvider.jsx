@@ -9,6 +9,7 @@ const GameProvider = ({ children }) => {
   const [currentSlot, setCurrentSlot] = useState(0)
   const [playerData, setPlayerData] = useState(generatePlayerData)
   const [card, setCard] = useState(null)
+  const [isSellingAssets, setIsSellingAssets] = useState(false)
 
   useEffect(() => {
     if (prevSlot > 0) {
@@ -31,6 +32,8 @@ const GameProvider = ({ children }) => {
         setPrevSlot,
         card,
         setCard,
+        isSellingAssets,
+        setIsSellingAssets,
       }}
     >
       {children}
