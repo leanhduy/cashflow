@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
-import { GameContext, generatePlayerData, getPayday } from '@/utils'
+import {
+  GameContext,
+  generatePlayerData,
+  getPayday,
+  checkLosingCondition,
+} from '@/utils'
 import PropTypes from 'prop-types'
-import {} from '@/utils'
 
 const GameProvider = ({ children }) => {
   const [actionType, setActionType] = useState('start')
@@ -13,6 +17,14 @@ const GameProvider = ({ children }) => {
 
   useEffect(() => {
     if (prevSlot > 0) {
+      // > Check if player passes the payday slot with prevSlot (there is a payslot between prevSlot and currentSlot)
+      if (
+        prevSlot > currentSlot ||
+        (prevSlot < 8 && currentSlot >= 8) ||
+        (prevSlot < 16 && currentSlot >= 16)
+      ) {
+        checkLosingCondition(playerData)
+      }
       let newCash =
         playerData.cash + getPayday(prevSlot, currentSlot, playerData)
       setPlayerData((data) => ({ ...data, cash: newCash }))
