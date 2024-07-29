@@ -79,7 +79,7 @@ export const rollDice = (diceNo = 1) => {
  */
 export const playSFX = (url) => {
   const sfx = new Audio(url)
-  sfx.play()
+  sfx.play().catch((err) => console.log(err))
 }
 
 /**
@@ -276,21 +276,56 @@ export const takeLoan = (playerData, cost) => {
   return playerData
 }
 
+/**
+ * > Based on the given player data, check if player wins the game
+ * > Player wins the game if they have passive income > total expenses. When that happens:
+ * >    Display the popup dialog to congratulate the player, with a button to `Start a new game`
+ * @param {*} data The player data
+ */
 export const checkWinningCondition = (data) => {
   let passiveIncome = getPassiveIncome(data.incomes)
   let totalExpense = getTotalExpenseAmount(data)
   if (passiveIncome > totalExpense) {
     Swal.fire({
-      title: 'Congratulations!',
+      title: 'CONGRATULATIONS!',
       text: 'Your passive income now exceeds your total expenses. You are out of the Rat Race and ready to pursue your dreams!',
       imageUrl: 'https://cdn-icons-png.flaticon.com/128/9281/9281540.png',
       imageWidth: 96,
       imageHeight: 96,
-      imageAlt: 'Custom image',
+      imageAlt: 'Rat Race - Win',
       confirmButtonText: 'Start a new game',
+      allowOutsideClick: false,
     }).then(() => {
       window.location.reload() // > Start new game by refresh the browser
     })
+  }
+}
+
+/**
+ * > Check if player loses the game.
+ * > Player loses the game if they have total expenses > total income when passsing the Payday slot. When that happen.
+ * >    Display the popup dialog with appropriate message, with a button to `Start a new game`
+ * @param {*} data
+ */
+export const checkLosingCondition = (data) => {
+  const expenses = getTotalExpenseAmount(data)
+  const incomes = getTotalIncomeAmount(data)
+  if (expenses > incomes && data.cash < expenses - incomes) {
+    setTimeout(() => {
+      playSFX('/assets/sounds/gameover.mp3')
+      Swal.fire({
+        title: 'YOU LOSE!',
+        text: 'Your monthly cashflow is negative. You are officially out of the game.',
+        imageUrl: 'https://cdn-icons-png.flaticon.com/128/9995/9995982.png',
+        imageWidth: 96,
+        imageHeight: 96,
+        imageAlt: 'Lose',
+        confirmButtonText: 'Start a new game',
+        allowOutsideClick: false,
+      }).then(() => {
+        window.location.reload()
+      })
+    }, 400)
   }
 }
 

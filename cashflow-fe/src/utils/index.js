@@ -14,5 +14,6 @@ export {
   theme,
   takeLoan,
   checkWinningCondition,
+  checkLosingCondition,
 } from './helpers'
 export { GameContext } from './contexts'
