@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "module": "ESNext",
-    "moduleResolution": "Node"
+    "module": "CommonJS",
+    "target": "ES2017",
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "**/node_modules/*"]
 }
