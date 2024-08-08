@@ -1,21 +1,47 @@
-import styled from '@emotion/styled'
-import { Button, IconButton } from '@mui/material'
 import { colors } from '@/styles'
-import { useContext, useState } from 'react'
 import {
   GameContext,
+  checkWinningCondition,
   currencyFormatter,
   getLoanAmount,
   takeLoan,
-  checkWinningCondition,
 } from '@/utils'
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import styled from '@emotion/styled'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  TextField,
+} from '@mui/material'
+import { useContext, useEffect, useState } from 'react'
 
 const OpportunityStockDetails = () => {
   const { card, playerData, setPlayerData, setActionType } =
     useContext(GameContext)
   const [quantity, setQuantity] = useState(0)
+  const [isBuyingMore, setIsBuyingMore] = useState(true)
+  const [hasStock] = useState(() => {
+    // Check if player has stock
+    if (
+      playerData.assets.filter(
+        (a) => a.type === 'stock' && a.name === card.title
+      ).length > 0
+    ) {
+      return true
+    }
+    return false
+  })
+
+  //#region Side-Effects
+  useEffect(() => {
+    if (hasStock) {
+      setIsBuyingMore(false)
+    }
+  }, [hasStock])
+  //#endregion
 
   //#region Event handlers
   const handleBuy = (e) => {
@@ -68,7 +94,15 @@ const OpportunityStockDetails = () => {
 
   const handleInputChange = (e) => {
     let num = parseInt(e.target.value)
-    setQuantity(isNaN(num) || num < 0 ? 0 : num)
+    console.log('num: ', num)
+    setQuantity((q) => {
+      if (isNaN(num) || num < 0) {
+        console.log('Case 1: ', q)
+        return q
+      }
+      console.log('Case 2: ', num)
+      return num
+    })
   }
 
   const handleSell = () => {
@@ -88,6 +122,23 @@ const OpportunityStockDetails = () => {
     setActionType('start')
   }
 
+  const increaseStockCount = () => {
+    setQuantity((q) => q + 1)
+  }
+
+  const decreaseStockCount = () => {
+    if (quantity > 0) {
+      setQuantity((q) => q - 1)
+    }
+  }
+
+  const toggleBuyMode = (e) => {
+    if (!e.target.checked) {
+      setQuantity(0)
+    }
+    setIsBuyingMore(e.target.checked)
+  }
+
   //#endregion Event handlers
 
   return (
@@ -98,7 +149,7 @@ const OpportunityStockDetails = () => {
             <Title>{card.title}</Title>
           </Header>
           <Description>{card.description}</Description>
-          <Note>{card.info}</Note>
+          {card.info !== '' && <Note>{card.info}</Note>}
           {card.type === 'stock' && (
             <Details>
               <DetailsColumn>
@@ -114,16 +165,27 @@ const OpportunityStockDetails = () => {
                 )}
                 {card.type === 'stock' && (
                   <Note>
-                    Shares owned:{' '}
-                    {playerData.assets
+                    {`Shares owned:
+                    ${playerData.assets
                       .filter(
                         (a) => a.type === 'stock' && a.name === card.title
                       )
-                      .reduce((total, asset) => total + asset.quantity, 0)}
+                      .reduce((total, asset) => total + asset.quantity, 0)}`}
                   </Note>
                 )}
                 {card.type === 'estate' && (
                   <Note>Downpay: ${currencyFormatter.format(card.arg2)}</Note>
+                )}
+                {hasStock && (
+                  <ImportantNote>
+                    {`(Click SELL to sell ALL stocks for $${currencyFormatter.format(
+                      playerData.assets
+                        .filter(
+                          (a) => a.type === 'stock' && a.name === card.title
+                        )
+                        .reduce((total, a) => total + a.quantity, 0) * card.arg1
+                    )})`}
+                  </ImportantNote>
                 )}
               </DetailsColumn>
             </Details>
@@ -142,28 +204,49 @@ const OpportunityStockDetails = () => {
         <BuyForm onSubmit={handleBuy}>
           <InputContainer>
             <StyledInput
+              label="Number of stock"
+              size="small"
               type="text"
               value={quantity}
               onChange={handleInputChange}
-              placeholder="Input number of stock..."
+              disabled={!isBuyingMore}
             />
             <InputActions>
-              <InputButton aria-label="increase" size="small">
+              <InputButton
+                aria-label="increase stock amount"
+                size="small"
+                onClick={increaseStockCount}
+              >
                 <ArrowDropUpIcon />
               </InputButton>
-              <InputButton aria-label="decrease" size="small">
+              <InputButton
+                aria-label="decrease stock amount"
+                size="small"
+                onClick={decreaseStockCount}
+              >
                 <ArrowDropDownIcon />
               </InputButton>
             </InputActions>
-            <SideNote>
-              {`shares for $${quantity * card.arg1}`}
-              {quantity * card.arg1 > playerData.cash &&
-                `. (Loan: $${getLoanAmount(
-                  quantity * card.arg1 - playerData.cash
-                )})`}
-            </SideNote>
+            {/* Checkbox */}
+            {hasStock && (
+              <FormControlLabel
+                control={<Checkbox onChange={toggleBuyMode} />}
+                label="Buy more?"
+              />
+            )}
+            {/* Side note */}
+            {quantity > 0 && (
+              <SideNote>
+                {`Buy ${quantity} shares for $${currencyFormatter.format(
+                  quantity * card.arg1
+                )}`}
+                {quantity * card.arg1 > playerData.cash &&
+                  `. (Loan: $${getLoanAmount(
+                    quantity * card.arg1 - playerData.cash
+                  )})`}
+              </SideNote>
+            )}
           </InputContainer>
-          <span style={{ flex: 1 }} />
 
           <MainActions>
             <ActionButton
@@ -182,6 +265,7 @@ const OpportunityStockDetails = () => {
                   variant="contained"
                   disableRipple
                   onClick={handleSell}
+                  disabled={isBuyingMore}
                 >
                   SELL
                 </ActionButton>
@@ -204,13 +288,6 @@ const OpportunityStockDetails = () => {
 export default OpportunityStockDetails
 
 //#region styled components
-// const Container = styled.div({
-//   display: 'flex',
-//   flexDirection: 'column',
-//   height: '100%',
-//   fontSize: '.9rem',
-// })
-
 const Top = styled.div({
   display: 'flex',
   flexDirection: 'row',
@@ -265,12 +342,14 @@ const Note = styled.span({
 })
 
 const ImportantNote = styled(Note)({
-  fontWeight: 500,
+  fontWeight: 700,
   color: colors.red.base,
 })
 
 const SideNote = styled(Note)({
-  marginLeft: '1rem',
+  // paddingLeft: '.25rem',
+  margin: 0,
+  padding: 0,
   alignSelf: 'center',
   color: colors.red.base,
 })
@@ -323,6 +402,7 @@ const BuyForm = styled.form({
 const InputContainer = styled.div({
   display: 'flex',
   flexDirection: 'row',
+  columnGap: '.5rem',
   alignItems: 'center',
 })
 
@@ -336,10 +416,9 @@ const InputButton = styled(IconButton)({
   width: '18px',
 })
 
-const StyledInput = styled.input({
-  fontSize: '.85rem',
+const StyledInput = styled(TextField)({
+  fontSize: '1rem',
   width: '30%',
-  height: '70%',
 })
 
 //#endregion styled components
