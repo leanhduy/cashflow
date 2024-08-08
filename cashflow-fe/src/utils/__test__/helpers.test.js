@@ -1,9 +1,9 @@
 import {
-  getMonthlyLoanPayment,
-  getTotalIncomeAmount,
-  getTotalExpenseAmount,
-  getPayday,
   getLoanAmount,
+  getMonthlyLoanPayment,
+  getPayday,
+  getTotalExpenseAmount,
+  getTotalIncomeAmount,
 } from '@/utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 
@@ -99,6 +99,14 @@ describe('Helper functions', () => {
     })
     it('should return the correct monthly expense', () => {
       expect(getTotalExpenseAmount(playerData)).to.equal(8034)
+    })
+    it('should return the correct monthly expense if a child is added', () => {
+      playerData.expenses.push({
+        id: 7,
+        name: 'Child Expenses (1)',
+        amount: 640,
+      })
+      expect(getTotalExpenseAmount(playerData)).to.equal(8674)
     })
   })
 

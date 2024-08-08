@@ -1,8 +1,8 @@
+import { colors } from '@/styles'
+import { GameContext, currencyFormatter, playSFX } from '@/utils'
 import styled from '@emotion/styled'
 import { Button } from '@mui/material'
-import { colors } from '@/styles'
 import { useContext, useEffect } from 'react'
-import { GameContext, currencyFormatter, playSFX } from '@/utils'
 
 const BabyDialog = () => {
   const { playerData, setPlayerData, setActionType } = useContext(GameContext)
@@ -25,7 +25,6 @@ const BabyDialog = () => {
         name: `Child Expenses (${newPlayerData.childNum})`,
         amount: newPlayerData.childNum * newPlayerData.expensePerChild,
       })
-      newPlayerData.expen
     } else if (childNum < 3) {
       let idx = newPlayerData.expenses.findIndex(
         (e) => e.name === `Child Expenses (${playerData.childNum})`

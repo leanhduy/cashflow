@@ -167,10 +167,7 @@ export const getTotalIncomeAmount = (data) => {
  * @returns The monthly expenses of a player
  */
 export const getTotalExpenseAmount = (data) => {
-  return (
-    data.expenses.reduce((total, expense) => total + expense.amount, 0) +
-    data.childNum * data.expensePerChild
-  )
+  return data.expenses.reduce((total, expense) => total + expense.amount, 0)
 }
 
 /**
